@@ -1,0 +1,180 @@
+from bson import ObjectId
+from fastapi import APIRouter, HTTPException, status
+from pymongo.errors import DuplicateKeyError
+
+from config.database import db
+from models.employee_model import (
+    employee_list_serializer,
+    employee_serializer,
+    valid_object_id,
+)
+from schemas.employee_schema import EmployeeCreate, EmployeeUpdate
+
+
+router = APIRouter(
+    prefix="/api/employees",
+    tags=["Employees"],
+)
+
+employee_collection = db["employees"]
+
+employee_collection.create_index(
+    "employee_id",
+    unique=True,
+)
+
+employee_collection.create_index(
+    "email",
+    unique=True,
+)
+
+
+@router.post(
+    "",
+    status_code=status.HTTP_201_CREATED,
+)
+def create_employee(employee: EmployeeCreate):
+    employee_data = employee.model_dump()
+
+    try:
+        result = employee_collection.insert_one(employee_data)
+    except DuplicateKeyError as error:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Employee ID or email already exists",
+        ) from error
+
+    created_employee = employee_collection.find_one(
+        {"_id": result.inserted_id}
+    )
+
+    return {
+        "message": "Employee created successfully",
+        "employee": employee_serializer(created_employee),
+    }
+
+
+@router.get("")
+def get_all_employees():
+    employees = employee_collection.find().sort("name", 1)
+
+    data = employee_list_serializer(employees)
+
+    return {
+        "count": len(data),
+        "employees": data,
+    }
+
+
+@router.get("/search")
+def search_employees(query: str):
+    employees = employee_collection.find(
+        {
+            "$or": [
+                {"name": {"$regex": query, "$options": "i"}},
+                {"employee_id": {"$regex": query, "$options": "i"}},
+                {"email": {"$regex": query, "$options": "i"}},
+                {"department": {"$regex": query, "$options": "i"}},
+                {"designation": {"$regex": query, "$options": "i"}},
+            ]
+        }
+    ).sort("name", 1)
+
+    data = employee_list_serializer(employees)
+
+    return {
+        "count": len(data),
+        "employees": data,
+    }
+
+
+@router.get("/{employee_id}")
+def get_employee(employee_id: str):
+    if not valid_object_id(employee_id):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid employee ID",
+        )
+
+    employee = employee_collection.find_one(
+        {"_id": ObjectId(employee_id)}
+    )
+
+    if employee is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Employee not found",
+        )
+
+    return {
+        "employee": employee_serializer(employee)
+    }
+
+
+@router.put("/{employee_id}")
+def update_employee(
+    employee_id: str,
+    employee: EmployeeUpdate,
+):
+    if not valid_object_id(employee_id):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid employee ID",
+        )
+
+    update_data = employee.model_dump(exclude_none=True)
+
+    if not update_data:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No fields supplied for update",
+        )
+
+    try:
+        result = employee_collection.update_one(
+            {"_id": ObjectId(employee_id)},
+            {"$set": update_data},
+        )
+    except DuplicateKeyError as error:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Employee email already exists",
+        ) from error
+
+    if result.matched_count == 0:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Employee not found",
+        )
+
+    updated_employee = employee_collection.find_one(
+        {"_id": ObjectId(employee_id)}
+    )
+
+    return {
+        "message": "Employee updated successfully",
+        "employee": employee_serializer(updated_employee),
+    }
+
+
+@router.delete("/{employee_id}")
+def delete_employee(employee_id: str):
+    if not valid_object_id(employee_id):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid employee ID",
+        )
+
+    result = employee_collection.delete_one(
+        {"_id": ObjectId(employee_id)}
+    )
+
+    if result.deleted_count == 0:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Employee not found",
+        )
+
+    return {
+        "message": "Employee deleted successfully"
+    }

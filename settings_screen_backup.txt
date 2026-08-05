@@ -1,0 +1,410 @@
+import 'package:flutter/material.dart';
+
+import '../../core/theme/theme_controller.dart';
+import 'about_screen.dart';
+import 'change_password_screen.dart';
+import 'language_settings_screen.dart';
+import 'notification_settings_screen.dart';
+import 'profile_screen.dart';
+
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() {
+    return _SettingsScreenState();
+  }
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  bool _notificationsEnabled = true;
+
+  Future<void> _openPage(Widget page) async {
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) {
+          return page;
+        },
+      ),
+    );
+  }
+
+  Future<void> _logout() async {
+    final bool? shouldLogout = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Logout'),
+          content: const Text('Are you sure you want to logout?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text('Logout'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldLogout != true || !mounted) {
+      return;
+    }
+
+    Navigator.of(context).popUntil((Route<dynamic> route) {
+      return route.isFirst;
+    });
+  }
+
+  Widget _sectionTitle(String title) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 4, bottom: 10, top: 8),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          title,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            color: isDarkMode ? Colors.white70 : Colors.blueGrey,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _settingsCard({required List<Widget> children}) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: colorScheme.onSurface.withValues(
+            alpha: isDarkMode ? 0.10 : 0.05,
+          ),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDarkMode ? 0.25 : 0.05),
+            blurRadius: 12,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Column(children: children),
+    );
+  }
+
+  Widget _divider() {
+    return Divider(
+      height: 1,
+      indent: 64,
+      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.10),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        title: const Text('Settings'),
+        centerTitle: true,
+        elevation: 0,
+      ),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(18),
+          children: [
+            Container(
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF4169E1), Color(0xFF6C63FF)],
+                ),
+                borderRadius: BorderRadius.circular(22),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF4169E1).withValues(alpha: 0.22),
+                    blurRadius: 22,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 64,
+                    height: 64,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.18),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: 34,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'My Account',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Manage your profile and preferences',
+                          style: TextStyle(color: Colors.white70, fontSize: 13),
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      _openPage(const ProfileScreen());
+                    },
+                    icon: const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            _sectionTitle('ACCOUNT'),
+
+            _settingsCard(
+              children: [
+                ListTile(
+                  leading: const CircleAvatar(
+                    backgroundColor: Color(0xFFE8EFFF),
+                    child: Icon(Icons.person_outline, color: Colors.blue),
+                  ),
+                  title: const Text('Profile'),
+                  subtitle: const Text('View and edit account details'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () {
+                    _openPage(const ProfileScreen());
+                  },
+                ),
+
+                _divider(),
+
+                ListTile(
+                  leading: const CircleAvatar(
+                    backgroundColor: Color(0xFFFFF1E6),
+                    child: Icon(Icons.lock_outline, color: Colors.orange),
+                  ),
+                  title: const Text('Change Password'),
+                  subtitle: const Text('Update your account password'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () {
+                    _openPage(const ChangePasswordScreen());
+                  },
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 22),
+
+            _sectionTitle('PREFERENCES'),
+
+            _settingsCard(
+              children: [
+                ValueListenableBuilder<ThemeMode>(
+                  valueListenable: ThemeController.instance,
+                  builder:
+                      (
+                        BuildContext context,
+                        ThemeMode currentTheme,
+                        Widget? child,
+                      ) {
+                        final bool darkModeEnabled =
+                            currentTheme == ThemeMode.dark;
+
+                        return SwitchListTile(
+                          secondary: CircleAvatar(
+                            backgroundColor: darkModeEnabled
+                                ? const Color(0xFF312E45)
+                                : const Color(0xFFEEE9FF),
+                            child: Icon(
+                              darkModeEnabled
+                                  ? Icons.light_mode_rounded
+                                  : Icons.dark_mode_outlined,
+                              color: darkModeEnabled
+                                  ? Colors.amber
+                                  : Colors.deepPurple,
+                            ),
+                          ),
+                          title: const Text(
+                            'Dark Mode',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          subtitle: Text(
+                            darkModeEnabled
+                                ? 'Dark appearance is enabled'
+                                : 'Use dark appearance',
+                          ),
+                          value: darkModeEnabled,
+                          onChanged: (bool enabled) {
+                            ThemeController.instance.setDarkMode(enabled);
+                          },
+                        );
+                      },
+                ),
+
+                _divider(),
+
+                SwitchListTile(
+                  secondary: const CircleAvatar(
+                    backgroundColor: Color(0xFFE9FFF2),
+                    child: Icon(
+                      Icons.notifications_outlined,
+                      color: Colors.green,
+                    ),
+                  ),
+                  title: const Text('Notifications'),
+                  subtitle: const Text('Receive alerts and updates'),
+                  value: _notificationsEnabled,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _notificationsEnabled = value;
+                    });
+                  },
+                ),
+
+                _divider(),
+
+                ListTile(
+                  leading: const CircleAvatar(
+                    backgroundColor: Color(0xFFFFF6DF),
+                    child: Icon(Icons.tune, color: Colors.amber),
+                  ),
+                  title: const Text('Notification Settings'),
+                  subtitle: const Text('Customize notification preferences'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () {
+                    _openPage(const NotificationSettingsScreen());
+                  },
+                ),
+
+                _divider(),
+
+                ListTile(
+                  leading: const CircleAvatar(
+                    backgroundColor: Color(0xFFE8F8FF),
+                    child: Icon(Icons.language, color: Colors.cyan),
+                  ),
+                  title: const Text('Language'),
+                  subtitle: const Text('English'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () {
+                    _openPage(const LanguageSettingsScreen());
+                  },
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 22),
+
+            _sectionTitle('SUPPORT'),
+
+            _settingsCard(
+              children: [
+                ListTile(
+                  leading: const CircleAvatar(
+                    backgroundColor: Color(0xFFEDF2FF),
+                    child: Icon(Icons.info_outline, color: Colors.indigo),
+                  ),
+                  title: const Text('About App'),
+                  subtitle: const Text('Version and application details'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () {
+                    _openPage(const AboutScreen());
+                  },
+                ),
+
+                _divider(),
+
+                ListTile(
+                  leading: const CircleAvatar(
+                    backgroundColor: Color(0xFFFFE9E9),
+                    child: Icon(Icons.logout, color: Colors.red),
+                  ),
+                  title: const Text(
+                    'Logout',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  subtitle: const Text('Sign out from your account'),
+                  onTap: _logout,
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 28),
+
+            Center(
+              child: Text(
+                'Autonomous Business AI',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: isDarkMode ? Colors.white70 : Colors.blueGrey,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 4),
+
+            Center(
+              child: Text(
+                'Version 1.0.0',
+                style: TextStyle(
+                  color: isDarkMode ? Colors.white54 : Colors.grey,
+                  fontSize: 12,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+}
