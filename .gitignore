@@ -1,4 +1,11 @@
+# ============================================================
+# Flutter + Python Project
+# Autonomous Business AI
+# ============================================================
+
+# ------------------------------------------------------------
 # Miscellaneous
+# ------------------------------------------------------------
 *.class
 *.log
 *.pyc
@@ -12,18 +19,24 @@
 .swiftpm/
 migrate_working_dir/
 
-# IntelliJ related
+# ------------------------------------------------------------
+# IntelliJ / Android Studio
+# ------------------------------------------------------------
 *.iml
 *.ipr
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# ------------------------------------------------------------
+# VS Code
+# ------------------------------------------------------------
+# Keep .vscode tracked if you want to share workspace settings.
+# Uncomment the following line if you want to ignore it completely.
+# .vscode/
 
-# Flutter/Dart/Pub related
+# ------------------------------------------------------------
+# Flutter / Dart / Pub
+# ------------------------------------------------------------
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
@@ -33,13 +46,55 @@ migrate_working_dir/
 /build/
 /coverage/
 
-# Symbolication related
+# ------------------------------------------------------------
+# Flutter Symbolication
+# ------------------------------------------------------------
 app.*.symbols
 
-# Obfuscation related
+# ------------------------------------------------------------
+# Flutter Obfuscation
+# ------------------------------------------------------------
 app.*.map.json
 
-# Android Studio will place build artifacts here
+# ------------------------------------------------------------
+# Android Build Artifacts
+# ------------------------------------------------------------
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# ------------------------------------------------------------
+# Environment Variables / Secrets
+# ------------------------------------------------------------
+.env
+.env.*
+!.env.example
+
+# ------------------------------------------------------------
+# Python Virtual Environment
+# ------------------------------------------------------------
+.venv/
+venv/
+
+# ------------------------------------------------------------
+# Python Cache
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+
+# ------------------------------------------------------------
+# JVM Memory Dumps
+# ------------------------------------------------------------
+*.hprof
+
+# ------------------------------------------------------------
+# Temporary / Backup Files
+# ------------------------------------------------------------
+*.bak
+*_backup.*
+
+# ------------------------------------------------------------
+# OS / IDE Temporary Files
+# ------------------------------------------------------------
+Thumbs.db
+desktop.ini
