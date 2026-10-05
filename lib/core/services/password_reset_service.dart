@@ -5,7 +5,9 @@ import 'package:http/http.dart' as http;
 class PasswordResetService {
   PasswordResetService._();
 
-  static const String _baseUrl = 'http://10.0.2.2:8000/api/auth';
+  // Production FastAPI backend on Render
+  static const String _baseUrl =
+      'https://multi-agent-autonomous-business.onrender.com/api/auth';
 
   static Future<Map<String, dynamic>> forgotPassword({
     required String email,

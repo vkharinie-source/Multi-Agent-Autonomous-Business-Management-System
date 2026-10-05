@@ -1,33 +1,8 @@
-import 'package:flutter/foundation.dart';
-
 class ApiConfig {
   ApiConfig._();
 
-  static const String _customBaseUrl = String.fromEnvironment(
-    'API_BASE_URL',
-    defaultValue: '',
-  );
-
-  static String get baseUrl {
-    final String customUrl = _customBaseUrl.trim();
-
-    if (customUrl.isNotEmpty) {
-      return _removeTrailingSlash(customUrl);
-    }
-
-    // Flutter Web
-    if (kIsWeb) {
-      return 'http://127.0.0.1:8000';
-    }
-
-    // Android Emulator only
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      return 'http://10.0.2.2:8000';
-    }
-
-    // Windows and other local platforms
-    return 'http://127.0.0.1:8000';
-  }
+  static const String baseUrl =
+      'https://multi-agent-autonomous-business.onrender.com';
 
   // Authentication endpoints
   static const String registerEndpoint = '/api/auth/register';
@@ -103,15 +78,5 @@ class ApiConfig {
     }
 
     return baseUrl.replaceFirst('http://', 'ws://');
-  }
-
-  static String _removeTrailingSlash(String value) {
-    String result = value;
-
-    while (result.endsWith('/')) {
-      result = result.substring(0, result.length - 1);
-    }
-
-    return result;
   }
 }
