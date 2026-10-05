@@ -1,4 +1,17 @@
-﻿FROM plugfox/flutter:3.47.5-web AS build
+﻿FROM debian:bookworm-slim AS build
+
+RUN apt-get update
+RUN apt-get install -y curl git unzip xz-utils zip libglu1-mesa ca-certificates
+RUN rm -rf /var/lib/apt/lists/*
+
+WORKDIR /opt
+
+RUN git clone https://github.com/flutter/flutter.git --branch 3.47.5 --depth 1
+
+ENV PATH="/opt/flutter/bin:/opt/flutter/bin/cache/dart-sdk/bin:${PATH}"
+
+RUN flutter config --enable-web
+RUN flutter doctor
 
 WORKDIR /app
 
@@ -13,7 +26,6 @@ RUN flutter build web --release
 FROM nginx:alpine
 
 COPY --from=build /app/build/web /usr/share/nginx/html
-
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
