@@ -11,6 +11,7 @@ from routes.finance_routes import router as finance_router
 from routes.marketing_routes import router as marketing_router
 from routes.settings_routes import router as settings_router
 from routes.device_routes import router as device_router
+from routes.ai_routes import router as ai_router
 
 
 app = FastAPI(
@@ -41,6 +42,9 @@ app.include_router(attendance_router)
 
 # Employee device registration and approval
 app.include_router(device_router)
+
+# AI Assistant
+app.include_router(ai_router)
 
 # Inventory management
 app.include_router(inventory_router)

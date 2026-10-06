@@ -15,6 +15,7 @@ import 'pages/my_salary_screen.dart';
 import 'pages/my_tasks_screen.dart';
 import 'pages/scan_attendance_screen.dart';
 import 'pages/device_registration_screen.dart';
+import 'pages/employee_ai_screen.dart';
 
 class EmployeeDashboard extends StatefulWidget {
   const EmployeeDashboard({super.key});
@@ -264,6 +265,12 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
         page: MyPerformanceScreen(),
       ),
       _EmployeeMenuItem(
+        title: 'AI Business Assistant',
+        subtitle: 'Ask queries, leaves, policies & help',
+        icon: Icons.smart_toy_outlined,
+        page: EmployeeAiChatScreen(),
+      ),
+      _EmployeeMenuItem(
         title: 'My Profile',
         subtitle: 'Manage personal details',
         icon: Icons.person_outline_rounded,
@@ -294,6 +301,24 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
 
         return Scaffold(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          floatingActionButton: FloatingActionButton.extended(
+            backgroundColor: const Color(0xFF6C5CE7),
+            foregroundColor: Colors.white,
+            elevation: 4,
+            icon: const Icon(Icons.smart_toy_rounded),
+            label: const Text(
+              'AI Assistant',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EmployeeAiChatScreen(),
+                ),
+              );
+            },
+          ),
           appBar: desktop
               ? null
               : AppBar(

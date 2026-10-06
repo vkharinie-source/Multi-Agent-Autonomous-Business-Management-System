@@ -51,6 +51,9 @@ class ApiConfig {
   static const String attendanceAuditLogsEndpoint =
       '/api/attendance/audit-logs';
 
+  // AI Assistant endpoint
+  static const String aiChatEndpoint = '/api/ai/chat';
+
   // Device endpoints
   static const String deviceRegisterRequestEndpoint =
       '/api/devices/register-request';

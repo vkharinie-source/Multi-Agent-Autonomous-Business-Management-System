@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../attendance/attendance_dashboard.dart';
+import '../chatbot/chatbot_screen.dart';
 import '../employee/employee_management_screen.dart';
 import '../finance/finance_screen.dart';
 import '../inventory/inventory_screen.dart';
@@ -24,6 +25,22 @@ class LandingPage extends StatelessWidget {
 
         return Scaffold(
           backgroundColor: const Color(0xffF3F6FF),
+          floatingActionButton: FloatingActionButton.extended(
+            backgroundColor: const Color(0xff2563EB),
+            foregroundColor: Colors.white,
+            elevation: 4,
+            icon: const Icon(Icons.smart_toy_rounded),
+            label: const Text(
+              "AI Agent",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ChatbotScreen()),
+              );
+            },
+          ),
           // On mobile the sidebar becomes a slide-out drawer instead of a
           // fixed 265px column, and an AppBar provides the menu button.
           appBar: isMobile
@@ -210,7 +227,23 @@ class LandingPage extends StatelessWidget {
                     child: _menu(Icons.campaign, "Marketing", false),
                   ),
 
-                  _menu(Icons.smart_toy, "AI Agents", false),
+                  GestureDetector(
+                    onTap: () {
+                      if (isMobile) {
+                        Navigator.pop(context);
+                      }
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const ChatbotScreen();
+                          },
+                        ),
+                      );
+                    },
+                    child: _menu(Icons.smart_toy, "AI Agents", false),
+                  ),
 
                   GestureDetector(
                     onTap: () {
