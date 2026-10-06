@@ -766,16 +766,23 @@ def create_attendance_session(
     )
 
     if existing is not None:
-        raise HTTPException(
-            status_code=(
-                status.HTTP_409_CONFLICT
-            ),
-            detail=(
-                "An active attendance session "
-                "already exists for this campus "
-                "and attendance type."
-            ),
+        qr = create_qr_token(
+            session_id=existing["session_id"],
+            company_id=existing.get("company_id", "COMPANY001"),
+            campus_id=existing["campus_id"],
+            attendance_type=existing["attendance_type"],
         )
+        return {
+            "message": (
+                "Active attendance session retrieved."
+            ),
+            "session": (
+                serialize_session(
+                    existing
+                )
+            ),
+            "qr": qr,
+        }
 
     now = company_now()
 

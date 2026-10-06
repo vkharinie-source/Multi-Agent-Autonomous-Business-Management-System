@@ -130,6 +130,33 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
             _campuses.isNotEmpty ? _campuses[0]['campus_id'] as String? : null;
         _loadingCampuses = false;
       });
+
+      // Check if there is already an active attendance session running
+      try {
+        final Map<String, dynamic> activeData =
+            await _get(ApiConfig.activeAttendanceSessionsEndpoint);
+        final List<dynamic> activeList =
+            activeData['sessions'] as List<dynamic>? ?? <dynamic>[];
+        if (activeList.isNotEmpty && mounted) {
+          final Map<String, dynamic> session =
+              Map<String, dynamic>.from(activeList[0] as Map);
+          final String sessionId = session['session_id'] as String;
+          final Map<String, dynamic> qrRes =
+              await _get(ApiConfig.attendanceSessionQrEndpoint(sessionId));
+          if (mounted) {
+            setState(() {
+              _session = session;
+              _qrToken = qrRes['qr_token'] as String?;
+              _closesAt = session['closes_at'] as String?;
+              _events = <Map<String, dynamic>>[];
+            });
+            _startQrRotation(sessionId);
+            _startPolling(sessionId);
+          }
+        }
+      } catch (_) {
+        // Silently ignore active session lookup errors
+      }
     } catch (e) {
       if (!mounted) return;
       setState(() {
