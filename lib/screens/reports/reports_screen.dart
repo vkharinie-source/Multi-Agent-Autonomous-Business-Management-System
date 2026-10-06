@@ -68,9 +68,9 @@ class _ReportsDashboardState extends State<ReportsDashboard> {
       backgroundColor: const Color(0xffF4F7FE),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          final bool isMobile = constraints.maxWidth < 700;
+          final bool isMobile = constraints.maxWidth < 750;
           final bool isTablet =
-              constraints.maxWidth >= 700 && constraints.maxWidth < 1100;
+              constraints.maxWidth >= 750 && constraints.maxWidth < 1100;
 
           return Column(
             children: [
@@ -150,10 +150,10 @@ class _ReportsDashboardState extends State<ReportsDashboard> {
               child: Icon(
                 Icons.assessment,
                 color: Colors.white,
-                size: isMobile ? 25 : 34,
+                size: isMobile ? 24 : 32,
               ),
             ),
-            SizedBox(width: isMobile ? 11 : 16),
+            SizedBox(width: isMobile ? 10 : 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,11 +164,11 @@ class _ReportsDashboardState extends State<ReportsDashboard> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: isMobile ? 21 : 30,
+                      fontSize: isMobile ? 20 : 28,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 4),
                   Text(
                     isMobile
                         ? "Business reports and analytics"
@@ -177,36 +177,40 @@ class _ReportsDashboardState extends State<ReportsDashboard> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.white70,
-                      fontSize: isMobile ? 12 : 15,
+                      fontSize: isMobile ? 12 : 14,
                     ),
                   ),
                 ],
               ),
             ),
-            if (!isMobile)
+            if (!isMobile) ...[
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 9,
+                  horizontal: 12,
+                  vertical: 8,
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.14),
                   borderRadius: BorderRadius.circular(18),
                 ),
                 child: const Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.circle, color: Color(0xff4ADE80), size: 10),
-                    SizedBox(width: 8),
+                    Icon(Icons.circle, color: Color(0xff4ADE80), size: 9),
+                    SizedBox(width: 6),
                     Text(
                       "Live Reports",
                       style: TextStyle(
                         color: Colors.white,
+                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
                 ),
               ),
+            ],
           ],
         ),
       ),
@@ -214,93 +218,102 @@ class _ReportsDashboardState extends State<ReportsDashboard> {
   }
 
   Widget _filterAndExportSection(bool isMobile) {
-    if (isMobile) {
-      return Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        decoration: _cardDecoration(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _periodDropdown(),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: _exportButton(
-                    title: "PDF",
-                    icon: Icons.picture_as_pdf,
-                    color: const Color(0xffEF4444),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _exportButton(
-                    title: "Excel",
-                    icon: Icons.table_chart,
-                    color: const Color(0xff16A34A),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: _exportButton(
-                    title: "Print",
-                    icon: Icons.print,
-                    color: const Color(0xff2563EB),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: _exportButton(
-                    title: "Share",
-                    icon: Icons.share,
-                    color: const Color(0xff8B5CF6),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-    }
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final bool isCompact = constraints.maxWidth < 850;
 
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: _cardDecoration(),
-      child: Row(
-        children: [
-          SizedBox(width: 220, child: _periodDropdown()),
-          const Spacer(),
-          _exportButton(
-            title: "Export PDF",
-            icon: Icons.picture_as_pdf,
-            color: const Color(0xffEF4444),
+        if (isCompact) {
+          return Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            decoration: _cardDecoration(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _periodDropdown(),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _exportButton(
+                        title: "Export PDF",
+                        icon: Icons.picture_as_pdf,
+                        color: const Color(0xffEF4444),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: _exportButton(
+                        title: "Export Excel",
+                        icon: Icons.table_chart,
+                        color: const Color(0xff16A34A),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _exportButton(
+                        title: "Print",
+                        icon: Icons.print,
+                        color: const Color(0xff2563EB),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: _exportButton(
+                        title: "Share",
+                        icon: Icons.share,
+                        color: const Color(0xff8B5CF6),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        }
+
+        return Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(20),
+          decoration: _cardDecoration(),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                SizedBox(width: 220, child: _periodDropdown()),
+                const SizedBox(width: 16),
+                _exportButton(
+                  title: "Export PDF",
+                  icon: Icons.picture_as_pdf,
+                  color: const Color(0xffEF4444),
+                ),
+                const SizedBox(width: 10),
+                _exportButton(
+                  title: "Export Excel",
+                  icon: Icons.table_chart,
+                  color: const Color(0xff16A34A),
+                ),
+                const SizedBox(width: 10),
+                _exportButton(
+                  title: "Print",
+                  icon: Icons.print,
+                  color: const Color(0xff2563EB),
+                ),
+                const SizedBox(width: 10),
+                _exportButton(
+                  title: "Share",
+                  icon: Icons.share,
+                  color: const Color(0xff8B5CF6),
+                ),
+              ],
+            ),
           ),
-          const SizedBox(width: 10),
-          _exportButton(
-            title: "Export Excel",
-            icon: Icons.table_chart,
-            color: const Color(0xff16A34A),
-          ),
-          const SizedBox(width: 10),
-          _exportButton(
-            title: "Print",
-            icon: Icons.print,
-            color: const Color(0xff2563EB),
-          ),
-          const SizedBox(width: 10),
-          _exportButton(
-            title: "Share",
-            icon: Icons.share,
-            color: const Color(0xff8B5CF6),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -312,6 +325,7 @@ class _ReportsDashboardState extends State<ReportsDashboard> {
         prefixIcon: const Icon(Icons.calendar_month),
         filled: true,
         fillColor: const Color(0xffF8FAFF),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: BorderSide.none,
@@ -337,11 +351,15 @@ class _ReportsDashboardState extends State<ReportsDashboard> {
   }) {
     return OutlinedButton.icon(
       onPressed: () => _showMessage("$title report generated successfully"),
-      icon: Icon(icon),
-      label: Text(title),
+      icon: Icon(icon, size: 18),
+      label: Text(
+        title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
       style: OutlinedButton.styleFrom(
         foregroundColor: color,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 17),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         side: BorderSide(color: color.withValues(alpha: 0.35)),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ),
