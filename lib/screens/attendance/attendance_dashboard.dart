@@ -1073,6 +1073,11 @@ class _AttendanceDashboardState extends State<AttendanceDashboard> {
       'name',
     ], fallback: 'Employee');
 
+    final String employeeId = _valueFrom(item, const <String>[
+      'employee_id',
+      'employeeId',
+    ], fallback: '—');
+
     final String department = _valueFrom(item, const <String>[
       'department',
     ], fallback: 'Not assigned');
@@ -1086,6 +1091,15 @@ class _AttendanceDashboardState extends State<AttendanceDashboard> {
       'check_out',
       'checkOut',
     ]);
+
+    final bool locationVerified = item['location_verified'] as bool? ?? true;
+    final dynamic rawDist = item['distance_from_company_meters'];
+    final double? dist = rawDist is num
+        ? rawDist.toDouble()
+        : double.tryParse(rawDist?.toString() ?? '');
+    final String distStr = dist != null
+        ? (dist >= 1000 ? '${(dist / 1000).toStringAsFixed(1)} km' : '${dist.toStringAsFixed(0)} m')
+        : '—';
 
     final String status = _valueFrom(item, const <String>[
       'status',
@@ -1130,12 +1144,24 @@ class _AttendanceDashboardState extends State<AttendanceDashboard> {
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Text(
-                        name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            employeeId,
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     statusChip,
@@ -1151,6 +1177,11 @@ class _AttendanceDashboardState extends State<AttendanceDashboard> {
                       _buildInformationRow('Check In', checkIn),
                       const SizedBox(height: 7),
                       _buildInformationRow('Check Out', checkOut),
+                      const SizedBox(height: 7),
+                      _buildInformationRow(
+                        'Location',
+                        locationVerified ? 'Valid ($distStr)' : 'Invalid ($distStr)',
+                      ),
                     ],
                   ),
                 ),
@@ -1165,17 +1196,39 @@ class _AttendanceDashboardState extends State<AttendanceDashboard> {
                 const SizedBox(width: 16),
                 Expanded(
                   flex: 2,
-                  child: Text(
-                    name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        employeeId,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Expanded(child: Text(department)),
                 Expanded(child: Text(checkIn)),
                 Expanded(child: Text(checkOut)),
+                Expanded(
+                  child: Text(
+                    locationVerified ? 'Valid ($distStr)' : 'Invalid ($distStr)',
+                    style: TextStyle(
+                      color: locationVerified ? Colors.green : Colors.red,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
                 statusChip,
               ],
             ),

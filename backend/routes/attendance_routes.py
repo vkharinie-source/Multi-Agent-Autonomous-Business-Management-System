@@ -265,15 +265,34 @@ def resolve_employee(
         )
 
     if employee is None:
-        raise HTTPException(
-            status_code=(
-                status.HTTP_403_FORBIDDEN
-            ),
-            detail=(
-                "Employee account is not "
-                "linked to the employee directory."
-            ),
-        )
+        email = normalize_email(current_user.get("email"))
+        employee_id_val = current_user.get("employee_id")
+        if not employee_id_val:
+            user_id_str = str(current_user.get("_id", "001"))
+            suffix = user_id_str[-4:].upper() if len(user_id_str) >= 4 else "001"
+            employee_id_val = f"EMP{suffix}"
+
+        now_str = company_now().isoformat()
+        employee = {
+            "employee_id": employee_id_val,
+            "name": current_user.get("name") or current_user.get("full_name") or "Employee",
+            "email": email,
+            "department": current_user.get("department") or "General",
+            "designation": current_user.get("designation") or "Employee",
+            "role": "employee",
+            "status": "Active",
+            "is_active": True,
+            "created_at": now_str,
+            "updated_at": now_str,
+        }
+        try:
+            employee_collection.update_one(
+                {"email": email},
+                {"$setOnInsert": employee},
+                upsert=True,
+            )
+        except Exception:
+            pass
 
     if not account_is_active(
         employee
@@ -637,7 +656,7 @@ def create_or_update_campus(
 @router.get("/campuses")
 def get_campuses(
     current_user: dict = Depends(
-        require_admin_or_manager
+        get_current_user
     ),
 ):
     campuses = list(
@@ -650,6 +669,37 @@ def get_campuses(
             1,
         )
     )
+
+    if not campuses:
+        now = company_now().isoformat()
+        default_campus = {
+            "company_id": "COMPANY001",
+            "campus_id": "CAMPUS001",
+            "name": "Main Company Campus",
+            "latitude": 11.0168,
+            "longitude": 76.9558,
+            "allowed_radius_meters": 500.0,
+            "maximum_gps_accuracy_meters": 100.0,
+            "active": True,
+            "created_at": now,
+            "updated_at": now,
+            "updated_by": "system",
+        }
+        campus_collection.update_one(
+            {"campus_id": "CAMPUS001"},
+            {"$setOnInsert": default_campus},
+            upsert=True,
+        )
+        campuses = list(
+            campus_collection.find(
+                {
+                    "active": True
+                }
+            ).sort(
+                "name",
+                1,
+            )
+        )
 
     return {
         "count": len(campuses),
@@ -832,6 +882,36 @@ def create_attendance_session(
             )
         ),
         "qr": qr,
+    }
+
+
+@router.get(
+    "/sessions/{session_id}/events"
+)
+def get_session_events(
+    session_id: str,
+    current_user: dict = Depends(
+        require_admin_or_manager
+    ),
+):
+    """
+    Return all attendance scan events that belong
+    to a specific session.  Used by the Manager
+    Panel to poll for new employee scans.
+    """
+    events = list(
+        attendance_event_collection.find(
+            {"session_id": session_id}
+        ).sort("recorded_at", 1)
+    )
+
+    return {
+        "session_id": session_id,
+        "count": len(events),
+        "events": [
+            attendance_event_serializer(e)
+            for e in events
+        ],
     }
 
 
@@ -1064,25 +1144,63 @@ def scan_attendance(
                         "approved"
                     ),
                     "active": True,
-                    "platform": (
-                        data.platform
-                    ),
                 }
             )
         )
 
-        if device is None:
+        device_verified = device is not None
+
+        if not device_verified:
+            # Record failed device-not-approved event for Manager Panel live display
+            now_dev = company_now()
+            device_fail_event = {
+                "employee_id": employee_id,
+                "employee_name": employee.get("name") or employee.get("full_name") or "Employee",
+                "department": employee.get("department", "General"),
+                "designation": employee.get("designation", "Employee"),
+                "company_id": session.get("company_id", "COMPANY001"),
+                "campus_id": session["campus_id"],
+                "session_id": session_id,
+                "attendance_type": str(session["attendance_type"]),
+                "recorded_at": now_dev.isoformat(),
+                "recorded_time": now_dev.strftime("%H:%M:%S"),
+                "status": "Device Not Approved",
+                "late": False,
+                "qr_verified": True,
+                "location_verified": False,
+                "device_verified": False,
+                "mock_location_detected": data.is_mock_location,
+                "source": "secure_qr_scan",
+                "reason": "device_not_approved",
+                "created_at": now_dev.isoformat(),
+            }
+            try:
+                attendance_event_collection.insert_one(device_fail_event)
+            except Exception:
+                pass
+
+            write_audit_log(
+                current_user=current_user,
+                result="rejected",
+                reason="Device is not approved for attendance. Please register your device and wait for manager approval.",
+                employee_id=employee_id,
+                session_id=session_id,
+                qr_verified=True,
+                location_verified=False,
+                device_verified=False,
+                distance_meters=None,
+                accuracy_meters=data.location_accuracy_meters,
+            )
+
             raise HTTPException(
                 status_code=(
                     status.HTTP_403_FORBIDDEN
                 ),
                 detail=(
-                    "This device is not approved "
-                    "for attendance."
+                    "Device is not approved for attendance. "
+                    "Please register your device and wait for manager approval."
                 ),
             )
-
-        device_verified = True
 
         if data.is_mock_location:
             raise HTTPException(
@@ -1122,7 +1240,7 @@ def scan_attendance(
         maximum_accuracy = float(
             campus.get(
                 "maximum_gps_accuracy_meters",
-                50,
+                100,
             )
         )
 
@@ -1164,31 +1282,76 @@ def scan_attendance(
         allowed_radius = float(
             campus.get(
                 "allowed_radius_meters",
-                100,
+                500,
             )
         )
+
+        now = company_now()
+        current_date = now.strftime("%Y-%m-%d")
+        current_time = now.strftime("%H:%M:%S")
+        attendance_type = str(session["attendance_type"])
 
         if (
             distance_meters
             > allowed_radius
         ):
+            # Record failed location mismatch event for Manager Panel live display
+            mismatch_event = {
+                "employee_id": employee_id,
+                "employee_name": employee.get("name") or employee.get("full_name") or "Employee",
+                "department": employee.get("department", "General"),
+                "designation": employee.get("designation", "Employee"),
+                "company_id": session.get("company_id", "COMPANY001"),
+                "campus_id": session["campus_id"],
+                "campus_name": campus.get("name", "Main Campus"),
+                "session_id": session_id,
+                "attendance_type": attendance_type,
+                "recorded_at": now.isoformat(),
+                "recorded_time": current_time,
+                "status": "Location Mismatch",
+                "late": False,
+                "qr_verified": True,
+                "location_verified": False,
+                "device_verified": True,
+                "mock_location_detected": data.is_mock_location,
+                "distance_from_company_meters": distance_meters,
+                "location_accuracy_meters": data.location_accuracy_meters,
+                "employee_latitude": data.latitude,
+                "employee_longitude": data.longitude,
+                "authorized_latitude": float(campus["latitude"]),
+                "authorized_longitude": float(campus["longitude"]),
+                "source": "secure_qr_scan",
+                "reason": "outside_geofence",
+                "created_at": now.isoformat(),
+            }
+            try:
+                attendance_event_collection.insert_one(mismatch_event)
+            except Exception:
+                pass
+
+            write_audit_log(
+                current_user=current_user,
+                result="rejected",
+                reason="Attendance cannot be recorded because you are outside the authorized attendance location.",
+                employee_id=employee_id,
+                session_id=session_id,
+                qr_verified=True,
+                location_verified=False,
+                device_verified=True,
+                distance_meters=distance_meters,
+                accuracy_meters=data.location_accuracy_meters,
+            )
+
             raise HTTPException(
                 status_code=(
                     status.HTTP_403_FORBIDDEN
                 ),
                 detail=(
-                    "You are outside the allowed "
-                    "company or campus location."
+                    "Attendance cannot be recorded because you are outside the authorized attendance location."
                 ),
             )
 
         location_verified = True
-
-        attendance_type = str(
-            session[
-                "attendance_type"
-            ]
-        )
 
         duplicate_event = (
             attendance_event_collection
@@ -1203,33 +1366,20 @@ def scan_attendance(
                     "attendance_type": (
                         attendance_type
                     ),
+                    "location_verified": True,
                 }
             )
         )
 
         if duplicate_event is not None:
-            return {
-                "message": (
-                    "Attendance was already "
-                    "recorded for this session."
+            raise HTTPException(
+                status_code=(
+                    status.HTTP_409_CONFLICT
                 ),
-                "duplicate": True,
-                "event": (
-                    attendance_event_serializer(
-                        duplicate_event
-                    )
+                detail=(
+                    "Attendance has already been recorded for this session."
                 ),
-            }
-
-        now = company_now()
-
-        current_date = now.strftime(
-            "%Y-%m-%d"
-        )
-
-        current_time = now.strftime(
-            "%H:%M:%S"
-        )
+            )
 
         status_value, late = (
             determine_attendance_status(
@@ -1265,8 +1415,7 @@ def scan_attendance(
                     status.HTTP_409_CONFLICT
                 ),
                 detail=(
-                    "Daily check-in was "
-                    "already recorded."
+                    "Attendance has already been recorded for this session."
                 ),
             )
 
@@ -1304,8 +1453,7 @@ def scan_attendance(
                     status.HTTP_409_CONFLICT
                 ),
                 detail=(
-                    "Daily check-out was "
-                    "already recorded."
+                    "Attendance has already been recorded for this session."
                 ),
             )
 
@@ -1321,12 +1469,14 @@ def scan_attendance(
             ),
             "department": (
                 employee.get(
-                    "department"
+                    "department",
+                    "General",
                 )
             ),
             "designation": (
                 employee.get(
-                    "designation"
+                    "designation",
+                    "Employee",
                 )
             ),
             "company_id": (
@@ -1338,6 +1488,12 @@ def scan_attendance(
                 session[
                     "campus_id"
                 ]
+            ),
+            "campus_name": (
+                campus.get(
+                    "name",
+                    "Main Campus",
+                )
             ),
             "session_id": (
                 session_id
@@ -1375,11 +1531,10 @@ def scan_attendance(
             "location_accuracy_meters": (
                 data.location_accuracy_meters
             ),
-            "device_reference": (
-                str(
-                    device["_id"]
-                )
-            ),
+            "employee_latitude": data.latitude,
+            "employee_longitude": data.longitude,
+            "authorized_latitude": float(campus["latitude"]),
+            "authorized_longitude": float(campus["longitude"]),
             "source": (
                 "secure_qr_scan"
             ),

@@ -10,11 +10,15 @@ def user_serializer(user) -> dict:
         "name": user["name"],
         "email": user["email"],
         "role": user["role"],
+        "employee_id": user.get("employee_id"),
+        "department": user.get("department"),
+        "designation": user.get("designation"),
+        "phone": user.get("phone"),
         "is_verified": user.get(
             "is_verified",
             False,
         ),
-        "created_at": user["created_at"],
+        "created_at": user.get("created_at"),
     }
 
 

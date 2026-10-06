@@ -33,6 +33,26 @@ class UserRegister(BaseModel):
         examples=["Employee"],
     )
 
+    employee_id: str | None = Field(
+        default=None,
+        examples=["EMP001"],
+    )
+
+    department: str | None = Field(
+        default=None,
+        examples=["IT"],
+    )
+
+    designation: str | None = Field(
+        default=None,
+        examples=["Software Engineer"],
+    )
+
+    phone: str | None = Field(
+        default=None,
+        examples=["+1234567890"],
+    )
+
 
 # ==================================================
 # VERIFY OTP

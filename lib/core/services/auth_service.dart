@@ -112,6 +112,28 @@ class AuthService {
     );
   }
 
+  Future<Map<String, dynamic>> getProfile({
+    required String accessToken,
+  }) async {
+    return _apiService.get(
+      endpoint: ApiConfig.profileEndpoint,
+      accessToken: accessToken,
+      requiresAuth: true,
+    );
+  }
+
+  Future<Map<String, dynamic>> updateProfile({
+    required String accessToken,
+    required Map<String, dynamic> data,
+  }) async {
+    return _apiService.put(
+      endpoint: ApiConfig.profileEndpoint,
+      accessToken: accessToken,
+      requiresAuth: true,
+      body: data,
+    );
+  }
+
   Future<Map<String, dynamic>> changePassword({
     required String currentPassword,
     required String newPassword,

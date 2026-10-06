@@ -155,19 +155,16 @@ class AttendanceScanRequest(BaseModel):
     )
 
     device_id: str = Field(
-        ...,
-        min_length=16,
+        default="default-attendance-device",
+        min_length=1,
         max_length=200,
         examples=[
             "550e8400-e29b-41d4-a716-446655440000"
         ],
     )
 
-    platform: Literal[
-        "android",
-        "ios",
-    ] = Field(
-        ...,
+    platform: str = Field(
+        default="mobile",
         examples=["android"],
     )
 

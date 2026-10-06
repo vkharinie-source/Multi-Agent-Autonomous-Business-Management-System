@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../core/exceptions/api_exception.dart';
+import '../../core/services/auth_service.dart';
+import '../../core/services/secure_storage_service.dart';
+
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+  const EditProfileScreen({super.key, this.initialUser});
+
+  final Map<String, dynamic>? initialUser;
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -10,23 +16,35 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _nameController = TextEditingController(
-    text: 'Harini VK',
-  );
-
-  final TextEditingController _emailController = TextEditingController(
-    text: 'harini@gmail.com',
-  );
-
-  final TextEditingController _phoneController = TextEditingController(
-    text: '+91 9876543210',
-  );
-
-  final TextEditingController _departmentController = TextEditingController(
-    text: 'Administration',
-  );
+  late final TextEditingController _nameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _phoneController;
+  late final TextEditingController _departmentController;
+  late final TextEditingController _designationController;
 
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final Map<String, dynamic> user = widget.initialUser ?? <String, dynamic>{};
+
+    _nameController = TextEditingController(
+      text: user['name']?.toString().trim() ?? '',
+    );
+    _emailController = TextEditingController(
+      text: user['email']?.toString().trim() ?? '',
+    );
+    _phoneController = TextEditingController(
+      text: user['phone']?.toString().trim() ?? '',
+    );
+    _departmentController = TextEditingController(
+      text: user['department']?.toString().trim() ?? '',
+    );
+    _designationController = TextEditingController(
+      text: user['designation']?.toString().trim() ?? '',
+    );
+  }
 
   @override
   void dispose() {
@@ -34,6 +52,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _emailController.dispose();
     _phoneController.dispose();
     _departmentController.dispose();
+    _designationController.dispose();
     super.dispose();
   }
 
@@ -46,24 +65,64 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       _isLoading = true;
     });
 
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final String? token =
+          await SecureStorageService.instance.readAccessToken();
+      if (token == null || token.trim().isEmpty) {
+        throw const ApiException(
+          message: 'Session expired. Please log in again.',
+        );
+      }
 
-    if (!mounted) {
-      return;
+      final Map<String, dynamic> updatePayload = <String, dynamic>{
+        'name': _nameController.text.trim(),
+        'phone': _phoneController.text.trim(),
+        'department': _departmentController.text.trim(),
+        'designation': _designationController.text.trim(),
+      };
+
+      await AuthService.instance.updateProfile(
+        accessToken: token,
+        data: updatePayload,
+      );
+
+      if (!mounted) {
+        return;
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Color(0xFF21A366),
+          content: Text('Profile updated successfully'),
+        ),
+      );
+
+      Navigator.pop(context, true);
+    } on ApiException catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: const Color(0xFFE74C3C),
+          content: Text(error.message),
+        ),
+      );
+    } catch (error) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: const Color(0xFFE74C3C),
+          content: Text(
+            error.toString().replaceFirst('Exception: ', '').trim(),
+          ),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
-
-    setState(() {
-      _isLoading = false;
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        backgroundColor: Colors.green,
-        content: Text('Profile updated successfully'),
-      ),
-    );
-
-    Navigator.pop(context);
   }
 
   InputDecoration _inputDecoration({
@@ -168,25 +227,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
+                  readOnly: true,
                   decoration: _inputDecoration(
-                    label: 'Email Address',
+                    label: 'Email Address (Account ID)',
                     icon: Icons.email_outlined,
                   ),
-                  validator: (value) {
-                    final email = value?.trim() ?? '';
-
-                    if (email.isEmpty) {
-                      return 'Enter your email address';
-                    }
-
-                    final emailPattern = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
-
-                    if (!emailPattern.hasMatch(email)) {
-                      return 'Enter a valid email address';
-                    }
-
-                    return null;
-                  },
                 ),
 
                 const SizedBox(height: 18),
@@ -206,8 +251,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       return 'Enter your phone number';
                     }
 
-                    if (phone.length < 10) {
-                      return 'Enter a valid phone number';
+                    final digitsOnly = phone.replaceAll(RegExp(r'\D'), '');
+                    if (digitsOnly.length < 10) {
+                      return 'Enter a valid phone number (at least 10 digits)';
                     }
 
                     return null;
@@ -218,7 +264,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                 TextFormField(
                   controller: _departmentController,
-                  textInputAction: TextInputAction.done,
+                  textInputAction: TextInputAction.next,
                   decoration: _inputDecoration(
                     label: 'Department',
                     icon: Icons.business_outlined,
@@ -232,6 +278,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                     return null;
                   },
+                ),
+
+                const SizedBox(height: 18),
+
+                TextFormField(
+                  controller: _designationController,
+                  textInputAction: TextInputAction.done,
+                  decoration: _inputDecoration(
+                    label: 'Designation',
+                    icon: Icons.work_outline,
+                  ),
                 ),
 
                 const SizedBox(height: 32),

@@ -206,4 +206,25 @@ def attendance_event_serializer(
                 "location_accuracy_meters"
             )
         ),
+        "recorded_time": event.get(
+            "recorded_time"
+        ),
+        "employee_latitude": event.get(
+            "employee_latitude"
+        ),
+        "employee_longitude": event.get(
+            "employee_longitude"
+        ),
+        "authorized_latitude": event.get(
+            "authorized_latitude"
+        ),
+        "authorized_longitude": event.get(
+            "authorized_longitude"
+        ),
+        "campus_name": event.get(
+            "campus_name"
+        ),
+        "reason": event.get(
+            "reason"
+        ),
     }

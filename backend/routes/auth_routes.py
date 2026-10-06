@@ -198,6 +198,11 @@ def register(
         # from the frontend.
         "role": "employee",
 
+        "employee_id": user.employee_id,
+        "department": user.department,
+        "designation": user.designation,
+        "phone": user.phone,
+
         "is_verified": False,
         "otp_hash": hash_otp(otp),
         "otp_expires_at": (

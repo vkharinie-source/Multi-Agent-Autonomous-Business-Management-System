@@ -413,6 +413,18 @@ def update_profile(
             detail="User not found",
         )
 
+    # Sync with employee directory if present
+    emp_update = {}
+    for f in ["name", "phone", "department", "designation"]:
+        if f in update_data:
+            emp_update[f] = update_data[f]
+    if emp_update:
+        emp_update["updated_at"] = update_data["updated_at"].isoformat()
+        db["employees"].update_one(
+            {"email": current_user["email"].lower()},
+            {"$set": emp_update},
+        )
+
     return {
         "message": (
             "Profile updated successfully"

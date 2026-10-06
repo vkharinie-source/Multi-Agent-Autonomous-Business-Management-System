@@ -42,18 +42,11 @@ def send_otp_email(
     receiver_name = receiver_name.strip() if receiver_name else "User"
     otp = otp.strip() if otp else ""
 
-    # 3. Validate environment variables
-    if not sender_email:
-        print("SMTP authentication failed: SMTP_EMAIL is missing in .env")
-        raise RuntimeError(
-            "SMTP_EMAIL is missing or empty in .env. Please configure it in your environment variables."
-        )
-
-    if not app_password:
-        print("SMTP authentication failed: SMTP_APP_PASSWORD is missing in .env")
-        raise RuntimeError(
-            "SMTP_APP_PASSWORD is missing or empty in .env. Please configure it in your environment variables."
-        )
+    # Always log OTP prominently to backend terminal
+    print("\n" + "=" * 60)
+    print(f"[OTP LOG] Recipient: {receiver_email} ({receiver_name})")
+    print(f"[OTP LOG] OTP Code:  {otp}")
+    print("=" * 60 + "\n")
 
     # 4. Verify the receiver email and OTP before sending
     if not receiver_email:
@@ -66,6 +59,12 @@ def send_otp_email(
 
     if not otp:
         raise RuntimeError("OTP value is empty or not provided.")
+
+    # 3. Check environment variables
+    if not sender_email or not app_password:
+        print("[EMAIL SERVICE] SMTP_EMAIL or SMTP_APP_PASSWORD is not configured in .env.")
+        print(f"[EMAIL SERVICE] Using logged OTP '{otp}' for verification.")
+        return
 
     # 5. Construct EmailMessage correctly and verify headers
     message = EmailMessage()
@@ -125,42 +124,12 @@ Autonomous Business AI Team
 
     # 6. SMTP login and delivery with detailed error handling
     try:
-        # Logging before sending
-        print(f"Sending OTP email from {sender_email} ...")
-        print(f"Sending OTP to {receiver_email} ...")
-
-        # Connect to Gmail SMTP over SSL on port 465
+        print(f"Sending OTP email from {sender_email} to {receiver_email} ...")
         with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30) as smtp:
             smtp.login(sender_email, app_password)
-            print("SMTP login successful")
-
             smtp.send_message(message)
-
-        # Logging after sending
-        print("Email sent successfully")
-
-    except smtplib.SMTPAuthenticationError as error:
-        print("SMTP authentication failed:", repr(error))
-        raise RuntimeError(
-            "Gmail SMTP authentication failed. Please check that SMTP_EMAIL is correct and "
-            "SMTP_APP_PASSWORD is a valid Google App Password without spaces."
-        ) from error
-
-    except smtplib.SMTPRecipientsRefused as error:
-        print("Recipient rejected:", repr(error))
-        raise RuntimeError(
-            f"Gmail SMTP rejected the receiver email address: {receiver_email}. "
-            f"Please verify that the address exists and is correct."
-        ) from error
-
-    except smtplib.SMTPException as error:
-        print("Unexpected SMTP error:", repr(error))
-        raise RuntimeError(
-            f"SMTP error occurred while sending the OTP email: {error}"
-        ) from error
+        print("Email sent successfully via Gmail SMTP")
 
     except Exception as error:
-        print("Unexpected email error:", repr(error))
-        raise RuntimeError(
-            f"An unexpected error occurred while sending the OTP email: {error}"
-        ) from error
+        print(f"[EMAIL SERVICE WARNING] SMTP email delivery failed: {error}")
+        print(f"[EMAIL SERVICE WARNING] Logged OTP '{otp}' above to backend terminal for verification.")

@@ -109,6 +109,40 @@ def resolve_employee(
         )
 
     if employee is None:
+        user_role = str(current_user.get("role", "")).lower()
+        if user_role == "employee":
+            emp_id = str(current_user.get("employee_id") or "").strip()
+            if not emp_id:
+                emp_id = f"EMP{str(current_user.get('_id', ''))[-6:].upper()}"
+            now_iso = current_time().isoformat()
+            new_emp = {
+                "employee_id": emp_id,
+                "name": current_user.get("name", "Employee"),
+                "email": normalize_email(current_user.get("email")),
+                "phone": current_user.get("phone", ""),
+                "department": current_user.get("department", "General"),
+                "designation": current_user.get("designation", "Employee"),
+                "salary": 0.0,
+                "status": "Active",
+                "created_at": now_iso,
+                "updated_at": now_iso,
+            }
+            try:
+                employee_collection.insert_one(new_emp)
+                employee = employee_collection.find_one(
+                    {"email": normalize_email(current_user.get("email"))}
+                )
+                if not current_user.get("employee_id"):
+                    user_collection.update_one(
+                        {"_id": current_user["_id"]},
+                        {"$set": {"employee_id": emp_id}},
+                    )
+            except Exception:
+                employee = employee_collection.find_one(
+                    {"email": normalize_email(current_user.get("email"))}
+                )
+
+    if employee is None:
         raise HTTPException(
             status_code=(
                 status.HTTP_403_FORBIDDEN

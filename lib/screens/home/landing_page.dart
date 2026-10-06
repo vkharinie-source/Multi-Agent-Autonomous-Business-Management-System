@@ -11,8 +11,8 @@ import '../settings/settings_screen.dart';
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
 
-  static const double _mobileBreakpoint = 700;
-  static const double _tabletBreakpoint = 1100;
+  static const double _mobileBreakpoint = 850;
+  static const double _tabletBreakpoint = 1200;
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +44,16 @@ class LandingPage extends StatelessWidget {
               if (!isMobile) _sidebar(context, isMobile: false),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: EdgeInsets.all(isMobile ? 16 : 28),
+                  padding: EdgeInsets.all(isMobile ? 16 : 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _header(isMobile),
-                      SizedBox(height: isMobile ? 18 : 28),
+                      _header(isMobile, isTablet),
+                      SizedBox(height: isMobile ? 16 : 24),
 
-                      _statCardsRow(isMobile),
+                      _statCardsRow(isMobile, constraints.maxWidth - (isMobile ? 32 : 320)),
 
-                      SizedBox(height: isMobile ? 18 : 28),
+                      SizedBox(height: isMobile ? 16 : 24),
 
                       stackedWide
                           ? Column(
@@ -289,7 +289,7 @@ class LandingPage extends StatelessWidget {
     );
   }
 
-  static Widget _header(bool isMobile) {
+  static Widget _header(bool isMobile, bool isTablet) {
     final title = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -297,11 +297,11 @@ class LandingPage extends StatelessWidget {
           "Welcome Back 👋",
           style: TextStyle(color: Colors.grey, fontSize: isMobile ? 15 : 18),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 6),
         Text(
           "Business Dashboard",
           style: TextStyle(
-            fontSize: isMobile ? 26 : 38,
+            fontSize: isMobile ? 24 : (isTablet ? 30 : 36),
             fontWeight: FontWeight.w900,
             color: const Color(0xff081A63),
           ),
@@ -310,8 +310,8 @@ class LandingPage extends StatelessWidget {
     );
 
     final searchBox = Container(
-      width: isMobile ? double.infinity : 320,
-      height: 56,
+      width: isMobile || isTablet ? double.infinity : 320,
+      height: 52,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
@@ -327,56 +327,35 @@ class LandingPage extends StatelessWidget {
           hintText: "Search anything...",
           prefixIcon: Icon(Icons.search),
           border: InputBorder.none,
-          contentPadding: EdgeInsets.only(top: 15),
+          contentPadding: EdgeInsets.only(top: 14),
         ),
       ),
     );
 
-    if (isMobile) {
+    if (isMobile || isTablet) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [title, const SizedBox(height: 18), searchBox],
+        children: [title, const SizedBox(height: 16), searchBox],
       );
     }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [title, searchBox],
+      children: [
+        Expanded(child: title),
+        const SizedBox(width: 16),
+        searchBox,
+      ],
     );
   }
 
-  // Four stat cards: horizontally scrollable on mobile, equal-width row
-  // on wider screens (as before).
-  static Widget _statCardsRow(bool isMobile) {
-    final cards = [
-      _statCard(
-        "Sales",
-        "₹24,850",
-        "+18%",
-        Icons.trending_up,
-        const Color(0xff2563EB),
-      ),
-      _statCard(
-        "Revenue",
-        "₹3.2L",
-        "+12%",
-        Icons.currency_rupee,
-        const Color(0xff8B5CF6),
-      ),
-      _statCard(
-        "Orders",
-        "156",
-        "+25",
-        Icons.shopping_cart,
-        const Color(0xffF97316),
-      ),
-      _statCard(
-        "Customers",
-        "2,340",
-        "+52",
-        Icons.people,
-        const Color(0xff10B981),
-      ),
+  // Four stat cards: responsive grid / row to prevent pixel overflow
+  static Widget _statCardsRow(bool isMobile, double availableWidth) {
+    final cardsData = [
+      ("Sales", "₹24,850", "+18%", Icons.trending_up, const Color(0xff2563EB)),
+      ("Revenue", "₹3.2L", "+12%", Icons.currency_rupee, const Color(0xff8B5CF6)),
+      ("Orders", "156", "+25", Icons.shopping_cart, const Color(0xffF97316)),
+      ("Customers", "2,340", "+52", Icons.people, const Color(0xff10B981)),
     ];
 
     if (isMobile) {
@@ -384,19 +363,55 @@ class LandingPage extends StatelessWidget {
         height: 110,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
-          itemCount: cards.length,
-          separatorBuilder: (_, __) => const SizedBox(width: 14),
-          itemBuilder: (context, index) =>
-              SizedBox(width: 200, child: cards[index]),
+          itemCount: cardsData.length,
+          separatorBuilder: (_, _) => const SizedBox(width: 12),
+          itemBuilder: (context, index) {
+            final c = cardsData[index];
+            return SizedBox(
+              width: 190,
+              child: _statCard(c.$1, c.$2, c.$3, c.$4, c.$5),
+            );
+          },
         ),
+      );
+    }
+
+    if (availableWidth < 900) {
+      // 2x2 Grid for medium / tablet widths
+      return Column(
+        children: [
+          Row(
+            children: [
+              Expanded(child: _statCard(cardsData[0].$1, cardsData[0].$2, cardsData[0].$3, cardsData[0].$4, cardsData[0].$5)),
+              const SizedBox(width: 14),
+              Expanded(child: _statCard(cardsData[1].$1, cardsData[1].$2, cardsData[1].$3, cardsData[1].$4, cardsData[1].$5)),
+            ],
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(child: _statCard(cardsData[2].$1, cardsData[2].$2, cardsData[2].$3, cardsData[2].$4, cardsData[2].$5)),
+              const SizedBox(width: 14),
+              Expanded(child: _statCard(cardsData[3].$1, cardsData[3].$2, cardsData[3].$3, cardsData[3].$4, cardsData[3].$5)),
+            ],
+          ),
+        ],
       );
     }
 
     return Row(
       children: [
-        for (int i = 0; i < cards.length; i++) ...[
-          if (i != 0) const SizedBox(width: 18),
-          cards[i],
+        for (int i = 0; i < cardsData.length; i++) ...[
+          if (i != 0) const SizedBox(width: 16),
+          Expanded(
+            child: _statCard(
+              cardsData[i].$1,
+              cardsData[i].$2,
+              cardsData[i].$3,
+              cardsData[i].$4,
+              cardsData[i].$5,
+            ),
+          ),
         ],
       ],
     );
@@ -409,47 +424,50 @@ class LandingPage extends StatelessWidget {
     IconData icon,
     Color color,
   ) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(22),
-        decoration: _card(),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: color.withValues(alpha: 0.15),
-              child: Icon(icon, color: color, size: 28),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+      decoration: _card(),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 24,
+            backgroundColor: color.withValues(alpha: 0.15),
+            child: Icon(icon, color: color, size: 22),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(color: Colors.grey, fontSize: 13),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xff081A63),
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  change,
+                  style: TextStyle(
+                    color: color,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(color: Colors.grey, fontSize: 14),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    value,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff081A63),
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    change,
-                    style: TextStyle(color: color, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

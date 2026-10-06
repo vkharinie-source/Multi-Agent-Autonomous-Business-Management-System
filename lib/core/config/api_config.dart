@@ -1,8 +1,17 @@
+import 'package:flutter/foundation.dart';
+
 class ApiConfig {
   ApiConfig._();
 
-  static const String baseUrl =
-      'https://multi-agent-autonomous-business.onrender.com';
+  static String get baseUrl {
+    if (kIsWeb) {
+      final String host = Uri.base.host;
+      if (host == 'localhost' || host == '127.0.0.1') {
+        return 'http://127.0.0.1:8000';
+      }
+    }
+    return 'https://multi-agent-autonomous-business.onrender.com';
+  }
 
   // Authentication endpoints
   static const String registerEndpoint = '/api/auth/register';
@@ -14,6 +23,8 @@ class ApiConfig {
   static const String loginEndpoint = '/api/auth/login';
 
   static const String currentUserEndpoint = '/api/auth/me';
+
+  static const String profileEndpoint = '/api/settings/profile';
 
   static const String changePasswordEndpoint = '/api/auth/change-password';
 
@@ -50,6 +61,10 @@ class ApiConfig {
 
   static String attendanceSessionQrEndpoint(String sessionId) {
     return '/api/attendance/sessions/$sessionId/qr';
+  }
+
+  static String attendanceSessionEventsEndpoint(String sessionId) {
+    return '/api/attendance/sessions/$sessionId/events';
   }
 
   static String closeAttendanceSessionEndpoint(String sessionId) {
