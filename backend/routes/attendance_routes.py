@@ -1155,6 +1155,18 @@ def scan_attendance(
             )
         )
 
+        if device is None:
+            # Check if employee has any approved active device on their account
+            approved_device = device_collection.find_one(
+                {
+                    "employee_id": employee_id,
+                    "status": "approved",
+                    "active": True,
+                }
+            )
+            if approved_device is not None:
+                device = approved_device
+
         device_verified = device is not None
 
         if not device_verified:

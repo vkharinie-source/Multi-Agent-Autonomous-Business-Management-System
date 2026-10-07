@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../core/config/api_config.dart';
+import '../../../core/services/device_identity_service.dart';
 import '../../../core/services/secure_storage_service.dart';
 
 class ScanAttendanceScreen extends StatefulWidget {
@@ -168,10 +169,19 @@ class _ScanAttendanceScreenState extends State<ScanAttendanceScreen> {
         lon += 0.05;
       }
 
-      final String platform = _getPlatform();
-      final String deviceId =
-          (await SecureStorageService.instance.readInstallationId()) ??
-              'DEVICE-${platform.toUpperCase()}-001';
+      String platform = _getPlatform();
+      String? deviceId = await SecureStorageService.instance.readInstallationId();
+
+      if ((deviceId == null || deviceId.isEmpty) && !kIsWeb) {
+        try {
+          final DeviceIdentity identity =
+              await DeviceIdentityService.instance.getDeviceIdentity();
+          deviceId = identity.deviceId;
+          platform = identity.platform;
+        } catch (_) {}
+      }
+
+      deviceId ??= 'DEVICE-${platform.toUpperCase()}-001';
 
       final Map<String, dynamic> payload = <String, dynamic>{
         'qr_token': qrToken,
