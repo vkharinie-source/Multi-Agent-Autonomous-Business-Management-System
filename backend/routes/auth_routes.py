@@ -160,7 +160,10 @@ def register(
 
     existing_user = user_collection.find_one(
         {
-            "email": email,
+            "$or": [
+                {"email": email},
+                {"employee_id": user.employee_id.strip()},
+            ]
         }
     )
 
@@ -169,19 +172,19 @@ def register(
             "is_verified",
             False,
         ):
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail="Email already registered",
-            )
+            if existing_user.get("email") == email:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail="Email already registered",
+                )
+            else:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail="Employee ID already registered",
+                )
 
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail=(
-                "Registration already exists but "
-                "the email is not verified. "
-                "Please use resend OTP."
-            ),
-        )
+        # Stale unverified registration found - delete it so fresh registration with new OTP proceeds smoothly
+        user_collection.delete_one({"_id": existing_user["_id"]})
 
     otp = generate_otp()
     current_time = get_current_time_string()
