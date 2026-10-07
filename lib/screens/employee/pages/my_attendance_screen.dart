@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../core/config/api_config.dart';
@@ -284,21 +285,21 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
             icon: const Icon(Icons.arrow_back_rounded, size: 20),
           ),
           const SizedBox(width: 12),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'My Attendance',
-                style: TextStyle(
-                  color: Color(0xFF201A3D),
+                style: GoogleFonts.inter(
+                  color: const Color(0xFF201A3D),
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               Text(
                 'Clock-in Logs & Working Hours',
-                style: TextStyle(color: Color(0xFF756E8A), fontSize: 12),
+                style: GoogleFonts.inter(color: const Color(0xFF756E8A), fontSize: 12),
               ),
             ],
           ),

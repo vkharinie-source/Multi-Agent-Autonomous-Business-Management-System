@@ -328,37 +328,53 @@ class _LateArrivalScreenState extends State<LateArrivalScreen> {
   }
 
   Widget _filterSection(bool isMobile) {
-    if (isMobile) {
-      return Container(
-        padding: const EdgeInsets.all(16),
-        decoration: _card(),
-        child: Column(
-          children: [
-            _searchField(),
-            const SizedBox(height: 12),
-            _departmentDropdown(),
-            const SizedBox(height: 12),
-            _statusDropdown(),
-            const SizedBox(height: 12),
-            SizedBox(width: double.infinity, child: _resetButton()),
-          ],
-        ),
-      );
-    }
-
     return Container(
-      padding: const EdgeInsets.all(22),
+      padding: EdgeInsets.all(isMobile ? 16 : 22),
       decoration: _card(),
-      child: Row(
-        children: [
-          Expanded(flex: 2, child: _searchField()),
-          const SizedBox(width: 16),
-          Expanded(child: _departmentDropdown()),
-          const SizedBox(width: 16),
-          Expanded(child: _statusDropdown()),
-          const SizedBox(width: 16),
-          _resetButton(),
-        ],
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth < 700) {
+            return Column(
+              children: [
+                _searchField(),
+                const SizedBox(height: 12),
+                _departmentDropdown(),
+                const SizedBox(height: 12),
+                _statusDropdown(),
+                const SizedBox(height: 12),
+                SizedBox(width: double.infinity, child: _resetButton()),
+              ],
+            );
+          } else if (constraints.maxWidth < 1050) {
+            return Column(
+              children: [
+                _searchField(),
+                const SizedBox(height: 14),
+                Row(
+                  children: [
+                    Expanded(child: _departmentDropdown()),
+                    const SizedBox(width: 12),
+                    Expanded(child: _statusDropdown()),
+                    const SizedBox(width: 12),
+                    _resetButton(),
+                  ],
+                ),
+              ],
+            );
+          }
+
+          return Row(
+            children: [
+              Expanded(flex: 2, child: _searchField()),
+              const SizedBox(width: 16),
+              Expanded(child: _departmentDropdown()),
+              const SizedBox(width: 16),
+              Expanded(child: _statusDropdown()),
+              const SizedBox(width: 16),
+              _resetButton(),
+            ],
+          );
+        },
       ),
     );
   }
@@ -382,6 +398,7 @@ class _LateArrivalScreenState extends State<LateArrivalScreen> {
 
   Widget _departmentDropdown() {
     return DropdownButtonFormField<String>(
+      isExpanded: true,
       initialValue: selectedDepartment,
       decoration: InputDecoration(
         labelText: "Department",
@@ -393,7 +410,7 @@ class _LateArrivalScreenState extends State<LateArrivalScreen> {
         ),
       ),
       items: const [
-        DropdownMenuItem(value: "All", child: Text("All Departments")),
+        DropdownMenuItem(value: "All", child: Text("All Departments", overflow: TextOverflow.ellipsis)),
         DropdownMenuItem(value: "IT", child: Text("IT")),
         DropdownMenuItem(value: "Sales", child: Text("Sales")),
         DropdownMenuItem(value: "Finance", child: Text("Finance")),
@@ -411,6 +428,7 @@ class _LateArrivalScreenState extends State<LateArrivalScreen> {
 
   Widget _statusDropdown() {
     return DropdownButtonFormField<String>(
+      isExpanded: true,
       initialValue: selectedStatus,
       decoration: InputDecoration(
         labelText: "Late Status",
@@ -422,7 +440,7 @@ class _LateArrivalScreenState extends State<LateArrivalScreen> {
         ),
       ),
       items: const [
-        DropdownMenuItem(value: "All", child: Text("All Status")),
+        DropdownMenuItem(value: "All", child: Text("All Status", overflow: TextOverflow.ellipsis)),
         DropdownMenuItem(value: "Late", child: Text("Late")),
         DropdownMenuItem(value: "Very Late", child: Text("Very Late")),
       ],
@@ -450,7 +468,7 @@ class _LateArrivalScreenState extends State<LateArrivalScreen> {
       style: ElevatedButton.styleFrom(
         backgroundColor: const Color(0xff2563EB),
         foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );
@@ -460,7 +478,7 @@ class _LateArrivalScreenState extends State<LateArrivalScreen> {
     if (isMobile || isTablet) {
       return Column(
         children: [
-          _lateEmployeeSection(isMobile),
+          _lateEmployeeSection(isMobile || isTablet),
           const SizedBox(height: 16),
           _aiInsightCard(isMobile),
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SalesDashboard extends StatefulWidget {
   const SalesDashboard({super.key});
@@ -428,26 +429,71 @@ class _SalesDashboardState extends State<SalesDashboard> {
   Widget _salesChartCard(bool isMobile) {
     return Container(
       width: double.infinity,
-      height: isMobile ? 320 : 420,
+      height: isMobile ? 330 : 420,
       padding: EdgeInsets.all(isMobile ? 18 : 24),
       decoration: _cardDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Sales Performance",
-            style: TextStyle(
-              color: const Color(0xff081A63),
-              fontSize: isMobile ? 19 : 24,
-              fontWeight: FontWeight.bold,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Sales Performance",
+                      style: GoogleFonts.inter(
+                        color: const Color(0xff081A63),
+                        fontSize: isMobile ? 19 : 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      "Weekly revenue and sales trend",
+                      style: GoogleFonts.inter(
+                        color: const Color(0xFF64748B),
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF10B981).withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: const Color(0xFF10B981).withValues(alpha: 0.25),
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.trending_up_rounded,
+                      color: Color(0xFF059669),
+                      size: 16,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      "+18.4%",
+                      style: GoogleFonts.inter(
+                        color: const Color(0xFF059669),
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 5),
-          const Text(
-            "Weekly revenue and sales trend",
-            style: TextStyle(color: Colors.grey),
-          ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           Expanded(
             child: CustomPaint(
               painter: SalesChartPainter(),
@@ -837,7 +883,6 @@ class SalesChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final List<double> values = [120, 180, 145, 240, 210, 290, 260];
-
     final List<String> labels = [
       "Mon",
       "Tue",
@@ -849,58 +894,217 @@ class SalesChartPainter extends CustomPainter {
     ];
 
     const double maximum = 320;
+    const double leftPadding = 34.0;
+    const double rightPadding = 16.0;
+    const double bottomPadding = 26.0;
+    const double topPadding = 24.0;
 
-    final double chartHeight = size.height - 30;
-    final double gap = size.width / values.length;
-    final double barWidth = gap * 0.45;
+    final double chartWidth = size.width - leftPadding - rightPadding;
+    final double chartHeight = size.height - bottomPadding - topPadding;
+    final double chartBottom = size.height - bottomPadding;
 
+    // 1. Draw horizontal grid lines & Y-axis labels
     final Paint gridPaint = Paint()
-      ..color = Colors.grey.withValues(alpha: 0.16)
+      ..color = const Color(0xFFE2E8F0).withValues(alpha: 0.8)
       ..strokeWidth = 1;
-
-    for (int i = 1; i <= 4; i++) {
-      final double y = chartHeight * i / 5;
-
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
-    }
 
     final TextPainter textPainter = TextPainter(
       textDirection: TextDirection.ltr,
     );
 
-    for (int i = 0; i < values.length; i++) {
-      final double x = i * gap + gap * 0.28;
-      final double barHeight = values[i] / maximum * chartHeight;
-      final double y = chartHeight - barHeight;
+    final List<int> yTicks = [300, 200, 100, 0];
+    for (final int tick in yTicks) {
+      final double normalized = tick / maximum;
+      final double y = chartBottom - (normalized * chartHeight);
 
-      final RRect bar = RRect.fromRectAndRadius(
-        Rect.fromLTWH(x, y, barWidth, barHeight),
-        const Radius.circular(13),
+      // Grid line
+      canvas.drawLine(
+        Offset(leftPadding, y),
+        Offset(size.width - rightPadding, y),
+        gridPaint,
       );
 
-      final Paint paint = Paint()
-        ..shader = const LinearGradient(
-          colors: [Color(0xff2563EB), Color(0xff9333EA)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ).createShader(Rect.fromLTWH(x, y, barWidth, barHeight));
+      // Y-axis label text
+      textPainter.text = TextSpan(
+        text: tick == 0 ? "0" : "${tick}k",
+        style: const TextStyle(
+          color: Color(0xFF94A3B8),
+          fontSize: 10,
+          fontWeight: FontWeight.w500,
+        ),
+      );
+      textPainter.layout();
+      textPainter.paint(
+        canvas,
+        Offset(leftPadding - textPainter.width - 6, y - textPainter.height / 2),
+      );
+    }
 
-      canvas.drawRRect(bar, paint);
+    // 2. Compute points for each day
+    final double step = chartWidth / (values.length - 1);
+    final List<Offset> points = <Offset>[];
 
+    int peakIndex = 0;
+    double peakValue = values[0];
+
+    for (int i = 0; i < values.length; i++) {
+      final double x = leftPadding + (i * step);
+      final double normalized = values[i] / maximum;
+      final double y = chartBottom - (normalized * chartHeight);
+      points.add(Offset(x, y));
+
+      if (values[i] > peakValue) {
+        peakValue = values[i];
+        peakIndex = i;
+      }
+    }
+
+    if (points.isEmpty) return;
+
+    // 3. Build Smooth Spline (Cubic Bezier) Path
+    final Path path = Path();
+    path.moveTo(points[0].dx, points[0].dy);
+
+    for (int i = 0; i < points.length - 1; i++) {
+      final Offset p0 = points[i];
+      final Offset p1 = points[i + 1];
+
+      final double cx1 = p0.dx + (p1.dx - p0.dx) / 2;
+      final double cy1 = p0.dy;
+      final double cx2 = p0.dx + (p1.dx - p0.dx) / 2;
+      final double cy2 = p1.dy;
+
+      path.cubicTo(cx1, cy1, cx2, cy2, p1.dx, p1.dy);
+    }
+
+    // 4. Draw Smooth Gradient Fill
+    final Path fillPath = Path.from(path);
+    fillPath.lineTo(points.last.dx, chartBottom);
+    fillPath.lineTo(points.first.dx, chartBottom);
+    fillPath.close();
+
+    final Paint fillPaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          const Color(0xFF2563EB).withValues(alpha: 0.35),
+          const Color(0xFF7C3AED).withValues(alpha: 0.16),
+          const Color(0xFF3B82F6).withValues(alpha: 0.0),
+        ],
+        stops: const [0.0, 0.55, 1.0],
+      ).createShader(Rect.fromLTRB(leftPadding, topPadding, size.width - rightPadding, chartBottom));
+
+    canvas.drawPath(fillPath, fillPaint);
+
+    // 5. Draw Glowing Shadow & Spline Line
+    final Paint shadowPaint = Paint()
+      ..color = const Color(0xFF6366F1).withValues(alpha: 0.28)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 5.5
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5);
+
+    canvas.drawPath(path, shadowPaint);
+
+    final Paint strokePaint = Paint()
+      ..shader = const LinearGradient(
+        colors: [Color(0xFF2563EB), Color(0xFF7C3AED), Color(0xFF9333EA)],
+      ).createShader(Rect.fromLTRB(leftPadding, 0, size.width - rightPadding, chartBottom))
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.5
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+
+    canvas.drawPath(path, strokePaint);
+
+    // 6. Draw Points, Day Labels, and Peak Tooltip
+    for (int i = 0; i < points.length; i++) {
+      final Offset pt = points[i];
+      final bool isPeak = (i == peakIndex);
+
+      // Outer glowing aura
+      canvas.drawCircle(
+        pt,
+        isPeak ? 7.5 : 5.0,
+        Paint()
+          ..color = (isPeak ? const Color(0xFF7C3AED) : const Color(0xFF2563EB))
+              .withValues(alpha: isPeak ? 0.35 : 0.2),
+      );
+
+      // Outer border circle
+      canvas.drawCircle(
+        pt,
+        isPeak ? 5.5 : 4.0,
+        Paint()
+          ..color = isPeak ? const Color(0xFF7C3AED) : const Color(0xFF2563EB)
+          ..style = PaintingStyle.fill,
+      );
+
+      // Inner white core
+      canvas.drawCircle(
+        pt,
+        isPeak ? 2.5 : 2.0,
+        Paint()..color = Colors.white,
+      );
+
+      // X-axis Day labels
       textPainter.text = TextSpan(
         text: labels[i],
         style: TextStyle(
-          color: Colors.grey.shade600,
-          fontSize: size.width < 400 ? 9 : 11,
+          color: isPeak ? const Color(0xFF081A63) : const Color(0xFF64748B),
+          fontSize: 11,
+          fontWeight: isPeak ? FontWeight.bold : FontWeight.w500,
         ),
       );
-
       textPainter.layout();
-
       textPainter.paint(
         canvas,
-        Offset(x + (barWidth - textPainter.width) / 2, size.height - 17),
+        Offset(pt.dx - (textPainter.width / 2), chartBottom + 7),
       );
+
+      // Peak Day Tooltip Badge
+      if (isPeak) {
+        final String badgeStr = "₹${(values[i]).toInt()}k";
+        textPainter.text = TextSpan(
+          text: badgeStr,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 10.5,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+        textPainter.layout();
+
+        final double badgeW = textPainter.width + 14;
+        final double badgeH = textPainter.height + 6;
+        final double badgeX = pt.dx - (badgeW / 2);
+        final double badgeY = pt.dy - badgeH - 8;
+
+        final RRect badgeRRect = RRect.fromRectAndRadius(
+          Rect.fromLTWH(badgeX, badgeY, badgeW, badgeH),
+          const Radius.circular(8),
+        );
+
+        // Tooltip shadow
+        canvas.drawRRect(
+          badgeRRect,
+          Paint()
+            ..color = const Color(0xFF081A63).withValues(alpha: 0.35)
+            ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4),
+        );
+
+        // Tooltip background
+        canvas.drawRRect(
+          badgeRRect,
+          Paint()..color = const Color(0xFF081A63),
+        );
+
+        // Tooltip text
+        textPainter.paint(
+          canvas,
+          Offset(badgeX + 7, badgeY + 3),
+        );
+      }
     }
   }
 

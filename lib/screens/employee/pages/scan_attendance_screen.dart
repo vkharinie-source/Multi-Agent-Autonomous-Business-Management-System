@@ -325,33 +325,87 @@ class _ScanAttendanceScreenState extends State<ScanAttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: const Color(0xFFF6F7FB),
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+        centerTitle: true,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 14),
+          child: Center(
+            child: Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F5F9),
+                shape: BoxShape.circle,
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+              ),
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                icon: const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  size: 16,
+                  color: Color(0xFF0F172A),
+                ),
+                onPressed: () => Navigator.of(context).maybePop(),
+              ),
+            ),
+          ),
+        ),
         title: const Text(
           'Scan Attendance QR',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Color(0xFF0F172A),
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.3,
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(
+            color: const Color(0xFFE2E8F0).withValues(alpha: 0.7),
+            height: 1,
+          ),
         ),
         actions: [
           IconButton(
-            tooltip: 'Toggle Camera Flash',
+            tooltip: 'Toggle Flash',
             onPressed: () => _scannerController.toggleTorch(),
-            icon: const Icon(Icons.flash_on),
+            icon: const Icon(Icons.flash_on_rounded, size: 20, color: Color(0xFF0F172A)),
           ),
           IconButton(
             tooltip: 'Switch Camera',
             onPressed: () => _scannerController.switchCamera(),
-            icon: const Icon(Icons.cameraswitch_outlined),
+            icon: const Icon(Icons.cameraswitch_outlined, size: 20, color: Color(0xFF0F172A)),
           ),
-          IconButton(
-            tooltip: 'Refresh Location',
-            onPressed: _isFetchingLocation ? null : _fetchCurrentLocation,
-            icon: _isFetchingLocation
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : const Icon(Icons.my_location),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: Center(
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF1F5F9),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                ),
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  tooltip: 'Refresh Location',
+                  onPressed: _isFetchingLocation ? null : _fetchCurrentLocation,
+                  icon: _isFetchingLocation
+                      ? const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF2563EB)),
+                        )
+                      : const Icon(Icons.my_location_rounded, size: 18, color: Color(0xFF0F172A)),
+                ),
+              ),
+            ),
           ),
         ],
       ),

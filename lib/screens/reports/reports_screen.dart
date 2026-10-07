@@ -977,14 +977,16 @@ class AttendanceReportChartPainter extends CustomPainter {
     final values = [82.0, 88.0, 85.0, 91.0, 89.0, 93.0, 91.0];
     final labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-    _drawBarChart(
+    _drawSplineAreaChart(
       canvas: canvas,
       size: size,
       values: values,
       labels: labels,
-      maximum: 100,
-      startColor: const Color(0xff2563EB),
-      endColor: const Color(0xff8B5CF6),
+      minimum: 60.0,
+      maximum: 100.0,
+      startColor: const Color(0xff4F46E5),
+      endColor: const Color(0xff9333EA),
+      valueSuffix: "%",
     );
   }
 
@@ -1000,14 +1002,17 @@ class RevenueReportChartPainter extends CustomPainter {
     final values = [120.0, 175.0, 150.0, 230.0, 210.0, 290.0];
     final labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
 
-    _drawBarChart(
+    _drawSplineAreaChart(
       canvas: canvas,
       size: size,
       values: values,
       labels: labels,
-      maximum: 320,
-      startColor: const Color(0xff16A34A),
-      endColor: const Color(0xff0891B2),
+      minimum: 80.0,
+      maximum: 320.0,
+      startColor: const Color(0xff059669),
+      endColor: const Color(0xff06B6D4),
+      valuePrefix: "₹",
+      valueSuffix: "k",
     );
   }
 
@@ -1017,63 +1022,186 @@ class RevenueReportChartPainter extends CustomPainter {
   }
 }
 
-void _drawBarChart({
+void _drawSplineAreaChart({
   required Canvas canvas,
   required Size size,
   required List<double> values,
   required List<String> labels,
+  required double minimum,
   required double maximum,
   required Color startColor,
   required Color endColor,
+  String valuePrefix = "",
+  String valueSuffix = "",
 }) {
-  final chartHeight = size.height - 30;
-  final gap = size.width / values.length;
-  final barWidth = gap * 0.45;
+  final double chartHeight = size.height - 36;
+  final double width = size.width;
+  final int count = values.length;
+  if (count < 2) return;
 
-  final gridPaint = Paint()
-    ..color = Colors.grey.withValues(alpha: 0.16)
-    ..strokeWidth = 1;
+  final double stepX = width / (count - 1);
 
-  for (int i = 1; i <= 4; i++) {
-    final y = chartHeight * i / 5;
+  // Background horizontal grid lines
+  final Paint gridPaint = Paint()
+    ..color = const Color(0xffE2E8F0).withValues(alpha: 0.8)
+    ..strokeWidth = 1.0;
 
-    canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
+  for (int i = 0; i <= 3; i++) {
+    final double y = chartHeight * (i / 3.0);
+    canvas.drawLine(Offset(0, y), Offset(width, y), gridPaint);
   }
 
-  final textPainter = TextPainter(textDirection: TextDirection.ltr);
+  // Calculate coordinates for points
+  final List<Offset> points = [];
+  for (int i = 0; i < count; i++) {
+    final double x = i * stepX;
+    final double normalized = (values[i] - minimum) / (maximum - minimum);
+    final double clamped = normalized.clamp(0.0, 1.0);
+    final double y = chartHeight - (clamped * (chartHeight - 16)) - 8;
+    points.add(Offset(x, y));
+  }
 
-  for (int i = 0; i < values.length; i++) {
-    final x = i * gap + gap * 0.28;
-    final barHeight = values[i] / maximum * chartHeight;
-    final y = chartHeight - barHeight;
+  // Build smooth cubic Bezier path
+  final Path splinePath = Path();
+  splinePath.moveTo(points[0].dx, points[0].dy);
 
-    final bar = RRect.fromRectAndRadius(
-      Rect.fromLTWH(x, y, barWidth, barHeight),
-      const Radius.circular(13),
+  for (int i = 0; i < points.length - 1; i++) {
+    final Offset current = points[i];
+    final Offset next = points[i + 1];
+    final double controlX1 = current.dx + (next.dx - current.dx) / 2.0;
+    final double controlY1 = current.dy;
+    final double controlX2 = current.dx + (next.dx - current.dx) / 2.0;
+    final double controlY2 = next.dy;
+
+    splinePath.cubicTo(
+      controlX1,
+      controlY1,
+      controlX2,
+      controlY2,
+      next.dx,
+      next.dy,
     );
+  }
 
-    final paint = Paint()
+  // Create Area Fill Path
+  final Path areaPath = Path.from(splinePath);
+  areaPath.lineTo(points.last.dx, chartHeight);
+  areaPath.lineTo(points.first.dx, chartHeight);
+  areaPath.close();
+
+  // Draw Area Gradient Fill
+  final Paint areaPaint = Paint()
+    ..shader = LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        startColor.withValues(alpha: 0.35),
+        endColor.withValues(alpha: 0.03),
+      ],
+    ).createShader(Rect.fromLTWH(0, 0, width, chartHeight))
+    ..style = PaintingStyle.fill;
+
+  canvas.drawPath(areaPath, areaPaint);
+
+  // Draw Spline Line Shadow
+  final Paint lineShadowPaint = Paint()
+    ..color = startColor.withValues(alpha: 0.25)
+    ..strokeWidth = 6.0
+    ..style = PaintingStyle.stroke
+    ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4.0);
+
+  canvas.drawPath(splinePath, lineShadowPaint);
+
+  // Draw Spline Line Gradient Stroke
+  final Paint linePaint = Paint()
+    ..shader = LinearGradient(
+      colors: [startColor, endColor],
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+    ).createShader(Rect.fromLTWH(0, 0, width, chartHeight))
+    ..strokeWidth = 3.5
+    ..style = PaintingStyle.stroke
+    ..strokeCap = StrokeCap.round
+    ..strokeJoin = StrokeJoin.round;
+
+  canvas.drawPath(splinePath, linePaint);
+
+  final TextPainter textPainter =
+      TextPainter(textDirection: TextDirection.ltr);
+
+  // Draw Data Points, Values, and X-axis Labels
+  for (int i = 0; i < count; i++) {
+    final Offset pt = points[i];
+
+    // Outer glow circle
+    final Paint glowPaint = Paint()
+      ..color = startColor.withValues(alpha: 0.20)
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(pt, 8.0, glowPaint);
+
+    // Border circle
+    final Paint circleBorder = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(pt, 5.0, circleBorder);
+
+    // Inner dot
+    final Paint innerDot = Paint()
       ..shader = LinearGradient(
         colors: [startColor, endColor],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ).createShader(Rect.fromLTWH(x, y, barWidth, barHeight));
+      ).createShader(Rect.fromCircle(center: pt, radius: 3.5))
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(pt, 3.5, innerDot);
 
-    canvas.drawRRect(bar, paint);
+    // Value tooltip badge above high/peak points or last point
+    if (i == count - 1 || i == count - 2 || i == 0) {
+      final String valText =
+          "$valuePrefix${values[i].toInt()}$valueSuffix";
+      textPainter.text = TextSpan(
+        text: valText,
+        style: TextStyle(
+          color: startColor,
+          fontSize: 10.5,
+          fontWeight: FontWeight.w800,
+          letterSpacing: -0.2,
+        ),
+      );
+      textPainter.layout();
 
+      final double badgeX = pt.dx - textPainter.width / 2;
+      final double badgeY = pt.dy - 20;
+
+      final RRect badgeRRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(badgeX - 4, badgeY - 2, textPainter.width + 8, textPainter.height + 4),
+        const Radius.circular(6),
+      );
+      final Paint badgeBg = Paint()
+        ..color = Colors.white
+        ..style = PaintingStyle.fill;
+      canvas.drawRRect(badgeRRect, badgeBg);
+
+      final Paint badgeBorder = Paint()
+        ..color = startColor.withValues(alpha: 0.25)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.0;
+      canvas.drawRRect(badgeRRect, badgeBorder);
+
+      textPainter.paint(canvas, Offset(badgeX, badgeY));
+    }
+
+    // X-Axis Day/Month Label
     textPainter.text = TextSpan(
       text: labels[i],
       style: TextStyle(
-        color: Colors.grey.shade600,
-        fontSize: size.width < 400 ? 9 : 11,
+        color: const Color(0xff64748B),
+        fontSize: size.width < 400 ? 10 : 12,
+        fontWeight: FontWeight.w600,
       ),
     );
-
     textPainter.layout();
-
     textPainter.paint(
       canvas,
-      Offset(x + (barWidth - textPainter.width) / 2, size.height - 17),
+      Offset(pt.dx - (textPainter.width / 2), size.height - 18),
     );
   }
 }

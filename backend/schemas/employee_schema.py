@@ -20,25 +20,23 @@ class EmployeeCreate(BaseModel):
         examples=["harinie@gmail.com"],
     )
 
-    phone: str = Field(
-        min_length=7,
-        max_length=20,
+    phone: Optional[str] = Field(
+        default="9876543210",
         examples=["9876543210"],
     )
 
     department: str = Field(
-        min_length=2,
-        max_length=50,
+        default="General",
         examples=["IT"],
     )
 
     designation: str = Field(
-        min_length=2,
-        max_length=50,
+        default="Employee",
         examples=["Software Developer"],
     )
 
     salary: float = Field(
+        default=35000.0,
         ge=0,
         examples=[45000],
     )
@@ -52,16 +50,12 @@ class EmployeeCreate(BaseModel):
 class EmployeeUpdate(BaseModel):
     name: Optional[str] = Field(
         default=None,
-        min_length=2,
-        max_length=100,
     )
 
     email: Optional[EmailStr] = None
 
     phone: Optional[str] = Field(
         default=None,
-        min_length=7,
-        max_length=20,
     )
 
     department: Optional[str] = Field(

@@ -307,28 +307,89 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: const Color(0xFFF4F7FE),
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+        centerTitle: true,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 14),
+          child: Center(
+            child: Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF1F5F9),
+                shape: BoxShape.circle,
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+              ),
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                icon: const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  size: 16,
+                  color: Color(0xFF0F172A),
+                ),
+                onPressed: () => Navigator.of(context).maybePop(),
+              ),
+            ),
+          ),
+        ),
         title: const Text(
           'Finance Management',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        elevation: 0,
-        actions: [
-          IconButton(
-            tooltip: 'Refresh',
-            onPressed: () {
-              setState(() {});
-            },
-            icon: const Icon(Icons.refresh_rounded),
+          style: TextStyle(
+            color: Color(0xFF0F172A),
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+            letterSpacing: -0.3,
           ),
-          const SizedBox(width: 8),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(
+            color: const Color(0xFFE2E8F0).withValues(alpha: 0.7),
+            height: 1,
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 14),
+            child: Center(
+              child: Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF1F5F9),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                ),
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  tooltip: 'Refresh',
+                  onPressed: () {
+                    setState(() {});
+                  },
+                  icon: const Icon(
+                    Icons.refresh_rounded,
+                    size: 18,
+                    color: Color(0xFF0F172A),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: const Color(0xFF6C5CE7),
+        foregroundColor: Colors.white,
         onPressed: _showAddTransactionDialog,
-        icon: const Icon(Icons.add),
-        label: const Text('Add Transaction'),
+        icon: const Icon(Icons.add_rounded),
+        label: const Text(
+          'Add Transaction',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: SafeArea(
         child: LayoutBuilder(
@@ -405,14 +466,14 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
           'Financial Overview',
           style: TextStyle(
             color: Colors.white,
-            fontSize: compact ? 25 : 32,
+            fontSize: compact ? 24 : 32,
             fontWeight: FontWeight.w900,
           ),
         ),
         const SizedBox(height: 8),
         const Text(
           'Track income, expenses, profit and business budgets.',
-          style: TextStyle(color: Colors.white70, fontSize: 15),
+          style: TextStyle(color: Colors.white70, fontSize: 14),
         ),
       ],
     );
@@ -421,10 +482,13 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
       onPressed: _showAddTransactionDialog,
       style: FilledButton.styleFrom(
         backgroundColor: Colors.white,
-        foregroundColor: const Color(0xff173EC8),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+        foregroundColor: const Color(0xFF1E1452),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
       ),
-      icon: const Icon(Icons.add),
+      icon: const Icon(Icons.add_rounded),
       label: const Text(
         'New Transaction',
         style: TextStyle(fontWeight: FontWeight.bold),
@@ -436,16 +500,23 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
       padding: EdgeInsets.all(compact ? 22 : 30),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xff020A3D), Color(0xff123BD8), Color(0xff6C4DFF)],
+          colors: [Color(0xFF130D36), Color(0xFF1E1452), Color(0xFF2E1C74)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(26),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF1E1452).withValues(alpha: 0.35),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
+          ),
+        ],
       ),
       child: compact
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [information, const SizedBox(height: 20), button],
+              children: [information, const SizedBox(height: 18), button],
             )
           : Row(
               children: [

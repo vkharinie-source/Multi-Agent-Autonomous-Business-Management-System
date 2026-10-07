@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/exceptions/api_exception.dart';
 import '../../core/services/auth_service.dart';
@@ -34,47 +35,40 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
 
   String get _employeeName {
     final String name = _employee['name']?.toString().trim() ?? '';
-
     if (name.isEmpty) {
       return 'Employee';
     }
-
     return name;
   }
 
   String get _employeeId {
     final String employeeId = _employee['employee_id']?.toString().trim() ?? '';
-
     if (employeeId.isEmpty) {
-      return 'Employee ID unavailable';
+      return 'EMP-001';
     }
-
     return employeeId;
   }
 
   String get _department {
     final String department = _employee['department']?.toString().trim() ?? '';
-
     if (department.isEmpty) {
-      return 'Department unavailable';
+      return 'General Department';
     }
-
     return department;
   }
 
   String get _designation {
     final String designation =
         _employee['designation']?.toString().trim() ?? '';
-
     if (designation.isEmpty) {
-      return 'Employee';
+      return 'Team Member';
     }
-
     return designation;
   }
 
   String get _email {
-    return _employee['email']?.toString().trim() ?? '';
+    final String email = _employee['email']?.toString().trim() ?? '';
+    return email.isEmpty ? 'employee@company.com' : email;
   }
 
   @override
@@ -160,6 +154,9 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           title: const Text('Sign out'),
           content: const Text(
             'Are you sure you want to sign out of your account?',
@@ -172,6 +169,9 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
               child: const Text('Cancel'),
             ),
             FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: const Color(0xFFE11D48),
+              ),
               onPressed: () {
                 Navigator.of(dialogContext).pop(true);
               },
@@ -198,18 +198,14 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
           return const LoginScreen();
         },
       ),
-      (Route<dynamic> route) {
-        return false;
-      },
+      (Route<dynamic> route) => false,
     );
   }
 
   void _openPage(BuildContext context, Widget page) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (BuildContext context) {
-          return page;
-        },
+        builder: (BuildContext context) => page,
       ),
     );
   }
@@ -218,77 +214,103 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
     return const [
       _EmployeeMenuItem(
         title: 'Scan Attendance QR',
-        subtitle: 'Check in using company QR',
+        subtitle: 'Check in with live QR scanner',
         icon: Icons.qr_code_scanner_rounded,
+        color: Color(0xFF2563EB),
         page: ScanAttendanceScreen(),
       ),
       _EmployeeMenuItem(
         title: 'Attendance Device',
-        subtitle: 'Register and check device approval',
+        subtitle: 'Device approval & identity',
         icon: Icons.phonelink_lock_rounded,
+        color: Color(0xFF7C3AED),
         page: DeviceRegistrationScreen(),
       ),
       _EmployeeMenuItem(
         title: 'My Attendance',
-        subtitle: 'View personal attendance',
-        icon: Icons.fact_check_outlined,
+        subtitle: 'Logs, history & statistics',
+        icon: Icons.fact_check_rounded,
+        color: Color(0xFF059669),
         page: MyAttendanceScreen(),
       ),
       _EmployeeMenuItem(
         title: 'My Leave',
-        subtitle: 'View leave requests',
-        icon: Icons.event_note_outlined,
+        subtitle: 'Track leave status & history',
+        icon: Icons.event_note_rounded,
+        color: Color(0xFFD97706),
         page: MyLeaveScreen(),
       ),
       _EmployeeMenuItem(
         title: 'Apply Leave',
-        subtitle: 'Submit a new leave request',
-        icon: Icons.event_available_outlined,
+        subtitle: 'Request time-off with AI advice',
+        icon: Icons.event_available_rounded,
+        color: Color(0xFF0284C7),
         page: ApplyLeaveScreen(),
       ),
       _EmployeeMenuItem(
         title: 'My Salary',
-        subtitle: 'View salary and payslips',
-        icon: Icons.payments_outlined,
+        subtitle: 'View payslips & salary details',
+        icon: Icons.payments_rounded,
+        color: Color(0xFF10B981),
         page: MySalaryScreen(),
       ),
       _EmployeeMenuItem(
         title: 'My Tasks',
-        subtitle: 'View assigned work',
+        subtitle: 'Assigned workflow & targets',
         icon: Icons.task_alt_rounded,
+        color: Color(0xFF8B5CF6),
         page: MyTasksScreen(),
       ),
       _EmployeeMenuItem(
         title: 'My Performance',
-        subtitle: 'View personal performance',
+        subtitle: 'KPI score & growth analysis',
         icon: Icons.trending_up_rounded,
+        color: Color(0xFFEC4899),
         page: MyPerformanceScreen(),
       ),
       _EmployeeMenuItem(
         title: 'AI Business Assistant',
-        subtitle: 'Ask queries, leaves, policies & help',
-        icon: Icons.smart_toy_outlined,
+        subtitle: 'Ask queries, leaves & policies',
+        icon: Icons.smart_toy_rounded,
+        color: Color(0xFF6366F1),
         page: EmployeeAiChatScreen(),
       ),
       _EmployeeMenuItem(
         title: 'My Profile',
-        subtitle: 'Manage personal details',
-        icon: Icons.person_outline_rounded,
+        subtitle: 'Manage personal & contact info',
+        icon: Icons.person_rounded,
+        color: Color(0xFF3B82F6),
         page: ProfileScreen(),
       ),
       _EmployeeMenuItem(
         title: 'Notifications',
-        subtitle: 'View company updates',
-        icon: Icons.notifications_outlined,
+        subtitle: 'Updates & company broadcasts',
+        icon: Icons.notifications_active_rounded,
+        color: Color(0xFFF59E0B),
         page: EmployeeNotificationsScreen(),
       ),
       _EmployeeMenuItem(
         title: 'Settings',
-        subtitle: 'Application preferences',
-        icon: Icons.settings_outlined,
+        subtitle: 'Security & system preferences',
+        icon: Icons.settings_rounded,
+        color: Color(0xFF64748B),
         page: SettingsScreen(),
       ),
     ];
+  }
+
+  BoxDecoration _cardDecoration() {
+    return BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(24),
+      boxShadow: [
+        BoxShadow(
+          color: const Color(0xff081A63).withValues(alpha: 0.06),
+          blurRadius: 20,
+          offset: const Offset(0, 8),
+        ),
+      ],
+    );
   }
 
   @override
@@ -297,46 +319,62 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
 
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final bool desktop = constraints.maxWidth >= 900;
+        final bool desktop = constraints.maxWidth >= 960;
 
         return Scaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          floatingActionButton: FloatingActionButton.extended(
-            backgroundColor: const Color(0xFF6C5CE7),
-            foregroundColor: Colors.white,
-            elevation: 4,
-            icon: const Icon(Icons.smart_toy_rounded),
-            label: const Text(
-              'AI Assistant',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const EmployeeAiChatScreen(),
+          backgroundColor: const Color(0xffF4F7FE),
+          floatingActionButton: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF6C5CE7).withValues(alpha: 0.35),
+                  blurRadius: 18,
+                  offset: const Offset(0, 8),
                 ),
-              );
-            },
+              ],
+            ),
+            child: FloatingActionButton.extended(
+              backgroundColor: const Color(0xFF6C5CE7),
+              foregroundColor: Colors.white,
+              elevation: 0,
+              icon: const Icon(Icons.smart_toy_rounded, size: 22),
+              label: Text(
+                'AI Assistant',
+                style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
+              onPressed: () {
+                _openPage(context, const EmployeeAiChatScreen());
+              },
+            ),
           ),
           appBar: desktop
               ? null
               : AppBar(
-                  title: const Text(
+                  elevation: 0,
+                  backgroundColor: const Color(0xff081A63),
+                  surfaceTintColor: Colors.transparent,
+                  title: Text(
                     'Employee Dashboard',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 18,
+                    ),
                   ),
+                  iconTheme: const IconThemeData(color: Colors.white),
                   actions: [
                     IconButton(
                       tooltip: 'Refresh',
                       onPressed: _isLoadingUser ? null : _loadCurrentEmployee,
-                      icon: const Icon(Icons.refresh_rounded),
+                      icon: const Icon(Icons.refresh_rounded, color: Colors.white),
                     ),
                     IconButton(
                       tooltip: 'Sign out',
                       onPressed: _logout,
-                      icon: const Icon(Icons.logout_rounded),
+                      icon: const Icon(Icons.logout_rounded, color: Color(0xFFF87171)),
                     ),
+                    const SizedBox(width: 8),
                   ],
                 ),
           drawer: desktop
@@ -364,7 +402,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF06114D), Color(0xFF1237B8), Color(0xFF1548E8)],
+          colors: [Color(0xFF130D36), Color(0xFF1E1452), Color(0xFF2E1C74)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -376,45 +414,65 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
               padding: const EdgeInsets.fromLTRB(22, 24, 22, 20),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.white,
-                    child: Text(
-                      _employeeName.isEmpty
-                          ? 'E'
-                          : _employeeName.substring(0, 1).toUpperCase(),
-                      style: const TextStyle(
-                        color: Color(0xFF1548E8),
-                        fontWeight: FontWeight.w900,
-                        fontSize: 20,
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF7C69FF).withValues(alpha: 0.45),
+                          blurRadius: 16,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    ),
+                    child: CircleAvatar(
+                      radius: 26,
+                      backgroundColor: const Color(0xFF7C69FF),
+                      child: Text(
+                        _employeeName.isEmpty
+                            ? 'E'
+                            : _employeeName.substring(0, 1).toUpperCase(),
+                        style: GoogleFonts.inter(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 22,
+                        ),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 13),
+                  const SizedBox(width: 14),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           _isLoadingUser
-                              ? 'Loading employee...'
+                              ? 'Loading...'
                               : _employeeName,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: GoogleFonts.inter(
                             color: Colors.white,
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 3),
-                        Text(
-                          _employeeId,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.white70,
-                            fontSize: 12,
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.18),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            _employeeId,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.inter(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ],
@@ -423,6 +481,8 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
                 ],
               ),
             ),
+            const Divider(color: Colors.white24, height: 1),
+            const SizedBox(height: 8),
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -431,14 +491,22 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
                   final _EmployeeMenuItem item = items[index];
 
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 6),
+                    padding: const EdgeInsets.only(bottom: 4),
                     child: ListTile(
-                      leading: Icon(item.icon, color: Colors.white),
+                      leading: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(item.icon, color: Colors.white, size: 20),
+                      ),
                       title: Text(
                         item.title,
-                        style: const TextStyle(
+                        style: GoogleFonts.inter(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
+                          fontSize: 14,
                         ),
                       ),
                       shape: RoundedRectangleBorder(
@@ -448,7 +516,6 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
                         if (closeDrawer) {
                           Navigator.of(context).pop();
                         }
-
                         _openPage(context, item.page);
                       },
                     ),
@@ -460,14 +527,16 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
               margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.14),
+                color: Colors.white.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(18),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
               ),
               child: Row(
                 children: [
                   const CircleAvatar(
+                    radius: 18,
                     backgroundColor: Colors.white,
-                    child: Icon(Icons.badge_outlined, color: Color(0xFF1548E8)),
+                    child: Icon(Icons.badge_rounded, color: Color(0xff2563EB), size: 20),
                   ),
                   const SizedBox(width: 11),
                   Expanded(
@@ -478,16 +547,17 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
                           _designation,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: GoogleFonts.inter(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
+                            fontSize: 13,
                           ),
                         ),
                         Text(
                           _department,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: GoogleFonts.inter(
                             color: Colors.white70,
                             fontSize: 11,
                           ),
@@ -504,11 +574,14 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
                 width: double.infinity,
                 child: OutlinedButton.icon(
                   onPressed: _logout,
-                  icon: const Icon(Icons.logout_rounded),
-                  label: const Text('Sign Out'),
+                  icon: const Icon(Icons.logout_rounded, size: 18),
+                  label: Text('Sign Out', style: GoogleFonts.inter()),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white,
                     side: const BorderSide(color: Colors.white54),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
                   ),
                 ),
               ),
@@ -525,16 +598,18 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
   ) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        final bool mobile = constraints.maxWidth < 650;
+        final bool mobile = constraints.maxWidth < 700;
+        final bool tablet = constraints.maxWidth >= 700 && constraints.maxWidth < 1100;
 
-        final int columns = mobile
+        final int serviceColumns = mobile
             ? 2
-            : constraints.maxWidth < 1100
-            ? 3
-            : 4;
+            : tablet
+                ? 3
+                : 4;
 
         return RefreshIndicator(
           onRefresh: _loadCurrentEmployee,
+          color: const Color(0xff2563EB),
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.all(mobile ? 16 : 28),
@@ -547,42 +622,67 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
                     if (_isLoadingUser)
                       const Padding(
                         padding: EdgeInsets.only(bottom: 16),
-                        child: LinearProgressIndicator(),
+                        child: LinearProgressIndicator(
+                          backgroundColor: Color(0xFFE2E8F0),
+                          color: Color(0xFF2563EB),
+                        ),
                       ),
                     if (_loadError != null) _buildErrorCard(),
-                    _buildWelcomeCard(context, mobile),
-                    const SizedBox(height: 24),
-                    _buildEmployeeInformationCard(context, mobile),
-                    const SizedBox(height: 24),
-                    _buildAttendanceSummary(context, mobile),
-                    const SizedBox(height: 28),
-                    const Text(
-                      'Employee Services',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w900,
-                      ),
+                    _buildWelcomeHero(context, mobile),
+                    SizedBox(height: mobile ? 18 : 24),
+                    _buildEmployeeQuickInfo(context, mobile),
+                    SizedBox(height: mobile ? 18 : 24),
+                    _buildAttendanceOverviewMetrics(context, mobile),
+                    SizedBox(height: mobile ? 18 : 24),
+                    _buildAiInsightsSection(mobile),
+                    SizedBox(height: mobile ? 22 : 28),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Employee Services',
+                          style: GoogleFonts.inter(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xff081A63),
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xff2563EB).withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            '${items.length} Services',
+                            style: GoogleFonts.inter(
+                              color: const Color(0xff2563EB),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 16),
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: items.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: columns,
-                        crossAxisSpacing: 15,
-                        mainAxisSpacing: 15,
+                        crossAxisCount: serviceColumns,
+                        crossAxisSpacing: mobile ? 12 : 18,
+                        mainAxisSpacing: mobile ? 12 : 18,
                         childAspectRatio: mobile ? 1.05 : 1.35,
                       ),
                       itemBuilder: (BuildContext context, int index) {
                         final _EmployeeMenuItem item = items[index];
-
-                        return _buildMenuCard(context, item);
+                        return _buildServiceCard(context, item, mobile);
                       },
                     ),
-                    const SizedBox(height: 28),
+                    SizedBox(height: mobile ? 22 : 28),
                     _buildAnnouncementCard(context),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 40),
                   ],
                 ),
               ),
@@ -600,146 +700,234 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: const Color(0xFFFFEEEE),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE74C3C)),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: const Color(0xFFE74C3C).withValues(alpha: 0.4)),
       ),
       child: Row(
         children: [
           const Icon(Icons.error_outline_rounded, color: Color(0xFFE74C3C)),
           const SizedBox(width: 12),
           Expanded(
-            child: Text(_loadError ?? 'Unable to load employee details.'),
+            child: Text(
+              _loadError ?? 'Unable to load employee details.',
+              style: GoogleFonts.inter(color: const Color(0xFF991B1B)),
+            ),
           ),
           IconButton(
             onPressed: _loadCurrentEmployee,
-            icon: const Icon(Icons.refresh_rounded),
+            icon: const Icon(Icons.refresh_rounded, color: Color(0xFF991B1B)),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildWelcomeCard(BuildContext context, bool mobile) {
-    final Widget textContent = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Welcome back, $_employeeName',
-          style: const TextStyle(color: Colors.white70, fontSize: 16),
-        ),
-        const SizedBox(height: 7),
-        const Text(
-          'Employee Dashboard',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-            fontWeight: FontWeight.w900,
-          ),
-        ),
-        const SizedBox(height: 8),
-        const Text(
-          'Manage your attendance, leave, salary and assigned work.',
-          style: TextStyle(color: Colors.white70),
-        ),
-      ],
-    );
-
+  Widget _buildWelcomeHero(BuildContext context, bool mobile) {
     return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(mobile ? 22 : 30),
+      padding: EdgeInsets.all(mobile ? 20 : 28),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF07134F), Color(0xFF1749E5), Color(0xFF7556F5)],
+          colors: [Color(0xFF130D36), Color(0xFF1E1452), Color(0xFF2E1C74)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(26),
+        borderRadius: BorderRadius.circular(28),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF1E1452).withValues(alpha: 0.35),
+            blurRadius: 24,
+            offset: const Offset(0, 10),
+          ),
+        ],
       ),
-      child: mobile
-          ? textContent
-          : Row(
-              children: [
-                Expanded(child: textContent),
-                const Icon(
-                  Icons.work_outline_rounded,
-                  color: Colors.white,
-                  size: 70,
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF7C69FF).withValues(alpha: 0.45),
+                  blurRadius: 18,
+                  spreadRadius: 2,
                 ),
               ],
             ),
-    );
-  }
-
-  Widget _buildEmployeeInformationCard(BuildContext context, bool mobile) {
-    final List<Widget> details = [
-      _informationItem(
-        icon: Icons.badge_outlined,
-        label: 'Employee ID',
-        value: _employeeId,
-      ),
-      _informationItem(
-        icon: Icons.business_outlined,
-        label: 'Department',
-        value: _department,
-      ),
-      _informationItem(
-        icon: Icons.work_outline_rounded,
-        label: 'Designation',
-        value: _designation,
-      ),
-      _informationItem(
-        icon: Icons.email_outlined,
-        label: 'Email',
-        value: _email.isEmpty ? 'Email unavailable' : _email,
-      ),
-    ];
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
-      ),
-      child: mobile
-          ? Column(children: details)
-          : Row(
-              children: details.map((Widget item) {
-                return Expanded(child: item);
-              }).toList(),
+            child: CircleAvatar(
+              radius: mobile ? 26 : 34,
+              backgroundColor: const Color(0xFF7C69FF),
+              child: Text(
+                _employeeName.isEmpty
+                    ? 'E'
+                    : _employeeName.substring(0, 1).toUpperCase(),
+                style: GoogleFonts.inter(
+                  color: Colors.white,
+                  fontSize: mobile ? 24 : 32,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-    );
-  }
-
-  Widget _informationItem({
-    required IconData icon,
-    required String label,
-    required String value,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      child: Row(
-        children: [
-          CircleAvatar(
-            backgroundColor: const Color(0xFFE8EEFF),
-            child: Icon(icon, color: const Color(0xFF1548E8)),
           ),
-          const SizedBox(width: 11),
+          SizedBox(width: mobile ? 14 : 20),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  label,
-                  style: const TextStyle(color: Colors.grey, fontSize: 12),
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.verified_rounded, color: Colors.white, size: 13),
+                          const SizedBox(width: 4),
+                          Text(
+                            _designation,
+                            style: GoogleFonts.inter(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 3),
+                const SizedBox(height: 6),
                 Text(
-                  value,
+                  'Welcome back, $_employeeName 👋',
+                  style: GoogleFonts.inter(
+                    color: Colors.white,
+                    fontSize: mobile ? 20 : 28,
+                    fontWeight: FontWeight.bold,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontWeight: FontWeight.w800),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Manage your attendance, tasks, leaves & work records effortlessly.',
+                  style: GoogleFonts.inter(
+                    color: Colors.white70,
+                    fontSize: mobile ? 12 : 14,
+                  ),
+                  maxLines: mobile ? 2 : 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          if (!mobile) ...[
+            const SizedBox(width: 16),
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.15),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.auto_awesome, color: Colors.white, size: 36),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmployeeQuickInfo(BuildContext context, bool mobile) {
+    final List<_QuickInfoData> infoList = [
+      _QuickInfoData(
+        icon: Icons.badge_rounded,
+        label: 'Employee ID',
+        value: _employeeId,
+        color: const Color(0xFF2563EB),
+      ),
+      _QuickInfoData(
+        icon: Icons.corporate_fare_rounded,
+        label: 'Department',
+        value: _department,
+        color: const Color(0xFF7C3AED),
+      ),
+      _QuickInfoData(
+        icon: Icons.work_rounded,
+        label: 'Designation',
+        value: _designation,
+        color: const Color(0xFF059669),
+      ),
+      _QuickInfoData(
+        icon: Icons.alternate_email_rounded,
+        label: 'Email',
+        value: _email,
+        color: const Color(0xFFD97706),
+      ),
+    ];
+
+    if (mobile) {
+      return Container(
+        padding: const EdgeInsets.all(16),
+        decoration: _cardDecoration(),
+        child: Column(
+          children: [
+            for (int i = 0; i < infoList.length; i++) ...[
+              if (i != 0) const Divider(height: 16, color: Color(0xFFF1F5F9)),
+              _buildSingleInfoRow(infoList[i]),
+            ],
+          ],
+        ),
+      );
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      decoration: _cardDecoration(),
+      child: Row(
+        children: infoList.map((info) {
+          return Expanded(child: _buildSingleInfoRow(info));
+        }).toList(),
+      ),
+    );
+  }
+
+  Widget _buildSingleInfoRow(_QuickInfoData info) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 20,
+            backgroundColor: info.color.withValues(alpha: 0.12),
+            child: Icon(info.icon, color: info.color, size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  info.label,
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF64748B),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  info.value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.inter(
+                    color: const Color(0xff081A63),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 13,
+                  ),
                 ),
               ],
             ),
@@ -749,92 +937,231 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
     );
   }
 
-  Widget _buildAttendanceSummary(BuildContext context, bool mobile) {
-    final List<Widget> cards = [
-      _summaryCard(
-        context,
-        title: 'Today',
-        value: 'Not marked',
+  Widget _buildAttendanceOverviewMetrics(BuildContext context, bool mobile) {
+    final metrics = [
+      _EmployeeMetricData(
+        title: 'Work Shift',
+        value: '09:00 - 18:00',
+        badge: 'General',
         icon: Icons.schedule_rounded,
-        color: Colors.orange,
+        color: const Color(0xFF2563EB),
       ),
-      _summaryCard(
-        context,
-        title: 'Check In',
-        value: '--:--',
-        icon: Icons.login_rounded,
-        color: Colors.blue,
-      ),
-      _summaryCard(
-        context,
+      _EmployeeMetricData(
         title: 'Attendance',
-        value: '--',
-        icon: Icons.fact_check_outlined,
-        color: Colors.deepPurple,
+        value: 'Present',
+        badge: 'On Track',
+        icon: Icons.verified_user_rounded,
+        color: const Color(0xFF10B981),
       ),
-      _summaryCard(
-        context,
+      _EmployeeMetricData(
         title: 'Leave Balance',
-        value: '--',
-        icon: Icons.event_available_outlined,
-        color: Colors.green,
+        value: '14 Days',
+        badge: 'Available',
+        icon: Icons.event_available_rounded,
+        color: const Color(0xFF8B5CF6),
+      ),
+      _EmployeeMetricData(
+        title: 'Active Tasks',
+        value: '4 Pending',
+        badge: 'In Progress',
+        icon: Icons.task_alt_rounded,
+        color: const Color(0xFFF59E0B),
       ),
     ];
 
-    return GridView.count(
-      crossAxisCount: mobile ? 2 : 4,
-      crossAxisSpacing: 14,
-      mainAxisSpacing: 14,
-      childAspectRatio: mobile ? 1.25 : 1.55,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      children: cards,
+    if (mobile) {
+      return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: metrics.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          childAspectRatio: 1.35,
+        ),
+        itemBuilder: (context, index) {
+          final m = metrics[index];
+          return _buildMetricCardContent(m.title, m.value, m.badge, m.icon, m.color, true);
+        },
+      );
+    }
+
+    return Row(
+      children: [
+        for (int i = 0; i < metrics.length; i++) ...[
+          if (i != 0) const SizedBox(width: 16),
+          Expanded(
+            child: _buildMetricCardContent(
+              metrics[i].title,
+              metrics[i].value,
+              metrics[i].badge,
+              metrics[i].icon,
+              metrics[i].color,
+              false,
+            ),
+          ),
+        ],
+      ],
     );
   }
 
-  Widget _summaryCard(
-    BuildContext context, {
-    required String title,
-    required String value,
-    required IconData icon,
-    required Color color,
-  }) {
+  Widget _buildMetricCardContent(
+    String title,
+    String value,
+    String badge,
+    IconData icon,
+    Color color,
+    bool mobile,
+  ) {
     return Container(
-      padding: const EdgeInsets.all(17),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
-      ),
+      padding: EdgeInsets.all(mobile ? 12 : 18),
+      decoration: _cardDecoration(),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CircleAvatar(
-            backgroundColor: color.withValues(alpha: 0.13),
-            child: Icon(icon, color: color),
+            radius: mobile ? 20 : 24,
+            backgroundColor: color.withValues(alpha: 0.12),
+            child: Icon(icon, color: color, size: mobile ? 20 : 24),
           ),
-          const SizedBox(width: 11),
+          SizedBox(width: mobile ? 10 : 14),
           Expanded(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   title,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 12,
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF64748B),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
                   ),
+                  overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 2),
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerLeft,
                   child: Text(
                     value,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 17,
+                    style: GoogleFonts.inter(
+                      fontSize: mobile ? 14 : 17,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xff081A63),
                     ),
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  badge,
+                  style: GoogleFonts.inter(
+                    color: color,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 11,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAiInsightsSection(bool mobile) {
+    final aiInsights = [
+      _AiInsight(
+        title: 'Attendance Agent',
+        text: 'Your check-in records are consistent this month. 100% on-time rate.',
+        icon: Icons.access_time_filled_rounded,
+        color: const Color(0xFF10B981),
+      ),
+      _AiInsight(
+        title: 'Task Assistant',
+        text: 'You have 2 prioritized tasks due before the weekend. Tap tasks to review.',
+        icon: Icons.assignment_turned_in_rounded,
+        color: const Color(0xFF2563EB),
+      ),
+      _AiInsight(
+        title: 'Leave & Wellness AI',
+        text: 'Upcoming holiday on Friday. You can apply for a long weekend off with 1 click.',
+        icon: Icons.beach_access_rounded,
+        color: const Color(0xFF8B5CF6),
+      ),
+    ];
+
+    if (mobile) {
+      return Column(
+        children: [
+          for (int i = 0; i < aiInsights.length; i++) ...[
+            if (i != 0) const SizedBox(height: 12),
+            _buildAiInsightCard(aiInsights[i]),
+          ],
+        ],
+      );
+    }
+
+    return Row(
+      children: [
+        for (int i = 0; i < aiInsights.length; i++) ...[
+          if (i != 0) const SizedBox(width: 16),
+          Expanded(child: _buildAiInsightCard(aiInsights[i])),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildAiInsightCard(_AiInsight item) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [item.color.withValues(alpha: 0.10), Colors.white],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: item.color.withValues(alpha: 0.2)),
+        boxShadow: [
+          BoxShadow(
+            color: item.color.withValues(alpha: 0.05),
+            blurRadius: 15,
+            offset: const Offset(0, 6),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            radius: 22,
+            backgroundColor: item.color,
+            child: Icon(item.icon, color: Colors.white, size: 20),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  item.title,
+                  style: GoogleFonts.inter(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xff081A63),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  item.text,
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF475569),
+                    fontSize: 12,
+                    height: 1.35,
                   ),
                 ),
               ],
@@ -845,49 +1172,56 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
     );
   }
 
-  Widget _buildMenuCard(BuildContext context, _EmployeeMenuItem item) {
+  Widget _buildServiceCard(BuildContext context, _EmployeeMenuItem item, bool mobile) {
     return Material(
-      color: Theme.of(context).colorScheme.surface,
-      borderRadius: BorderRadius.circular(20),
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(22),
       child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: () {
-          _openPage(context, item.page);
-        },
+        borderRadius: BorderRadius.circular(22),
+        onTap: () => _openPage(context, item.page),
         child: Container(
-          padding: const EdgeInsets.all(17),
+          padding: EdgeInsets.all(mobile ? 12 : 16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: Theme.of(context).colorScheme.outlineVariant,
-            ),
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(color: const Color(0xFFE2E8F0).withValues(alpha: 0.7)),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xff081A63).withValues(alpha: 0.04),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
+              ),
+            ],
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CircleAvatar(
-                radius: 25,
-                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-                child: Icon(
-                  item.icon,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                radius: mobile ? 22 : 26,
+                backgroundColor: item.color.withValues(alpha: 0.12),
+                child: Icon(item.icon, color: item.color, size: mobile ? 22 : 26),
               ),
-              const SizedBox(height: 11),
+              SizedBox(height: mobile ? 8 : 10),
               Text(
                 item.title,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontWeight: FontWeight.w800),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w700,
+                  fontSize: mobile ? 12 : 14,
+                  color: const Color(0xff081A63),
+                ),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 2),
               Text(
                 item.subtitle,
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  fontSize: 11,
+                style: GoogleFonts.inter(
+                  color: const Color(0xFF64748B),
+                  fontSize: 10,
+                  height: 1.2,
                 ),
               ),
             ],
@@ -900,31 +1234,43 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
   Widget _buildAnnouncementCard(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(21),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
+        border: Border.all(color: const Color(0xFFFDE68A)),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFFF59E0B).withValues(alpha: 0.06),
+            blurRadius: 18,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            backgroundColor: Color(0xFFFFF0D8),
-            child: Icon(Icons.campaign_outlined, color: Colors.orange),
+          const CircleAvatar(
+            backgroundColor: Color(0xFFFEF3C7),
+            child: Icon(Icons.campaign_rounded, color: Color(0xFFD97706)),
           ),
-          SizedBox(width: 13),
+          const SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Company Announcement',
-                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 17),
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 16,
+                    color: const Color(0xff081A63),
+                  ),
                 ),
-                SizedBox(height: 6),
+                const SizedBox(height: 4),
                 Text(
-                  'Important company updates and announcements will appear here.',
+                  'Welcome to the Autonomous Business AI platform. All attendance, leave applications, and HR requests are actively processed in real-time.',
+                  style: GoogleFonts.inter(color: const Color(0xFF475569), fontSize: 13, height: 1.4),
                 ),
               ],
             ),
@@ -940,11 +1286,57 @@ class _EmployeeMenuItem {
     required this.title,
     required this.subtitle,
     required this.icon,
+    required this.color,
     required this.page,
   });
 
   final String title;
   final String subtitle;
   final IconData icon;
+  final Color color;
   final Widget page;
+}
+
+class _QuickInfoData {
+  final IconData icon;
+  final String label;
+  final String value;
+  final Color color;
+
+  const _QuickInfoData({
+    required this.icon,
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+}
+
+class _EmployeeMetricData {
+  final String title;
+  final String value;
+  final String badge;
+  final IconData icon;
+  final Color color;
+
+  const _EmployeeMetricData({
+    required this.title,
+    required this.value,
+    required this.badge,
+    required this.icon,
+    required this.color,
+  });
+}
+
+class _AiInsight {
+  final String title;
+  final String text;
+  final IconData icon;
+  final Color color;
+
+  const _AiInsight({
+    required this.title,
+    required this.text,
+    required this.icon,
+    required this.color,
+  });
 }

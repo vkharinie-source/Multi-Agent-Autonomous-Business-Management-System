@@ -1,34 +1,89 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
-class MyLeaveScreen extends StatelessWidget {
+import '../../../core/config/api_config.dart';
+import '../../../core/services/secure_storage_service.dart';
+
+class MyLeaveScreen extends StatefulWidget {
   const MyLeaveScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final List<Map<String, String>> leaves = [
-      {
-        'type': 'Sick Leave',
-        'date': '23 July 2026',
-        'days': '1 Day',
-        'status': 'Approved',
-        'reason': 'Medical checkup',
-      },
-      {
-        'type': 'Casual Leave',
-        'date': '15 July 2026',
-        'days': '2 Days',
-        'status': 'Pending',
-        'reason': 'Family function',
-      },
-      {
-        'type': 'Personal Leave',
-        'date': '04 July 2026',
-        'days': '1 Day',
-        'status': 'Rejected',
-        'reason': 'Personal work',
-      },
-    ];
+  State<MyLeaveScreen> createState() => _MyLeaveScreenState();
+}
 
+class _MyLeaveScreenState extends State<MyLeaveScreen> {
+  List<Map<String, String>> leaves = [
+    {
+      'type': 'Sick Leave',
+      'date': '23 July 2026',
+      'days': '1 Day',
+      'status': 'Approved',
+      'reason': 'Medical checkup',
+    },
+    {
+      'type': 'Casual Leave',
+      'date': '15 July 2026',
+      'days': '2 Days',
+      'status': 'Pending',
+      'reason': 'Family function',
+    },
+    {
+      'type': 'Personal Leave',
+      'date': '04 July 2026',
+      'days': '1 Day',
+      'status': 'Rejected',
+      'reason': 'Personal work',
+    },
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchMyLeaves();
+  }
+
+  Future<void> _fetchMyLeaves() async {
+    try {
+      final String? token =
+          await SecureStorageService.instance.readAccessToken();
+      final Uri uri = Uri.parse('${ApiConfig.baseUrl}/api/leaves/me');
+      final http.Response res = await http.get(
+        uri,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          if (token != null) 'Authorization': 'Bearer $token',
+        },
+      ).timeout(const Duration(seconds: 10));
+
+      if (res.statusCode == 200) {
+        final Map<String, dynamic> body =
+            jsonDecode(res.body) as Map<String, dynamic>;
+        final List<dynamic>? list = body['leaves'] as List<dynamic>?;
+        if (list != null && list.isNotEmpty && mounted) {
+          setState(() {
+            leaves = list.map((dynamic item) {
+              final Map<String, dynamic> m = item as Map<String, dynamic>;
+              final int days = (m['days_count'] as num?)?.toInt() ?? 1;
+              return {
+                'type': m['leave_type']?.toString() ?? 'Casual Leave',
+                'date': '${m['start_date'] ?? ''} to ${m['end_date'] ?? ''}',
+                'days': '$days ${days == 1 ? "Day" : "Days"}',
+                'status': (m['status']?.toString() ?? 'Pending'),
+                'reason': m['reason']?.toString() ?? '',
+              };
+            }).toList();
+          });
+        }
+      }
+    } catch (_) {
+      // Fallback to sample
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F5FC),
       body: SafeArea(
@@ -101,9 +156,9 @@ class MyLeaveScreen extends StatelessWidget {
                               color: const Color(0xFFEFEAFF),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: const Text(
-                              '3 Submissions',
-                              style: TextStyle(
+                            child: Text(
+                              '${leaves.length} Submissions',
+                              style: const TextStyle(
                                 color: Color(0xFF6C5CE7),
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
@@ -157,21 +212,21 @@ class MyLeaveScreen extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_rounded, size: 20),
           ),
           const SizedBox(width: 12),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'My Leave',
-                style: TextStyle(
-                  color: Color(0xFF201A3D),
+                style: GoogleFonts.inter(
+                  color: const Color(0xFF201A3D),
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               Text(
                 'Time Off & Balance Management',
-                style: TextStyle(color: Color(0xFF756E8A), fontSize: 12),
+                style: GoogleFonts.inter(color: const Color(0xFF756E8A), fontSize: 12),
               ),
             ],
           ),

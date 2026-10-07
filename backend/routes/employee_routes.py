@@ -59,6 +59,24 @@ def create_employee(
 ):
     employee_data = employee.model_dump()
 
+    existing = employee_collection.find_one({
+        "$or": [
+            {"employee_id": employee_data.get("employee_id")},
+            {"email": employee_data.get("email")}
+        ]
+    })
+
+    if existing:
+        employee_collection.update_one(
+            {"_id": existing["_id"]},
+            {"$set": employee_data}
+        )
+        updated_emp = employee_collection.find_one({"_id": existing["_id"]})
+        return {
+            "message": "Employee updated successfully",
+            "employee": employee_serializer(updated_emp),
+        }
+
     try:
         result = employee_collection.insert_one(
             employee_data
@@ -218,11 +236,11 @@ def update_employee(
         require_admin_or_manager
     ),
 ):
-    if not valid_object_id(employee_id):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid employee ID",
-        )
+    query = (
+        {"_id": ObjectId(employee_id)}
+        if valid_object_id(employee_id)
+        else {"$or": [{"employee_id": employee_id}, {"email": employee_id}]}
+    )
 
     update_data = employee.model_dump(
         exclude_none=True
@@ -236,9 +254,7 @@ def update_employee(
 
     try:
         result = employee_collection.update_one(
-            {
-                "_id": ObjectId(employee_id)
-            },
+            query,
             {
                 "$set": update_data
             },
@@ -251,16 +267,15 @@ def update_employee(
         ) from error
 
     if result.matched_count == 0:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Employee not found",
+        # If not matched yet, upsert or return 404
+        update_data["employee_id"] = employee_id
+        employee_collection.update_one(
+            {"employee_id": employee_id},
+            {"$set": update_data},
+            upsert=True
         )
 
-    updated_employee = employee_collection.find_one(
-        {
-            "_id": ObjectId(employee_id)
-        }
-    )
+    updated_employee = employee_collection.find_one(query) or employee_collection.find_one({"employee_id": employee_id})
 
     return {
         "message": "Employee updated successfully",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../attendance/attendance_dashboard.dart';
 import '../chatbot/chatbot_screen.dart';
 import '../employee/employee_management_screen.dart';
@@ -45,10 +46,18 @@ class LandingPage extends StatelessWidget {
           // fixed 265px column, and an AppBar provides the menu button.
           appBar: isMobile
               ? AppBar(
-                  backgroundColor: const Color(0xff020A3D),
-                  title: const Text(
+                  elevation: 0,
+                  backgroundColor: const Color(0xff081A63),
+                  surfaceTintColor: Colors.transparent,
+                  centerTitle: true,
+                  title: Text(
                     "Business Dashboard",
-                    style: TextStyle(color: Colors.white),
+                    style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: -0.3,
+                    ),
                   ),
                   iconTheme: const IconThemeData(color: Colors.white),
                 )

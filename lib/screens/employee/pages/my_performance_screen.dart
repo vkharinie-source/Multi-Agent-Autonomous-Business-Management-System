@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyPerformanceScreen extends StatelessWidget {
   const MyPerformanceScreen({super.key});
@@ -167,21 +168,21 @@ class MyPerformanceScreen extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_rounded, size: 20),
           ),
           const SizedBox(width: 12),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 'My Performance',
-                style: TextStyle(
-                  color: Color(0xFF201A3D),
+                style: GoogleFonts.inter(
+                  color: const Color(0xFF201A3D),
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               Text(
                 'Q3 Analytics & Evaluation',
-                style: TextStyle(color: Color(0xFF756E8A), fontSize: 12),
+                style: GoogleFonts.inter(color: const Color(0xFF756E8A), fontSize: 12),
               ),
             ],
           ),

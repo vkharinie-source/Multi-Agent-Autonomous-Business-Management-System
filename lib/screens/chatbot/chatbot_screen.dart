@@ -196,7 +196,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       backgroundColor: const Color(0xffF4F7FE),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          final isMobile = constraints.maxWidth < 700;
+          final isMobile = constraints.maxWidth < 900;
 
           return Column(
             children: [
@@ -320,88 +320,92 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
     return Container(
       padding: const EdgeInsets.all(22),
       decoration: cardDecoration(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const CircleAvatar(
-            radius: 38,
-            backgroundColor: Color(0xffEEF4FF),
-            child: Icon(Icons.smart_toy, color: Color(0xff2563EB), size: 40),
-          ),
-          const SizedBox(height: 18),
-          const Text(
-            "AI Business Assistant",
-            style: TextStyle(
-              color: Color(0xff081A63),
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CircleAvatar(
+              radius: 38,
+              backgroundColor: Color(0xffEEF4FF),
+              child: Icon(Icons.smart_toy, color: Color(0xff2563EB), size: 40),
             ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            "Ask questions about your employees, attendance, inventory, sales and business performance.",
-            style: TextStyle(color: Colors.grey, height: 1.5),
-          ),
-          const SizedBox(height: 26),
-          const Text(
-            "Quick questions",
-            style: TextStyle(
-              color: Color(0xff081A63),
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
+            const SizedBox(height: 18),
+            const Text(
+              "AI Business Assistant",
+              style: TextStyle(
+                color: Color(0xff081A63),
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          const SizedBox(height: 14),
-          ...quickQuestions.map(
-            (question) => Container(
-              width: double.infinity,
-              margin: const EdgeInsets.only(bottom: 10),
-              child: OutlinedButton(
-                onPressed: () => sendMessage(question),
-                style: OutlinedButton.styleFrom(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 15,
+            const SizedBox(height: 8),
+            const Text(
+              "Ask questions about your employees, attendance, inventory, sales and business performance.",
+              style: TextStyle(color: Colors.grey, height: 1.5),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              "Quick questions",
+              style: TextStyle(
+                color: Color(0xff081A63),
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 12),
+            ...quickQuestions.map(
+              (question) => Container(
+                width: double.infinity,
+                margin: const EdgeInsets.only(bottom: 8),
+                child: OutlinedButton(
+                  onPressed: () => sendMessage(question),
+                  style: OutlinedButton.styleFrom(
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 13,
+                    ),
+                    side: const BorderSide(color: Color(0xffD8E2FF)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
                   ),
-                  side: const BorderSide(color: Color(0xffD8E2FF)),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
+                  child: Text(
+                    question,
+                    style: const TextStyle(color: Color(0xff2563EB)),
                   ),
-                ),
-                child: Text(
-                  question,
-                  style: const TextStyle(color: Color(0xff2563EB)),
                 ),
               ),
             ),
-          ),
-          const Spacer(),
-          Container(
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              color: const Color(0xffEEF4FF),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: const Row(
-              children: [
-                Icon(Icons.auto_awesome, color: Color(0xff2563EB)),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    "Connected to real-time AI Business Agent engine.",
-                    style: TextStyle(
-                      color: Color(0xff1E40AF),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      height: 1.4,
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                color: const Color(0xffEEF4FF),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.auto_awesome, color: Color(0xff2563EB)),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      "Connected to real-time AI Business Agent engine.",
+                      style: TextStyle(
+                        color: Color(0xff1E40AF),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        height: 1.4,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

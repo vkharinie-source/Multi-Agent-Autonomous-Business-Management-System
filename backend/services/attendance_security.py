@@ -26,7 +26,7 @@ COMPANY_TIMEZONE = ZoneInfo(
 QR_ROTATION_SECONDS = int(
     os.getenv(
         "QR_ROTATION_SECONDS",
-        "30",
+        "1200",
     )
 )
 

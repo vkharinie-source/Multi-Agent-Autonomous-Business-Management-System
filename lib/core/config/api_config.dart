@@ -54,6 +54,13 @@ class ApiConfig {
   // AI Assistant endpoint
   static const String aiChatEndpoint = '/api/ai/chat';
 
+  // Salary endpoints
+  static const String salaryMeEndpoint = '/api/salary/me';
+  static const String salaryMonthlyEndpoint = '/api/salary/monthly';
+  static String employeeSalaryEndpoint(String employeeId) {
+    return '/api/salary/employee/$employeeId';
+  }
+
   // Device endpoints
   static const String deviceRegisterRequestEndpoint =
       '/api/devices/register-request';

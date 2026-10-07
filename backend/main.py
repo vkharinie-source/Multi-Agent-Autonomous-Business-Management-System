@@ -12,6 +12,9 @@ from routes.marketing_routes import router as marketing_router
 from routes.settings_routes import router as settings_router
 from routes.device_routes import router as device_router
 from routes.ai_routes import router as ai_router
+from routes.salary_routes import router as salary_router
+from routes.task_routes import router as task_router
+from routes.leave_routes import router as leave_router
 
 
 app = FastAPI(
@@ -36,6 +39,15 @@ app.include_router(auth_router)
 
 # Employee management
 app.include_router(employee_router)
+
+# Salary management and automatic calculation
+app.include_router(salary_router)
+
+# Task management and completion synchronization
+app.include_router(task_router)
+
+# Leave management and manager approval workflow
+app.include_router(leave_router)
 
 # Attendance and secure QR
 app.include_router(attendance_router)

@@ -193,7 +193,8 @@ def require_admin(
     ),
 ) -> dict:
 
-    if current_user.get("role") != "Admin":
+    role = str(current_user.get("role", "")).lower()
+    if role != "admin":
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Admin access required",
@@ -211,7 +212,8 @@ def require_manager(
     ),
 ) -> dict:
 
-    if current_user.get("role") != "Manager":
+    role = str(current_user.get("role", "")).lower()
+    if role != "manager":
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Manager access required",
@@ -229,12 +231,10 @@ def require_admin_or_manager(
     ),
 ) -> dict:
 
-    allowed_roles = [
-        "Admin",
-        "Manager",
-    ]
+    role = str(current_user.get("role", "")).lower()
+    allowed_roles = ["admin", "manager"]
 
-    if current_user.get("role") not in allowed_roles:
+    if role not in allowed_roles:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Admin or Manager access required",

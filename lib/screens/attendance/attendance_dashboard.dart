@@ -460,17 +460,21 @@ class _AttendanceDashboardState extends State<AttendanceDashboard> {
   }
 
   Widget _buildHeader(BuildContext context, bool isMobile) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.fromLTRB(
-        isMobile ? 10 : 20,
-        isMobile ? 18 : 26,
-        isMobile ? 12 : 24,
+        isMobile ? 14 : 24,
+        (isMobile ? 12 : 24) + statusBarHeight,
+        isMobile ? 14 : 24,
         isMobile ? 22 : 30,
       ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFF020A3D), Color(0xFF2563EB), Color(0xFF9333EA)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(32),
@@ -478,27 +482,35 @@ class _AttendanceDashboardState extends State<AttendanceDashboard> {
         ),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.18),
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back_rounded, color: Colors.white, size: 20),
+            ),
           ),
-          SizedBox(width: isMobile ? 4 : 10),
+          SizedBox(width: isMobile ? 12 : 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'Smart Attendance',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: isMobile ? 22 : 30,
+                    fontSize: isMobile ? 20 : 28,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
                 Text(
                   'Live attendance, secure QR and device approvals',
                   maxLines: 2,
@@ -508,7 +520,7 @@ class _AttendanceDashboardState extends State<AttendanceDashboard> {
                     fontSize: isMobile ? 12 : 14,
                   ),
                 ),
-                const SizedBox(height: 7),
+                const SizedBox(height: 5),
                 Text(
                   _lastUpdatedText,
                   style: const TextStyle(color: Colors.white60, fontSize: 11),

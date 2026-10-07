@@ -31,7 +31,11 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
   List<Map<String, dynamic>> _campuses = <Map<String, dynamic>>[];
   String? _selectedCampusId;
   String _attendanceType = 'check_in';
-  int _durationMinutes = 30;
+  int _durationMinutes = 20;
+
+  // --- countdown timer ---
+  Timer? _countdownTimer;
+  Duration _remainingTime = Duration.zero;
 
   // --- active session state ---
   Map<String, dynamic>? _session;
@@ -60,6 +64,7 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
   void dispose() {
     _qrRotationTimer?.cancel();
     _pollTimer?.cancel();
+    _countdownTimer?.cancel();
     super.dispose();
   }
 
@@ -150,12 +155,19 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
               _closesAt = session['closes_at'] as String?;
               _events = <Map<String, dynamic>>[];
             });
+            _startCountdown();
             _startQrRotation(sessionId);
             _startPolling(sessionId);
           }
+        } else if (mounted && _campuses.isNotEmpty) {
+          // Auto-create a 20-minute session when screen opens
+          _autoCreateSession();
         }
       } catch (_) {
-        // Silently ignore active session lookup errors
+        // If active session lookup fails, auto-create a new one
+        if (mounted && _campuses.isNotEmpty) {
+          _autoCreateSession();
+        }
       }
     } catch (e) {
       if (!mounted) return;
@@ -164,6 +176,12 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
         _error = 'Could not load campuses: $e';
       });
     }
+  }
+
+  /// Auto-create a 20-minute QR session when the screen opens
+  Future<void> _autoCreateSession() async {
+    if (_selectedCampusId == null || _creatingSession) return;
+    await _createSession();
   }
 
   Future<void> _createSession() async {
@@ -193,6 +211,7 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
         _events = <Map<String, dynamic>>[];
         _creatingSession = false;
       });
+      _startCountdown();
       _startQrRotation(session['session_id'] as String);
       _startPolling(session['session_id'] as String);
     } catch (e) {
@@ -260,6 +279,49 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
     });
   }
 
+  /// Start the visible countdown timer from _closesAt
+  void _startCountdown() {
+    _countdownTimer?.cancel();
+    _updateRemainingTime();
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      _updateRemainingTime();
+    });
+  }
+
+  void _updateRemainingTime() {
+    if (_closesAt == null) return;
+    try {
+      final DateTime expiresAt = DateTime.parse(_closesAt!).toLocal();
+      final Duration diff = expiresAt.difference(DateTime.now());
+      if (!mounted) return;
+      if (diff.isNegative) {
+        // Session expired after 20 minutes — auto-close and immediately regenerate a new valid 20-minute QR
+        _countdownTimer?.cancel();
+        _handleSessionExpiration();
+        return;
+      }
+      setState(() {
+        _remainingTime = diff;
+      });
+    } catch (_) {}
+  }
+
+  String _formatCountdown() {
+    final int mins = _remainingTime.inMinutes;
+    final int secs = _remainingTime.inSeconds % 60;
+    return '${mins.toString().padLeft(2, '0')}:${secs.toString().padLeft(2, '0')}';
+  }
+
+  Future<void> _handleSessionExpiration() async {
+    _countdownTimer?.cancel();
+    _qrRotationTimer?.cancel();
+    _pollTimer?.cancel();
+    await _closeSession();
+    if (mounted && _selectedCampusId != null) {
+      await _autoCreateSession();
+    }
+  }
+
   Future<void> _closeSession() async {
     final String? sessionId = _session?['session_id'] as String?;
     if (sessionId == null) return;
@@ -271,11 +333,13 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
     } catch (_) {}
     _qrRotationTimer?.cancel();
     _pollTimer?.cancel();
+    _countdownTimer?.cancel();
     if (!mounted) return;
     setState(() {
       _session = null;
       _qrToken = null;
       _events = <Map<String, dynamic>>[];
+      _remainingTime = Duration.zero;
     });
   }
 
@@ -529,6 +593,7 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
                   DropdownMenuItem<int>(value: 5, child: Text('5 minutes')),
                   DropdownMenuItem<int>(value: 10, child: Text('10 minutes')),
                   DropdownMenuItem<int>(value: 15, child: Text('15 minutes')),
+                  DropdownMenuItem<int>(value: 20, child: Text('20 minutes (default)')),
                   DropdownMenuItem<int>(value: 30, child: Text('30 minutes')),
                   DropdownMenuItem<int>(value: 60, child: Text('1 hour')),
                 ],
@@ -569,11 +634,64 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
 
           const SizedBox(height: 12),
 
+          // --- countdown timer display ---
+          if (sessionActive) ...[
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+              decoration: BoxDecoration(
+                color: _remainingTime.inMinutes < 5
+                    ? Colors.red.withValues(alpha: 0.10)
+                    : const Color(0xff10B981).withValues(alpha: 0.10),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: _remainingTime.inMinutes < 5
+                      ? Colors.red.withValues(alpha: 0.30)
+                      : const Color(0xff10B981).withValues(alpha: 0.30),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Icon(
+                    Icons.timer,
+                    size: 18,
+                    color: _remainingTime.inMinutes < 5
+                        ? Colors.red
+                        : const Color(0xff10B981),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    _formatCountdown(),
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'monospace',
+                      color: _remainingTime.inMinutes < 5
+                          ? Colors.red
+                          : const Color(0xff10B981),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'remaining',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: _remainingTime.inMinutes < 5
+                          ? Colors.red
+                          : const Color(0xff10B981),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 6),
+          ],
+
           // --- status text ---
           Text(
             sessionActive
                 ? '🟢 QR Active • ${_formatClosesAt(_closesAt)} • Auto-rotates every 28s'
-                : 'Select options and click Generate QR',
+                : 'Auto-generates a 20-min QR on screen open',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: sessionActive ? Colors.green : Colors.grey,
