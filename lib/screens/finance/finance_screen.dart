@@ -483,7 +483,7 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
       onPressed: _showAddTransactionDialog,
       style: FilledButton.styleFrom(
         backgroundColor: Colors.white,
-        foregroundColor: const Color(0xFF1E1452),
+        foregroundColor: const Color(0xff2563EB),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -501,14 +501,14 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
       padding: EdgeInsets.all(compact ? 22 : 30),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF130D36), Color(0xFF1E1452), Color(0xFF2E1C74)],
+          colors: [Color(0xff020A3D), Color(0xff2563EB), Color(0xff9333EA)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1E1452).withValues(alpha: 0.35),
+            color: const Color(0xff2563EB).withValues(alpha: 0.35),
             blurRadius: 24,
             offset: const Offset(0, 10),
           ),
@@ -754,12 +754,6 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
   }
 
   Widget _buildMonthlyOverview() {
-    const List<double> incomeValues = [0.52, 0.68, 0.61, 0.79, 0.72, 0.92];
-
-    const List<double> expenseValues = [0.30, 0.42, 0.36, 0.48, 0.41, 0.55];
-
-    const List<String> months = ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
-
     return _panel(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -767,74 +761,39 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
           _sectionHeader(
             title: 'Monthly Overview',
             subtitle: 'Income and expense comparison',
-            icon: Icons.bar_chart_rounded,
+            icon: Icons.show_chart_rounded,
           ),
-          const SizedBox(height: 22),
+          const SizedBox(height: 18),
           Row(
             children: [
               _legend(const Color(0xff2563EB), 'Income'),
               const SizedBox(width: 18),
               _legend(const Color(0xffF97316), 'Expense'),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: const Color(0xff16A34A).withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Text(
+                  'Net +₹37k',
+                  style: TextStyle(
+                    color: Color(0xff16A34A),
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ],
           ),
-          const SizedBox(height: 18),
+          const SizedBox(height: 16),
           SizedBox(
-            height: 205,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: List.generate(months.length, (int index) {
-                return Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: FractionallySizedBox(
-                                  heightFactor: incomeValues[index],
-                                  alignment: Alignment.bottomCenter,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xff2563EB),
-                                      borderRadius: BorderRadius.circular(7),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              Expanded(
-                                child: FractionallySizedBox(
-                                  heightFactor: expenseValues[index],
-                                  alignment: Alignment.bottomCenter,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xffF97316),
-                                      borderRadius: BorderRadius.circular(7),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          months[index],
-                          style: TextStyle(
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurfaceVariant,
-                            fontSize: 11,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
+            height: 220,
+            width: double.infinity,
+            child: CustomPaint(
+              painter: FinanceOverviewChartPainter(),
+              child: const SizedBox.expand(),
             ),
           ),
         ],
@@ -1105,4 +1064,262 @@ class _FinanceTransaction {
   final double amount;
   final FinanceTransactionType type;
   final DateTime date;
+}
+
+class FinanceOverviewChartPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final List<double> incomeValues = [52, 68, 61, 79, 72, 92];
+    final List<double> expenseValues = [30, 42, 36, 48, 41, 55];
+    final List<String> months = ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+
+    const double leftPadding = 36.0;
+    const double rightPadding = 18.0;
+    const double topPadding = 26.0;
+    const double bottomPadding = 28.0;
+
+    final double plotWidth = size.width - leftPadding - rightPadding;
+    final double plotHeight = size.height - topPadding - bottomPadding;
+    final double chartBottom = topPadding + plotHeight;
+    const double maxScale = 100.0;
+
+    final TextPainter textPainter = TextPainter(
+      textDirection: TextDirection.ltr,
+    );
+
+    // 1. Draw horizontal reference gridlines & Y-axis currency labels (₹100k, ₹75k, ₹50k, ₹25k, ₹0)
+    final List<int> yTicks = [100, 75, 50, 25, 0];
+    final Paint gridLinePaint = Paint()
+      ..color = const Color(0xffE2E8F0).withValues(alpha: 0.8)
+      ..strokeWidth = 1.0;
+
+    for (final int tick in yTicks) {
+      final double y = topPadding + (1.0 - (tick / maxScale)) * plotHeight;
+
+      const double dashWidth = 4.0;
+      const double dashSpace = 4.0;
+      double startX = leftPadding;
+      while (startX < size.width - rightPadding) {
+        canvas.drawLine(
+          Offset(startX, y),
+          Offset(
+            (startX + dashWidth).clamp(leftPadding, size.width - rightPadding),
+            y,
+          ),
+          gridLinePaint,
+        );
+        startX += dashWidth + dashSpace;
+      }
+
+      textPainter.text = TextSpan(
+        text: tick == 0 ? "₹0" : "₹${tick}k",
+        style: const TextStyle(
+          color: Color(0xff94A3B8),
+          fontSize: 9,
+          fontWeight: FontWeight.w500,
+        ),
+      );
+      textPainter.layout();
+      textPainter.paint(
+        canvas,
+        Offset(leftPadding - textPainter.width - 6, y - textPainter.height / 2),
+      );
+    }
+
+    // 2. Compute plot points for Income and Expense
+    final double stepX = plotWidth / (months.length - 1);
+    final List<Offset> incomePoints = [];
+    final List<Offset> expensePoints = [];
+
+    for (int i = 0; i < months.length; i++) {
+      final double px = leftPadding + i * stepX;
+      final double pyIncome = topPadding + (1.0 - (incomeValues[i] / maxScale)) * plotHeight;
+      final double pyExpense = topPadding + (1.0 - (expenseValues[i] / maxScale)) * plotHeight;
+
+      incomePoints.add(Offset(px, pyIncome));
+      expensePoints.add(Offset(px, pyExpense));
+    }
+
+    // Helper to generate smooth cubic spline curve
+    Path buildSplinePath(List<Offset> pts) {
+      final Path path = Path();
+      path.moveTo(pts.first.dx, pts.first.dy);
+      for (int i = 0; i < pts.length - 1; i++) {
+        final Offset p0 = pts[i];
+        final Offset p1 = pts[i + 1];
+        final double controlDx = (p1.dx - p0.dx) * 0.45;
+        final Offset cp1 = Offset(p0.dx + controlDx, p0.dy);
+        final Offset cp2 = Offset(p1.dx - controlDx, p1.dy);
+        path.cubicTo(cp1.dx, cp1.dy, cp2.dx, cp2.dy, p1.dx, p1.dy);
+      }
+      return path;
+    }
+
+    final Path incomeCurve = buildSplinePath(incomePoints);
+    final Path expenseCurve = buildSplinePath(expensePoints);
+
+    // 3. Draw Area Fills
+    // Income Area Fill (Electric Blue Gradient)
+    final Path incomeArea = Path.from(incomeCurve)
+      ..lineTo(incomePoints.last.dx, chartBottom)
+      ..lineTo(incomePoints.first.dx, chartBottom)
+      ..close();
+
+    final Paint incomeAreaPaint = Paint()
+      ..shader = LinearGradient(
+        colors: [
+          const Color(0xff2563EB).withValues(alpha: 0.26),
+          const Color(0xff06B6D4).withValues(alpha: 0.08),
+          const Color(0xff06B6D4).withValues(alpha: 0.00),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(Rect.fromLTWH(leftPadding, topPadding, plotWidth, plotHeight));
+
+    canvas.drawPath(incomeArea, incomeAreaPaint);
+
+    // Expense Area Fill (Coral Orange Gradient)
+    final Path expenseArea = Path.from(expenseCurve)
+      ..lineTo(expensePoints.last.dx, chartBottom)
+      ..lineTo(expensePoints.first.dx, chartBottom)
+      ..close();
+
+    final Paint expenseAreaPaint = Paint()
+      ..shader = LinearGradient(
+        colors: [
+          const Color(0xffF97316).withValues(alpha: 0.20),
+          const Color(0xffEF4444).withValues(alpha: 0.06),
+          const Color(0xffEF4444).withValues(alpha: 0.00),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(Rect.fromLTWH(leftPadding, topPadding, plotWidth, plotHeight));
+
+    canvas.drawPath(expenseArea, expenseAreaPaint);
+
+    // 4. Draw Glowing curve strokes
+    // Income Curve Stroke
+    final Paint incomeStroke = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.2
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
+      ..shader = const LinearGradient(
+        colors: [Color(0xff2563EB), Color(0xff06B6D4)],
+      ).createShader(Rect.fromLTWH(leftPadding, topPadding, plotWidth, plotHeight));
+
+    final Paint incomeGlow = Paint()
+      ..color = const Color(0xff2563EB).withValues(alpha: 0.25)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 6.0
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+
+    canvas.drawPath(incomeCurve, incomeGlow);
+    canvas.drawPath(incomeCurve, incomeStroke);
+
+    // Expense Curve Stroke
+    final Paint expenseStroke = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.0
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
+      ..shader = const LinearGradient(
+        colors: [Color(0xffF97316), Color(0xffEF4444)],
+      ).createShader(Rect.fromLTWH(leftPadding, topPadding, plotWidth, plotHeight));
+
+    final Paint expenseGlow = Paint()
+      ..color = const Color(0xffF97316).withValues(alpha: 0.20)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 5.5
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+
+    canvas.drawPath(expenseCurve, expenseGlow);
+    canvas.drawPath(expenseCurve, expenseStroke);
+
+    // 5. Draw Data Nodes & Month labels
+    for (int i = 0; i < months.length; i++) {
+      final Offset incPt = incomePoints[i];
+      final Offset expPt = expensePoints[i];
+      final bool isLast = i == months.length - 1;
+
+      // Vertical guide line
+      final Paint dropGuide = Paint()
+        ..color = isLast
+            ? const Color(0xff2563EB).withValues(alpha: 0.35)
+            : const Color(0xffE2E8F0).withValues(alpha: 0.5)
+        ..strokeWidth = isLast ? 1.4 : 0.8;
+
+      canvas.drawLine(Offset(incPt.dx, incPt.dy + 6), Offset(incPt.dx, chartBottom), dropGuide);
+
+      // Income Node
+      canvas.drawCircle(incPt, 6.5, Paint()..color = const Color(0xff2563EB).withValues(alpha: 0.18));
+      canvas.drawCircle(incPt, 4.2, Paint()..color = Colors.white);
+      canvas.drawCircle(incPt, 2.8, Paint()..color = const Color(0xff2563EB));
+
+      // Expense Node
+      canvas.drawCircle(expPt, 6.0, Paint()..color = const Color(0xffF97316).withValues(alpha: 0.18));
+      canvas.drawCircle(expPt, 4.0, Paint()..color = Colors.white);
+      canvas.drawCircle(expPt, 2.6, Paint()..color = const Color(0xffF97316));
+
+      // Tooltip pill on the latest month (July peak)
+      if (isLast) {
+        const double badgeW = 48.0;
+        const double badgeH = 20.0;
+        final double badgeX = incPt.dx - badgeW / 2;
+        final double badgeY = incPt.dy - badgeH - 8;
+
+        final RRect badgeRRect = RRect.fromRectAndRadius(
+          Rect.fromLTWH(badgeX, badgeY, badgeW, badgeH),
+          const Radius.circular(10),
+        );
+        canvas.drawRRect(badgeRRect, Paint()..color = const Color(0xff0F172A));
+
+        final Path pointerPath = Path()
+          ..moveTo(incPt.dx - 3.5, badgeY + badgeH)
+          ..lineTo(incPt.dx + 3.5, badgeY + badgeH)
+          ..lineTo(incPt.dx, badgeY + badgeH + 3.5)
+          ..close();
+        canvas.drawPath(pointerPath, Paint()..color = const Color(0xff0F172A));
+
+        textPainter.text = const TextSpan(
+          text: "+₹92k",
+          style: TextStyle(
+            color: Color(0xff38BDF8),
+            fontSize: 9.5,
+            fontWeight: FontWeight.w800,
+          ),
+        );
+        textPainter.layout();
+        textPainter.paint(
+          canvas,
+          Offset(
+            badgeX + (badgeW - textPainter.width) / 2,
+            badgeY + (badgeH - textPainter.height) / 2,
+          ),
+        );
+      }
+
+      // X-Axis Month label
+      textPainter.text = TextSpan(
+        text: months[i],
+        style: TextStyle(
+          color: isLast ? const Color(0xff0F172A) : const Color(0xff64748B),
+          fontSize: size.width < 400 ? 10 : 11,
+          fontWeight: isLast ? FontWeight.w800 : FontWeight.w500,
+        ),
+      );
+      textPainter.layout();
+      textPainter.paint(
+        canvas,
+        Offset(incPt.dx - textPainter.width / 2, size.height - 18),
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant FinanceOverviewChartPainter oldDelegate) => false;
 }

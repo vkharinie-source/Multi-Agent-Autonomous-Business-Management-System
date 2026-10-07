@@ -424,12 +424,6 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
   Widget _buildHeader(bool isMobile) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(
-        isMobile ? 16 : 28,
-        isMobile ? 20 : 30,
-        isMobile ? 16 : 28,
-        isMobile ? 24 : 34,
-      ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: <Color>[
@@ -443,44 +437,64 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
           bottomRight: Radius.circular(32),
         ),
       ),
-      child: Row(
-        children: <Widget>[
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            isMobile ? 16 : 28,
+            isMobile ? 16 : 22,
+            isMobile ? 16 : 28,
+            isMobile ? 22 : 32,
           ),
-          SizedBox(width: isMobile ? 6 : 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'QR Attendance',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: isMobile ? 22 : 30,
-                    fontWeight: FontWeight.bold,
-                  ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.18),
+                  shape: BoxShape.circle,
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  'Generate QR code and mark employee attendance',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: isMobile ? 12 : 14,
-                  ),
-                  maxLines: isMobile ? 2 : 1,
-                  overflow: TextOverflow.ellipsis,
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.arrow_back_rounded,
+                      color: Colors.white, size: 20),
                 ),
-              ],
-            ),
+              ),
+              SizedBox(width: isMobile ? 12 : 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      'QR Attendance',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: isMobile ? 22 : 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Generate QR code and mark employee attendance',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: isMobile ? 12 : 14,
+                      ),
+                      maxLines: isMobile ? 2 : 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              if (!isMobile) ...<Widget>[
+                const Spacer(),
+                const Icon(Icons.qr_code_scanner, color: Colors.white, size: 42),
+              ] else
+                const Icon(Icons.qr_code_scanner, color: Colors.white, size: 30),
+            ],
           ),
-          if (!isMobile) ...<Widget>[
-            const Spacer(),
-            const Icon(Icons.qr_code_scanner, color: Colors.white, size: 42),
-          ] else
-            const Icon(Icons.qr_code_scanner, color: Colors.white, size: 30),
-        ],
+        ),
       ),
     );
   }

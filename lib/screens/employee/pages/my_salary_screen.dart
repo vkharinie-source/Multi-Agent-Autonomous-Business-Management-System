@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../core/config/api_config.dart';
+import '../../../core/services/export_service.dart';
 import '../../../core/services/secure_storage_service.dart';
 
 class MySalaryScreen extends StatefulWidget {
@@ -960,14 +961,13 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
               const SizedBox(height: 4),
               InkWell(
                 onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Downloading ${payslip['month']} Payslip Statement...',
-                      ),
-                      backgroundColor: const Color(0xFF6C5CE7),
-                      duration: const Duration(seconds: 2),
-                    ),
+                  ExportService.generateAndDownloadPayslipPdf(
+                    context: context,
+                    payslip: payslip,
+                    employeeName: 'Harinie V K',
+                    employeeId: 'EMP001',
+                    designation: 'Software Engineer',
+                    department: 'Technology',
                   );
                 },
                 child: const Row(

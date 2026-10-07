@@ -72,12 +72,6 @@ class AttendanceAnalyticsScreen extends StatelessWidget {
   Widget _header(BuildContext context, bool isMobile) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(
-        isMobile ? 6 : 20,
-        isMobile ? 12 : 18,
-        isMobile ? 12 : 24,
-        isMobile ? 16 : 20,
-      ),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [Color(0xff071442), Color(0xff1D4ED8), Color(0xff7C3AED)],
@@ -91,11 +85,18 @@ class AttendanceAnalyticsScreen extends StatelessWidget {
       ),
       child: SafeArea(
         bottom: false,
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1180),
-            child: Row(
-              children: [
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            isMobile ? 12 : 20,
+            isMobile ? 14 : 18,
+            isMobile ? 14 : 24,
+            isMobile ? 18 : 22,
+          ),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1180),
+              child: Row(
+                children: [
                 IconButton(
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(
@@ -178,8 +179,9 @@ class AttendanceAnalyticsScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _pageTitle(bool isMobile) {
     return Row(
@@ -794,8 +796,7 @@ class AttendanceAnalyticsScreen extends StatelessWidget {
 class ModernAttendanceChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final List<double> values = [72, 84, 77, 92, 87, 80, 89];
-
+    final List<double> values = [78, 88, 82, 96, 90, 84, 92];
     final List<String> labels = [
       "Mon",
       "Tue",
@@ -806,104 +807,242 @@ class ModernAttendanceChartPainter extends CustomPainter {
       "Sun",
     ];
 
-    final double chartHeight = size.height - 27;
-    final double gap = size.width / values.length;
-    final double barWidth = gap * 0.34;
+    const double leftPadding = 32.0;
+    const double rightPadding = 18.0;
+    const double topPadding = 26.0;
+    const double bottomPadding = 28.0;
 
-    final Paint gridPaint = Paint()
-      ..color = Colors.grey.withValues(alpha: 0.13)
-      ..strokeWidth = 1;
-
-    for (int i = 1; i <= 4; i++) {
-      final double y = chartHeight * i / 5;
-
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
-    }
-
-    final List<Offset> points = [];
+    final double plotWidth = size.width - leftPadding - rightPadding;
+    final double plotHeight = size.height - topPadding - bottomPadding;
+    final double chartBottom = topPadding + plotHeight;
 
     final TextPainter textPainter = TextPainter(
       textDirection: TextDirection.ltr,
     );
 
-    for (int i = 0; i < values.length; i++) {
-      final double x = i * gap + (gap - barWidth) / 2;
+    // 1. Draw horizontal reference gridlines & Y-axis labels
+    final List<int> yTicks = [100, 75, 50, 25, 0];
+    final Paint gridLinePaint = Paint()
+      ..color = const Color(0xffE2E8F0).withValues(alpha: 0.8)
+      ..strokeWidth = 1.0;
 
-      final double barHeight = values[i] / 100 * chartHeight;
+    for (final int tick in yTicks) {
+      final double y = topPadding + (1.0 - (tick / 100.0)) * plotHeight;
 
-      final double y = chartHeight - barHeight;
+      // Draw subtle horizontal dashed-style grid line
+      const double dashWidth = 4.0;
+      const double dashSpace = 4.0;
+      double startX = leftPadding;
+      while (startX < size.width - rightPadding) {
+        canvas.drawLine(
+          Offset(startX, y),
+          Offset(
+            (startX + dashWidth).clamp(leftPadding, size.width - rightPadding),
+            y,
+          ),
+          gridLinePaint,
+        );
+        startX += dashWidth + dashSpace;
+      }
 
-      final RRect backgroundRect = RRect.fromRectAndRadius(
-        Rect.fromLTWH(x, 0, barWidth, chartHeight),
-        const Radius.circular(12),
-      );
-
-      canvas.drawRRect(
-        backgroundRect,
-        Paint()..color = const Color(0xffEEF2FF),
-      );
-
-      final RRect barRect = RRect.fromRectAndRadius(
-        Rect.fromLTWH(x, y, barWidth, barHeight),
-        const Radius.circular(12),
-      );
-
-      final Paint barPaint = Paint()
-        ..shader = const LinearGradient(
-          colors: [Color(0xff2563EB), Color(0xff7C3AED)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ).createShader(Rect.fromLTWH(x, y, barWidth, barHeight));
-
-      canvas.drawRRect(barRect, barPaint);
-
-      points.add(Offset(x + barWidth / 2, y));
-
+      // Draw Y-axis percentage text
       textPainter.text = TextSpan(
-        text: labels[i],
-        style: TextStyle(
-          color: Colors.grey.shade600,
-          fontSize: size.width < 400 ? 9 : 10,
+        text: "$tick%",
+        style: const TextStyle(
+          color: Color(0xff94A3B8),
+          fontSize: 9,
+          fontWeight: FontWeight.w500,
         ),
       );
-
       textPainter.layout();
-
       textPainter.paint(
         canvas,
-        Offset(x + (barWidth - textPainter.width) / 2, size.height - 16),
+        Offset(leftPadding - textPainter.width - 6, y - textPainter.height / 2),
       );
     }
 
-    final Path linePath = Path();
+    // 2. Compute smooth plot points
+    final List<Offset> points = [];
+    final double stepX = plotWidth / (values.length - 1);
 
-    for (int i = 0; i < points.length; i++) {
-      if (i == 0) {
-        linePath.moveTo(points[i].dx, points[i].dy);
-      } else {
-        linePath.lineTo(points[i].dx, points[i].dy);
+    for (int i = 0; i < values.length; i++) {
+      final double px = leftPadding + i * stepX;
+      final double py = topPadding + (1.0 - (values[i] / 100.0)) * plotHeight;
+      points.add(Offset(px, py));
+    }
+
+    // 3. Build smooth Cubic Spline Curve Path
+    final Path curvePath = Path();
+    curvePath.moveTo(points.first.dx, points.first.dy);
+
+    for (int i = 0; i < points.length - 1; i++) {
+      final Offset p0 = points[i];
+      final Offset p1 = points[i + 1];
+
+      final double controlDx = (p1.dx - p0.dx) * 0.45;
+      final Offset cp1 = Offset(p0.dx + controlDx, p0.dy);
+      final Offset cp2 = Offset(p1.dx - controlDx, p1.dy);
+
+      curvePath.cubicTo(cp1.dx, cp1.dy, cp2.dx, cp2.dy, p1.dx, p1.dy);
+    }
+
+    // 4. Draw vibrant gradient Area Fill under the curve
+    final Path areaPath = Path.from(curvePath);
+    areaPath.lineTo(points.last.dx, chartBottom);
+    areaPath.lineTo(points.first.dx, chartBottom);
+    areaPath.close();
+
+    final Paint areaPaint = Paint()
+      ..shader = LinearGradient(
+        colors: [
+          const Color(0xff2563EB).withValues(alpha: 0.32),
+          const Color(0xff7C3AED).withValues(alpha: 0.10),
+          const Color(0xff7C3AED).withValues(alpha: 0.00),
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ).createShader(
+        Rect.fromLTWH(leftPadding, topPadding, plotWidth, plotHeight),
+      );
+
+    canvas.drawPath(areaPath, areaPaint);
+
+    // 5. Draw soft glowing shadow under the curve
+    final Paint glowPaint = Paint()
+      ..color = const Color(0xff6366F1).withValues(alpha: 0.28)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 6.0
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4);
+
+    canvas.drawPath(curvePath, glowPaint);
+
+    // 6. Draw the primary Spline Line Stroke with linear gradient
+    final Paint strokePaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3.4
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round
+      ..shader = const LinearGradient(
+        colors: [
+          Color(0xff2563EB),
+          Color(0xff6366F1),
+          Color(0xff9333EA),
+        ],
+      ).createShader(
+        Rect.fromLTWH(leftPadding, topPadding, plotWidth, plotHeight),
+      );
+
+    canvas.drawPath(curvePath, strokePaint);
+
+    // Find peak point index
+    int maxIndex = 0;
+    double maxVal = values[0];
+    for (int i = 1; i < values.length; i++) {
+      if (values[i] > maxVal) {
+        maxVal = values[i];
+        maxIndex = i;
       }
     }
 
-    canvas.drawPath(
-      linePath,
-      Paint()
-        ..color = const Color(0xff10B981)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 2.8
-        ..strokeCap = StrokeCap.round,
-    );
+    // 7. Draw data nodes, subtle drop guides & X-axis labels
+    for (int i = 0; i < points.length; i++) {
+      final Offset pt = points[i];
+      final bool isPeak = i == maxIndex;
 
-    for (final Offset point in points) {
-      canvas.drawCircle(point, 5, Paint()..color = Colors.white);
+      // Vertical guide line from node to bottom
+      final Paint dropPaint = Paint()
+        ..color = isPeak
+            ? const Color(0xff6366F1).withValues(alpha: 0.45)
+            : const Color(0xffE2E8F0).withValues(alpha: 0.6)
+        ..strokeWidth = isPeak ? 1.4 : 1.0;
 
+      canvas.drawLine(Offset(pt.dx, pt.dy + 7), Offset(pt.dx, chartBottom), dropPaint);
+
+      // Node Halo Outer
       canvas.drawCircle(
-        point,
-        5,
+        pt,
+        isPeak ? 8.5 : 6.5,
         Paint()
-          ..color = const Color(0xff10B981)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2.5,
+          ..color = isPeak
+              ? const Color(0xff6366F1).withValues(alpha: 0.25)
+              : const Color(0xff2563EB).withValues(alpha: 0.15),
+      );
+
+      // Node White border ring
+      canvas.drawCircle(
+        pt,
+        isPeak ? 5.2 : 4.2,
+        Paint()..color = Colors.white,
+      );
+
+      // Node Center Dot
+      canvas.drawCircle(
+        pt,
+        isPeak ? 3.4 : 2.6,
+        Paint()
+          ..color = isPeak ? const Color(0xff9333EA) : const Color(0xff2563EB),
+      );
+
+      // Draw Peak Tooltip Badge above the highest point
+      if (isPeak) {
+        const double badgeW = 38.0;
+        const double badgeH = 20.0;
+        final double badgeX = pt.dx - badgeW / 2;
+        final double badgeY = pt.dy - badgeH - 8;
+
+        // Badge pill background
+        final RRect badgeRRect = RRect.fromRectAndRadius(
+          Rect.fromLTWH(badgeX, badgeY, badgeW, badgeH),
+          const Radius.circular(10),
+        );
+        canvas.drawRRect(
+          badgeRRect,
+          Paint()..color = const Color(0xff0F172A),
+        );
+
+        // Badge downward pointer triangle
+        final Path pointerPath = Path()
+          ..moveTo(pt.dx - 3.5, badgeY + badgeH)
+          ..lineTo(pt.dx + 3.5, badgeY + badgeH)
+          ..lineTo(pt.dx, badgeY + badgeH + 3.5)
+          ..close();
+        canvas.drawPath(pointerPath, Paint()..color = const Color(0xff0F172A));
+
+        // Badge Text
+        textPainter.text = TextSpan(
+          text: "${values[i].toInt()}%",
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 10,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.2,
+          ),
+        );
+        textPainter.layout();
+        textPainter.paint(
+          canvas,
+          Offset(
+            badgeX + (badgeW - textPainter.width) / 2,
+            badgeY + (badgeH - textPainter.height) / 2,
+          ),
+        );
+      }
+
+      // X-Axis Day Labels
+      textPainter.text = TextSpan(
+        text: labels[i],
+        style: TextStyle(
+          color: isPeak ? const Color(0xff2563EB) : const Color(0xff64748B),
+          fontSize: size.width < 400 ? 9.5 : 10.5,
+          fontWeight: isPeak ? FontWeight.w700 : FontWeight.w500,
+        ),
+      );
+      textPainter.layout();
+      textPainter.paint(
+        canvas,
+        Offset(pt.dx - textPainter.width / 2, size.height - 18),
       );
     }
   }

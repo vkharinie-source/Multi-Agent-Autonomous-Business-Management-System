@@ -135,7 +135,6 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
   Widget _header(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(28, 30, 28, 34),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xff020A3D), Color(0xff2563EB), Color(0xff9333EA)],
@@ -147,45 +146,63 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
           bottomRight: Radius.circular(32),
         ),
       ),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-          ),
-          const SizedBox(width: 12),
-          const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 26),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "Attendance History",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.18),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.arrow_back_rounded,
+                      color: Colors.white, size: 20),
                 ),
               ),
-              SizedBox(height: 6),
-              Text(
-                "View employee attendance, check-in, check-out and working hours",
-                style: TextStyle(color: Colors.white70, fontSize: 15),
+              const SizedBox(width: 14),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Attendance History",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      "View employee attendance, check-in, check-out and working hours",
+                      style: TextStyle(color: Colors.white70, fontSize: 13),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.16),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Icon(
+                  Icons.history_rounded,
+                  color: Colors.white,
+                  size: 26,
+                ),
               ),
             ],
           ),
-          const Spacer(),
-          Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.16),
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: const Icon(
-              Icons.history_rounded,
-              color: Colors.white,
-              size: 34,
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -531,12 +531,6 @@ class _InventoryScreenState extends State<InventoryScreen> {
   Widget header(bool isMobile) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(
-        isMobile ? 16 : 28,
-        isMobile ? 20 : 30,
-        isMobile ? 16 : 28,
-        isMobile ? 24 : 34,
-      ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xff020A3D), Color(0xff2563EB), Color(0xff9333EA)],
@@ -548,44 +542,64 @@ class _InventoryScreenState extends State<InventoryScreen> {
           bottomRight: Radius.circular(32),
         ),
       ),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            isMobile ? 16 : 28,
+            isMobile ? 16 : 22,
+            isMobile ? 16 : 28,
+            isMobile ? 22 : 32,
           ),
-          SizedBox(width: isMobile ? 6 : 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Inventory Management",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: isMobile ? 20 : 30,
-                    fontWeight: FontWeight.bold,
-                  ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.18),
+                  shape: BoxShape.circle,
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  "Track products, stock levels, suppliers and low-stock alerts",
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: isMobile ? 12 : 14,
-                  ),
-                  maxLines: isMobile ? 2 : 1,
-                  overflow: TextOverflow.ellipsis,
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.arrow_back_rounded,
+                      color: Colors.white, size: 20),
                 ),
-              ],
-            ),
+              ),
+              SizedBox(width: isMobile ? 12 : 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Inventory Management",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: isMobile ? 20 : 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      "Track products, stock levels, suppliers and low-stock alerts",
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: isMobile ? 12 : 14,
+                      ),
+                      maxLines: isMobile ? 2 : 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              if (!isMobile) ...[
+                const Spacer(),
+                const Icon(Icons.auto_awesome, color: Colors.white, size: 40),
+              ] else
+                const Icon(Icons.auto_awesome, color: Colors.white, size: 28),
+            ],
           ),
-          if (!isMobile) ...[
-            const Spacer(),
-            const Icon(Icons.auto_awesome, color: Colors.white, size: 40),
-          ] else
-            const Icon(Icons.auto_awesome, color: Colors.white, size: 28),
-        ],
+        ),
       ),
     );
   }

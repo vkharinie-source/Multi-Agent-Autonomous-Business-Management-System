@@ -1,7 +1,45 @@
 import 'package:flutter/material.dart';
+import '../../core/services/export_service.dart';
 
 class MonthlyReportScreen extends StatelessWidget {
   const MonthlyReportScreen({super.key});
+
+  void _exportPdf(BuildContext context) {
+    ExportService.generateAndDownloadPdf(
+      context: context,
+      title: 'Monthly Attendance Report - July 2026',
+      subtitle: 'Employee presence, leave and punctuality statistics',
+      headers: ['Emp ID', 'Name', 'Department', 'Working Days', 'Leaves', 'Attendance %'],
+      rows: [
+        ['EMP001', 'Harinie', 'IT', '24 Days', '2 Days', '92%'],
+        ['EMP002', 'Priya', 'Sales', '22 Days', '4 Days', '88%'],
+        ['EMP003', 'Arun', 'Finance', '23 Days', '3 Days', '91%'],
+        ['EMP004', 'Karthik', 'HR', '25 Days', '1 Day', '96%'],
+        ['EMP005', 'Divya', 'Operations', '24 Days', '2 Days', '92%'],
+      ],
+      summaryStats: {
+        'Avg Attendance': '92%',
+        'Present Days': '24',
+        'Absent Days': '2',
+        'Late Count': '4',
+      },
+    );
+  }
+
+  void _exportExcel(BuildContext context) {
+    ExportService.generateAndDownloadExcel(
+      context: context,
+      title: 'Monthly_Attendance_Report_July_2026',
+      headers: ['Emp ID', 'Name', 'Department', 'Working Days', 'Leaves', 'Attendance %'],
+      rows: [
+        ['EMP001', 'Harinie', 'IT', '24 Days', '2 Days', '92%'],
+        ['EMP002', 'Priya', 'Sales', '22 Days', '4 Days', '88%'],
+        ['EMP003', 'Arun', 'Finance', '23 Days', '3 Days', '91%'],
+        ['EMP004', 'Karthik', 'HR', '25 Days', '1 Day', '96%'],
+        ['EMP005', 'Divya', 'Operations', '24 Days', '2 Days', '92%'],
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +105,13 @@ class MonthlyReportScreen extends StatelessWidget {
                         ),
                         const Spacer(),
                         ElevatedButton.icon(
-                          onPressed: () {},
+                          onPressed: () => _exportPdf(context),
                           icon: const Icon(Icons.picture_as_pdf),
                           label: const Text("Export PDF"),
                         ),
                         const SizedBox(width: 12),
                         ElevatedButton.icon(
-                          onPressed: () {},
+                          onPressed: () => _exportExcel(context),
                           icon: const Icon(Icons.table_chart),
                           label: const Text("Export Excel"),
                         ),
@@ -201,7 +239,6 @@ class MonthlyReportScreen extends StatelessWidget {
   Widget _header(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(28, 30, 28, 34),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xff020A3D), Color(0xff2563EB), Color(0xff9333EA)],
@@ -211,32 +248,49 @@ class MonthlyReportScreen extends StatelessWidget {
           bottomRight: Radius.circular(32),
         ),
       ),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-          ),
-          const SizedBox(width: 12),
-          const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 26),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "Monthly Attendance Report",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.18),
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.arrow_back_rounded,
+                      color: Colors.white, size: 20),
                 ),
               ),
-              SizedBox(height: 5),
-              Text(
-                "Monthly attendance summary and AI insights",
-                style: TextStyle(color: Colors.white70),
+              const SizedBox(width: 14),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Monthly Attendance Report",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      "Monthly attendance summary and AI insights",
+                      style: TextStyle(color: Colors.white70, fontSize: 13),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

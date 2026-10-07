@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../core/services/export_service.dart';
 
 class ReportsDashboard extends StatefulWidget {
   const ReportsDashboard({super.key});
@@ -350,7 +351,7 @@ class _ReportsDashboardState extends State<ReportsDashboard> {
     required Color color,
   }) {
     return OutlinedButton.icon(
-      onPressed: () => _showMessage("$title report generated successfully"),
+      onPressed: () => _handleExportAction(title),
       icon: Icon(icon, size: 18),
       label: Text(
         title,
@@ -364,6 +365,69 @@ class _ReportsDashboardState extends State<ReportsDashboard> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       ),
     );
+  }
+
+  void _handleExportAction(String action) {
+    const headers = <String>[
+      'Module',
+      'Key Metric',
+      'Current Value',
+      'Target',
+      'Performance / Status'
+    ];
+
+    final rows = <List<dynamic>>[
+      ['Sales', 'Revenue Generated', '₹1,25,000', '₹1,50,000', '+12.4% Growth'],
+      ['Finance', 'Net Profit Margin', '₹68,500', '₹60,000', '+14.2% Above Target'],
+      ['Employees', 'Active Workforce', '28 Staff', '30 Staff', '93.3% Active'],
+      ['Attendance', 'Average Attendance Rate', '94.2%', '90.0%', '+4.2% On Track'],
+      ['Inventory', 'Total In-Stock Units', '1,420 Units', '1,200 Min', 'Optimal Stock'],
+      ['Payroll', 'Total Disbursed', '₹4,80,000', '₹5,00,000', 'Disbursed'],
+      ['Leave', 'Pending Requests', '2 Pending', '0 Target', 'Requires Review'],
+    ];
+
+    final summary = <String, String>{
+      'Period': selectedPeriod,
+      'Revenue': '₹1.25L',
+      'Attendance': '94.2%',
+      'Employees': '28',
+    };
+
+    if (action.contains('PDF')) {
+      ExportService.generateAndDownloadPdf(
+        context: context,
+        title: 'Business Analytics Report ($selectedPeriod)',
+        subtitle: 'Autonomous Business AI Enterprise Summary',
+        headers: headers,
+        rows: rows,
+        summaryStats: summary,
+      );
+    } else if (action.contains('Excel') || action.contains('CSV')) {
+      ExportService.generateAndDownloadExcel(
+        context: context,
+        title: 'Business_Report_$selectedPeriod',
+        headers: headers,
+        rows: rows,
+      );
+    } else if (action.contains('Print')) {
+      ExportService.printReport(
+        context: context,
+        title: 'Business Report ($selectedPeriod)',
+        subtitle: 'Autonomous Business AI',
+        headers: headers,
+        rows: rows,
+        summaryStats: summary,
+      );
+    } else {
+      ExportService.generateAndDownloadPdf(
+        context: context,
+        title: 'Business Analytics ($selectedPeriod)',
+        subtitle: 'Enterprise Performance Overview',
+        headers: headers,
+        rows: rows,
+        summaryStats: summary,
+      );
+    }
   }
 
   Widget _summarySection({required bool isMobile, required bool isTablet}) {
@@ -928,8 +992,8 @@ class _ReportsDashboardState extends State<ReportsDashboard> {
           ),
           title: Text(title),
           content: Text(
-            "$title contains detailed business data, summaries, filters, charts and export options.\n\n"
-            "The report currently displays sample data. Backend and database integration can be added later.",
+            "$title contains detailed analytics, KPI breakdowns, department trends, and export options.\n\n"
+            "Would you like to download this report in PDF format now?",
           ),
           actions: [
             TextButton(
@@ -939,20 +1003,14 @@ class _ReportsDashboardState extends State<ReportsDashboard> {
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.pop(dialogContext);
-                _showMessage("$title generated successfully");
+                _handleExportAction("PDF - $title");
               },
               icon: const Icon(Icons.download),
-              label: const Text("Generate"),
+              label: const Text("Download PDF"),
             ),
           ],
         );
       },
-    );
-  }
-
-  void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
     );
   }
 

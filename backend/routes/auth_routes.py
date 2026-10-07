@@ -4,7 +4,7 @@ import hmac
 import secrets
 import time
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 from pymongo.errors import DuplicateKeyError
 
 from config.database import db
@@ -154,6 +154,7 @@ def verify_reset_token(
 )
 def register(
     user: UserRegister,
+    background_tasks: BackgroundTasks,
 ):
     email = user.email.lower().strip()
     name = user.name.strip()
@@ -226,36 +227,13 @@ def register(
             detail="Email already registered",
         ) from error
 
-    try:
-        send_otp_email(
-            receiver_email=email,
-            receiver_name=name,
-            otp=otp,
-        )
-
-    except Exception as error:
-        print(
-            "REGISTER OTP EMAIL ERROR:",
-            repr(error),
-        )
-
-        user_collection.delete_one(
-            {
-                "_id": result.inserted_id,
-                "is_verified": False,
-            }
-        )
-
-        raise HTTPException(
-            status_code=(
-                status.HTTP_500_INTERNAL_SERVER_ERROR
-            ),
-            detail=(
-                "Registration failed because "
-                "the OTP email could not be sent. "
-                "Check the backend terminal."
-            ),
-        ) from error
+    # Dispatch OTP email in the background to ensure instantaneous response (<200ms)
+    background_tasks.add_task(
+        send_otp_email,
+        receiver_email=email,
+        receiver_name=name,
+        otp=otp,
+    )
 
     return {
         "message": (
@@ -384,6 +362,7 @@ def verify_registration_otp(
 @router.post("/resend-otp")
 def resend_registration_otp(
     data: ResendOtp,
+    background_tasks: BackgroundTasks,
 ):
     email = data.email.lower().strip()
 
@@ -433,48 +412,15 @@ def resend_registration_otp(
             detail="Unable to generate a new OTP",
         )
 
-    try:
-        send_otp_email(
-            receiver_email=email,
-            receiver_name=existing_user.get(
-                "name",
-                "User",
-            ),
-            otp=otp,
-        )
-
-    except Exception as error:
-        print(
-            "RESEND OTP EMAIL ERROR:",
-            repr(error),
-        )
-
-        user_collection.update_one(
-            {
-                "_id": existing_user["_id"],
-            },
-            {
-                "$unset": {
-                    "otp_hash": "",
-                    "otp_expires_at": "",
-                },
-                "$set": {
-                    "updated_at": (
-                        get_current_time_string()
-                    ),
-                },
-            },
-        )
-
-        raise HTTPException(
-            status_code=(
-                status.HTTP_500_INTERNAL_SERVER_ERROR
-            ),
-            detail=(
-                "OTP email could not be sent. "
-                "Check the backend terminal."
-            ),
-        ) from error
+    background_tasks.add_task(
+        send_otp_email,
+        receiver_email=email,
+        receiver_name=existing_user.get(
+            "name",
+            "User",
+        ),
+        otp=otp,
+    )
 
     return {
         "message": (
@@ -655,6 +601,7 @@ def change_password(
 @router.post("/forgot-password")
 def forgot_password(
     data: ForgotPasswordRequest,
+    background_tasks: BackgroundTasks,
 ):
     email = data.email.lower().strip()
 
@@ -719,48 +666,15 @@ def forgot_password(
             ),
         )
 
-    try:
-        send_otp_email(
-            receiver_email=email,
-            receiver_name=existing_user.get(
-                "name",
-                "User",
-            ),
-            otp=reset_otp,
-        )
-
-    except Exception as error:
-        print(
-            "FORGOT PASSWORD EMAIL ERROR:",
-            repr(error),
-        )
-
-        user_collection.update_one(
-            {
-                "_id": existing_user["_id"],
-            },
-            {
-                "$unset": {
-                    "reset_otp_hash": "",
-                    "reset_otp_expires_at": "",
-                },
-                "$set": {
-                    "updated_at": (
-                        get_current_time_string()
-                    ),
-                },
-            },
-        )
-
-        raise HTTPException(
-            status_code=(
-                status.HTTP_500_INTERNAL_SERVER_ERROR
-            ),
-            detail=(
-                "Password reset OTP could not "
-                "be sent. Check the backend terminal."
-            ),
-        ) from error
+    background_tasks.add_task(
+        send_otp_email,
+        receiver_email=email,
+        receiver_name=existing_user.get(
+            "name",
+            "User",
+        ),
+        otp=reset_otp,
+    )
 
     return {
         "message": (

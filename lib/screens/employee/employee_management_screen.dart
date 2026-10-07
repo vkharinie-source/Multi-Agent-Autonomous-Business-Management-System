@@ -409,16 +409,8 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
   }
 
   Widget header(bool isMobile) {
-    final double statusBarHeight = MediaQuery.of(context).padding.top;
-
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(
-        isMobile ? 16 : 28,
-        (isMobile ? 12 : 24) + statusBarHeight,
-        isMobile ? 16 : 28,
-        isMobile ? 22 : 32,
-      ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xff020A3D), Color(0xff2563EB), Color(0xff9333EA)],
@@ -430,66 +422,77 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
           bottomRight: Radius.circular(32),
         ),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.18),
-              shape: BoxShape.circle,
-            ),
-            child: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.arrow_back_rounded, color: Colors.white, size: 20),
-            ),
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            isMobile ? 16 : 28,
+            isMobile ? 16 : 22,
+            isMobile ? 16 : 28,
+            isMobile ? 22 : 32,
           ),
-          SizedBox(width: isMobile ? 12 : 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "Employee Management",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: isMobile ? 20 : 28,
-                    fontWeight: FontWeight.bold,
-                  ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.18),
+                  shape: BoxShape.circle,
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  "Manage employees, salary, attendance, leave and performance",
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: isMobile ? 12 : 14,
-                  ),
-                  maxLines: isMobile ? 2 : 1,
-                  overflow: TextOverflow.ellipsis,
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.arrow_back_rounded, color: Colors.white, size: 20),
                 ),
-              ],
-            ),
+              ),
+              SizedBox(width: isMobile ? 12 : 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Employee Management",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: isMobile ? 20 : 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      "Manage employees, salary, attendance, leave and performance",
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: isMobile ? 12 : 14,
+                      ),
+                      maxLines: isMobile ? 2 : 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              if (!isMobile) ...[
+                const SizedBox(width: 16),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.badge, color: Colors.white, size: 36),
+                ),
+              ] else
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(Icons.badge, color: Colors.white, size: 22),
+                ),
+            ],
           ),
-          if (!isMobile) ...[
-            const SizedBox(width: 16),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.15),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(Icons.badge, color: Colors.white, size: 36),
-            ),
-          ] else
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.15),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(Icons.badge, color: Colors.white, size: 22),
-            ),
-        ],
+        ),
       ),
     );
   }

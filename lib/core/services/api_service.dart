@@ -17,7 +17,7 @@ class ApiService {
   final SecureStorageService _secureStorageService =
       SecureStorageService.instance;
 
-  static const Duration _requestTimeout = Duration(seconds: 25);
+  static const Duration _requestTimeout = Duration(seconds: 60);
 
   Future<Map<String, dynamic>> get({
     required String endpoint,

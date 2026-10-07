@@ -188,12 +188,6 @@ class _ManagerSalaryScreenState extends State<ManagerSalaryScreen> {
   Widget _buildHeader(bool isMobile) {
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.fromLTRB(
-        isMobile ? 16 : 28,
-        isMobile ? 20 : 30,
-        isMobile ? 16 : 28,
-        isMobile ? 24 : 34,
-      ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: <Color>[
@@ -207,66 +201,77 @@ class _ManagerSalaryScreenState extends State<ManagerSalaryScreen> {
           bottomRight: Radius.circular(32),
         ),
       ),
-      child: Row(
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.18),
-              shape: BoxShape.circle,
-            ),
-            child: IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: const Icon(Icons.arrow_back_rounded,
-                  color: Colors.white, size: 20),
-            ),
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(
+            isMobile ? 16 : 28,
+            isMobile ? 16 : 22,
+            isMobile ? 16 : 28,
+            isMobile ? 22 : 32,
           ),
-          SizedBox(width: isMobile ? 12 : 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Monthly Salary Details',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: isMobile ? 20 : 28,
-                    fontWeight: FontWeight.bold,
-                  ),
+          child: Row(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.18),
+                  shape: BoxShape.circle,
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  'View salary breakdown for all employees',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: isMobile ? 12 : 14,
-                  ),
-                  maxLines: isMobile ? 2 : 1,
-                  overflow: TextOverflow.ellipsis,
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.arrow_back_rounded,
+                      color: Colors.white, size: 20),
                 ),
-              ],
-            ),
+              ),
+              SizedBox(width: isMobile ? 12 : 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Monthly Salary Details',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: isMobile ? 20 : 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      'View salary breakdown for all employees',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: isMobile ? 12 : 14,
+                      ),
+                      maxLines: isMobile ? 2 : 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              if (!isMobile)
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child:
+                      const Icon(Icons.account_balance_wallet, color: Colors.white, size: 36),
+                )
+              else
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child:
+                      const Icon(Icons.account_balance_wallet, color: Colors.white, size: 22),
+                ),
+            ],
           ),
-          if (!isMobile)
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.15),
-                shape: BoxShape.circle,
-              ),
-              child:
-                  const Icon(Icons.account_balance_wallet, color: Colors.white, size: 36),
-            )
-          else
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.15),
-                shape: BoxShape.circle,
-              ),
-              child:
-                  const Icon(Icons.account_balance_wallet, color: Colors.white, size: 22),
-            ),
-        ],
+        ),
       ),
     );
   }
