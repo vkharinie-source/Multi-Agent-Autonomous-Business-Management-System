@@ -196,19 +196,38 @@ def toggle_task_completion(
 @router.get("")
 def get_all_tasks_for_manager(
     employee_id: Optional[str] = Query(None),
+    email: Optional[str] = Query(None),
     current_user: dict = Depends(require_admin_or_manager),
 ):
     """Manager view: Get all assigned tasks and completion status across employees."""
     query = {}
+    clauses = []
     if employee_id:
-        query["$or"] = [{"employee_id": employee_id}, {"email": employee_id}]
+        clauses.extend([{"employee_id": employee_id}, {"email": employee_id}])
+    if email:
+        clauses.extend([{"employee_id": email}, {"email": email.lower()}])
+
+    if clauses:
+        query["$or"] = clauses
 
     tasks = list(tasks_collection.find(query, {"_id": 0}))
+
+    # If an employee was requested but has no tasks yet in database, seed default tasks
+    if not tasks and (employee_id or email):
+        target_id = employee_id or email
+        target_email = email or (employee_id if "@" in str(employee_id) else "")
+        for t in DEFAULT_SEED_TASKS:
+            task_doc = dict(t)
+            task_doc["employee_id"] = target_id
+            task_doc["email"] = target_email
+            task_doc["created_at"] = datetime.now(timezone.utc).isoformat()
+            tasks_collection.insert_one(task_doc)
+        tasks = list(tasks_collection.find(query, {"_id": 0}))
 
     # Aggregate completion per employee
     emp_summary = {}
     for t in tasks:
-        eid = t.get("employee_id", "Unknown")
+        eid = t.get("employee_id") or t.get("email") or "Unknown"
         if eid not in emp_summary:
             emp_summary[eid] = {"total": 0, "completed": 0}
         emp_summary[eid]["total"] += 1
@@ -230,21 +249,53 @@ def assign_task_to_employee(
 ):
     """Manager assigns a new task to an employee."""
     task_id = f"TASK-{int(datetime.now().timestamp()) % 100000:05d}"
+
+    target_id = str(task.employee_id).strip()
+    emp_email = ""
+    emp_id = target_id
+
+    # Resolve from employees collection
+    emp_doc = employee_collection.find_one({
+        "$or": [
+            {"employee_id": target_id},
+            {"email": target_id.lower()},
+            {"name": target_id},
+        ]
+    })
+    if emp_doc:
+        emp_email = emp_doc.get("email", "")
+        emp_id = emp_doc.get("employee_id", target_id)
+    else:
+        user_doc = db["users"].find_one({
+            "$or": [
+                {"employee_id": target_id},
+                {"email": target_id.lower()},
+            ]
+        })
+        if user_doc:
+            emp_email = user_doc.get("email", "")
+            emp_id = user_doc.get("employee_id", target_id)
+
+    if not emp_email and "@" in target_id:
+        emp_email = target_id.lower()
+
     doc = {
         "task_id": task_id,
-        "employee_id": task.employee_id,
-        "title": task.title,
-        "deadline": task.deadline,
-        "priority": task.priority,
+        "employee_id": emp_id,
+        "email": emp_email,
+        "title": task.title.strip(),
+        "deadline": task.deadline.strip() if task.deadline else "Tomorrow",
+        "priority": task.priority.strip() if task.priority else "Medium",
         "completed": False,
         "status": "Pending",
         "assigned_by": current_user.get("email", "Manager"),
         "created_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(timezone.utc).isoformat(),
     }
     tasks_collection.insert_one(doc)
     doc.pop("_id", None)
     return {
         "status": "success",
-        "message": "Task assigned successfully to employee",
+        "message": f"Task assigned successfully to {emp_id}",
         "task": doc,
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/theme/theme_controller.dart';
 import 'about_screen.dart';
@@ -175,10 +176,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
         ),
-        title: const Text(
+        title: Text(
           'Settings',
-          style: TextStyle(
-            color: Color(0xFF0F172A),
+          style: GoogleFonts.poppins(
+            color: const Color(0xFF0F172A),
             fontSize: 18,
             fontWeight: FontWeight.w800,
             letterSpacing: -0.3,

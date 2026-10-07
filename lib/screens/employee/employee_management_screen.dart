@@ -732,16 +732,25 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
+                    onPressed: () => _openEmployeeTasksDialog(emp),
+                    tooltip: "Manage Tasks & Live Status",
+                    icon: const Icon(Icons.assignment_turned_in_outlined,
+                        color: Color(0xFF6366F1)),
+                  ),
+                  IconButton(
                     onPressed: () => openProfile(emp),
+                    tooltip: "View Profile",
                     icon: const Icon(Icons.visibility, color: Colors.purple),
                   ),
                   IconButton(
                     onPressed: () =>
                         openEmployeeForm(employee: emp, index: originalIndex),
+                    tooltip: "Edit Employee",
                     icon: const Icon(Icons.edit, color: Colors.blue),
                   ),
                   IconButton(
                     onPressed: () => deleteEmployee(originalIndex),
+                    tooltip: "Delete Employee",
                     icon: const Icon(Icons.delete, color: Colors.red),
                   ),
                 ],
@@ -905,12 +914,14 @@ class _EmployeeTasksDialogState extends State<_EmployeeTasksDialog> {
   }
 
   Future<void> _fetchEmployeeTasks() async {
+    setState(() => _isLoading = true);
     final empId = widget.emp["id"] ?? widget.emp["employee_id"] ?? "";
+    final empEmail = widget.emp["email"] ?? "";
     try {
       final String? token =
           await SecureStorageService.instance.readAccessToken();
-      final Uri uri =
-          Uri.parse('${ApiConfig.baseUrl}/api/tasks?employee_id=$empId');
+      final Uri uri = Uri.parse(
+          '${ApiConfig.baseUrl}/api/tasks?employee_id=$empId&email=$empEmail');
       final http.Response res = await http.get(
         uri,
         headers: <String, String>{
@@ -944,6 +955,7 @@ class _EmployeeTasksDialogState extends State<_EmployeeTasksDialog> {
             "deadline": "Today, 4:00 PM",
             "priority": "High",
             "completed": false,
+            "status": "Pending",
           },
           {
             "task_id": "TASK-02",
@@ -951,6 +963,7 @@ class _EmployeeTasksDialogState extends State<_EmployeeTasksDialog> {
             "deadline": "Tomorrow",
             "priority": "Medium",
             "completed": false,
+            "status": "Pending",
           },
           {
             "task_id": "TASK-03",
@@ -958,6 +971,7 @@ class _EmployeeTasksDialogState extends State<_EmployeeTasksDialog> {
             "deadline": "Friday, 3:00 PM",
             "priority": "Medium",
             "completed": false,
+            "status": "Pending",
           },
           {
             "task_id": "TASK-04",
@@ -965,6 +979,7 @@ class _EmployeeTasksDialogState extends State<_EmployeeTasksDialog> {
             "deadline": "30 July 2026",
             "priority": "Low",
             "completed": false,
+            "status": "Pending",
           },
         ];
         _isLoading = false;
@@ -972,31 +987,309 @@ class _EmployeeTasksDialogState extends State<_EmployeeTasksDialog> {
     }
   }
 
+  void _showAssignTaskDialog() {
+    final titleController = TextEditingController();
+    final deadlineController = TextEditingController(text: "Today, 5:00 PM");
+    String selectedPriority = "Medium";
+    bool isSubmitting = false;
+
+    showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (context, setDialogState) {
+          return AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            title: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF6366F1).withValues(alpha: 0.12),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(Icons.add_task_rounded,
+                      color: Color(0xFF6366F1), size: 22),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Assign New Task",
+                        style: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "To: ${widget.emp["name"]}",
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            content: SizedBox(
+              width: 420,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text("Task Title",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 13)),
+                    const SizedBox(height: 6),
+                    TextField(
+                      controller: titleController,
+                      decoration: InputDecoration(
+                        hintText: "e.g. Audit quarterly invoices",
+                        filled: true,
+                        fillColor: const Color(0xFFF8FAFF),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 12),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide:
+                              BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    const Text("Deadline",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 13)),
+                    const SizedBox(height: 6),
+                    TextField(
+                      controller: deadlineController,
+                      decoration: InputDecoration(
+                        hintText: "e.g. Today, 5:00 PM / Tomorrow",
+                        prefixIcon: const Icon(Icons.access_time_rounded,
+                            size: 18),
+                        filled: true,
+                        fillColor: const Color(0xFFF8FAFF),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 12),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide:
+                              BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    const Text("Priority Level",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 13)),
+                    const SizedBox(height: 6),
+                    DropdownButtonFormField<String>(
+                      initialValue: selectedPriority,
+                      items: const [
+                        DropdownMenuItem(
+                            value: "High", child: Text("🔴 High Priority")),
+                        DropdownMenuItem(
+                            value: "Medium",
+                            child: Text("🟠 Medium Priority")),
+                        DropdownMenuItem(
+                            value: "Low", child: Text("🟢 Low Priority")),
+                      ],
+                      onChanged: (val) {
+                        if (val != null) {
+                          setDialogState(() => selectedPriority = val);
+                        }
+                      },
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: const Color(0xFFF8FAFF),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 10),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide:
+                              BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: isSubmitting ? null : () => Navigator.pop(ctx),
+                child: const Text("Cancel"),
+              ),
+              ElevatedButton.icon(
+                onPressed: isSubmitting
+                    ? null
+                    : () async {
+                        final title = titleController.text.trim();
+                        final deadline = deadlineController.text.trim();
+                        final messenger = ScaffoldMessenger.of(context);
+                        final nav = Navigator.of(ctx);
+
+                        if (title.isEmpty) {
+                          messenger.showSnackBar(
+                            const SnackBar(
+                              content: Text("Please enter a task title."),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                          return;
+                        }
+
+                        setDialogState(() => isSubmitting = true);
+                        final empId = widget.emp["id"] ??
+                            widget.emp["employee_id"] ??
+                            "";
+                        final empEmail = widget.emp["email"] ?? "";
+
+                        try {
+                          final String? token =
+                              await SecureStorageService.instance
+                                  .readAccessToken();
+                          final Uri uri =
+                              Uri.parse('${ApiConfig.baseUrl}/api/tasks');
+                          final res = await http
+                              .post(
+                                uri,
+                                headers: <String, String>{
+                                  'Content-Type': 'application/json',
+                                  if (token != null)
+                                    'Authorization': 'Bearer $token',
+                                },
+                                body: jsonEncode({
+                                  'employee_id': empId.isNotEmpty
+                                      ? empId
+                                      : empEmail,
+                                  'title': title,
+                                  'deadline': deadline.isNotEmpty
+                                      ? deadline
+                                      : 'Tomorrow',
+                                  'priority': selectedPriority,
+                                }),
+                              )
+                              .timeout(const Duration(seconds: 10));
+
+                          if (res.statusCode == 200 ||
+                              res.statusCode == 201) {
+                            if (mounted) {
+                              nav.pop();
+                              _fetchEmployeeTasks();
+                              messenger.showSnackBar(
+                                SnackBar(
+                                  backgroundColor: const Color(0xFF10B981),
+                                  behavior: SnackBarBehavior.floating,
+                                  content: Text(
+                                      "✓ Task assigned to ${widget.emp["name"]}!"),
+                                ),
+                              );
+                            }
+                            return;
+                          }
+                        } catch (_) {}
+
+                        // Fallback client-side addition if offline
+                        if (mounted) {
+                          setState(() {
+                            _tasks.insert(0, {
+                              "task_id":
+                                  "TASK-${DateTime.now().millisecondsSinceEpoch % 10000}",
+                              "title": title,
+                              "deadline": deadline.isNotEmpty
+                                  ? deadline
+                                  : "Tomorrow",
+                              "priority": selectedPriority,
+                              "completed": false,
+                              "status": "Pending",
+                            });
+                          });
+                          nav.pop();
+                          messenger.showSnackBar(
+                            SnackBar(
+                              backgroundColor: const Color(0xFF10B981),
+                              behavior: SnackBarBehavior.floating,
+                              content: Text(
+                                  "✓ Task assigned to ${widget.emp["name"]}!"),
+                            ),
+                          );
+                        }
+                      },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF6366F1),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                icon: isSubmitting
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(
+                            strokeWidth: 2, color: Colors.white),
+                      )
+                    : const Icon(Icons.send_rounded, size: 16),
+                label: Text(isSubmitting ? "Assigning..." : "Assign Task"),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final int doneCount = _tasks.where((t) => t["completed"] == true).length;
     final int totalCount = _tasks.length;
+    final double progress =
+        totalCount > 0 ? (doneCount / totalCount).clamp(0.0, 1.0) : 0.0;
 
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
       title: Row(
         children: [
-          const Icon(Icons.assignment_turned_in_rounded,
-              color: Color(0xFF6366F1), size: 24),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              "${widget.emp["name"]}'s Tasks",
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color(0xFFEEF2FF),
+              borderRadius: BorderRadius.circular(10),
             ),
+            child: const Icon(Icons.assignment_turned_in_rounded,
+                color: Color(0xFF6366F1), size: 22),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${widget.emp["name"]}'s Tasks",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "ID: ${widget.emp["id"] ?? widget.emp["employee_id"] ?? ""} • ${widget.emp["designation"] ?? "Employee"}",
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            tooltip: "Refresh Task Status",
+            icon: const Icon(Icons.refresh_rounded, color: Color(0xFF6366F1)),
+            onPressed: _fetchEmployeeTasks,
           ),
         ],
       ),
       content: SizedBox(
-        width: 460,
+        width: 480,
         child: _isLoading
             ? const SizedBox(
-                height: 120,
+                height: 140,
                 child: Center(
                   child: CircularProgressIndicator(color: Color(0xFF6366F1)),
                 ),
@@ -1005,107 +1298,204 @@ class _EmployeeTasksDialogState extends State<_EmployeeTasksDialog> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Live Progress Card
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 10),
+                    padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
                       color: const Color(0xFFEEF2FF),
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xFFC7D2FE)),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Live Completion Status:",
-                          style: TextStyle(
-                            color: Color(0xFF4338CA),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Row(
+                              children: [
+                                Icon(Icons.insights_rounded,
+                                    size: 16, color: Color(0xFF4338CA)),
+                                SizedBox(width: 6),
+                                Text(
+                                  "Live Task Completion:",
+                                  style: TextStyle(
+                                    color: Color(0xFF4338CA),
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 3),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF4338CA),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                "$doneCount of $totalCount Done (${(progress * 100).round()}%)",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          "$doneCount of $totalCount Done",
-                          style: const TextStyle(
-                            color: Color(0xFF4338CA),
-                            fontWeight: FontWeight.w800,
-                            fontSize: 13,
+                        const SizedBox(height: 10),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: LinearProgressIndicator(
+                            value: progress,
+                            minHeight: 8,
+                            backgroundColor: const Color(0xFFC7D2FE),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              progress >= 1.0
+                                  ? const Color(0xFF10B981)
+                                  : const Color(0xFF6366F1),
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(height: 14),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Assigned Task List",
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF334155)),
+                      ),
+                      TextButton.icon(
+                        onPressed: _showAssignTaskDialog,
+                        style: TextButton.styleFrom(
+                          foregroundColor: const Color(0xFF6366F1),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 4),
+                        ),
+                        icon: const Icon(Icons.add_circle_outline_rounded,
+                            size: 16),
+                        label: const Text(
+                          "+ Assign Task",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 12),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
                   if (_tasks.isEmpty)
-                    const Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Center(
-                        child: Text("No tasks currently assigned."),
+                    Container(
+                      padding: const EdgeInsets.all(24),
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.task_alt,
+                              size: 40, color: Colors.grey.shade300),
+                          const SizedBox(height: 8),
+                          const Text("No tasks currently assigned.",
+                              style: TextStyle(color: Colors.grey)),
+                          const SizedBox(height: 8),
+                          ElevatedButton.icon(
+                            onPressed: _showAssignTaskDialog,
+                            icon: const Icon(Icons.add, size: 16),
+                            label: const Text("Assign First Task"),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF6366F1),
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                            ),
+                          ),
+                        ],
                       ),
                     )
                   else
                     Flexible(
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        itemCount: _tasks.length,
-                        separatorBuilder: (context, index) =>
-                            const Divider(height: 1),
-                        itemBuilder: (context, idx) {
-                          final t = _tasks[idx];
-                          final bool isDone = t["completed"] == true;
-                          return ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 4, vertical: 4),
-                            leading: Icon(
-                              isDone
-                                  ? Icons.check_circle_rounded
-                                  : Icons.radio_button_unchecked_rounded,
-                              color: isDone
-                                  ? const Color(0xFF10B981)
-                                  : Colors.grey,
-                            ),
-                            title: Text(
-                              t["title"] ?? "",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                decoration: isDone
-                                    ? TextDecoration.lineThrough
-                                    : TextDecoration.none,
-                                color: isDone ? Colors.grey : Colors.black87,
-                              ),
-                            ),
-                            subtitle: Text(
-                              "${t["priority"] ?? "Medium"} Priority • ${t["deadline"] ?? "Pending"}",
-                              style: const TextStyle(fontSize: 11),
-                            ),
-                            trailing: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 3),
-                              decoration: BoxDecoration(
+                      child: Container(
+                        constraints: const BoxConstraints(maxHeight: 260),
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: _tasks.length,
+                          separatorBuilder: (context, index) =>
+                              const Divider(height: 1),
+                          itemBuilder: (context, idx) {
+                            final t = _tasks[idx];
+                            final bool isDone = t["completed"] == true;
+                            return ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 4, vertical: 4),
+                              leading: Icon(
+                                isDone
+                                    ? Icons.check_circle_rounded
+                                    : Icons.radio_button_unchecked_rounded,
                                 color: isDone
-                                    ? const Color(0xFFDCFCE7)
-                                    : const Color(0xFFFEF3C7),
-                                borderRadius: BorderRadius.circular(10),
+                                    ? const Color(0xFF10B981)
+                                    : Colors.grey,
                               ),
-                              child: Text(
-                                isDone ? "Completed" : "Pending",
+                              title: Text(
+                                t["title"] ?? "",
                                 style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.bold,
-                                  color: isDone
-                                      ? const Color(0xFF16A34A)
-                                      : const Color(0xFFD97706),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  decoration: isDone
+                                      ? TextDecoration.lineThrough
+                                      : TextDecoration.none,
+                                  color: isDone ? Colors.grey : Colors.black87,
                                 ),
                               ),
-                            ),
-                          );
-                        },
+                              subtitle: Text(
+                                "${t["priority"] ?? "Medium"} Priority • ${t["deadline"] ?? "Pending"}",
+                                style: const TextStyle(fontSize: 11),
+                              ),
+                              trailing: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  color: isDone
+                                      ? const Color(0xFFDCFCE7)
+                                      : const Color(0xFFFEF3C7),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(
+                                  isDone ? "Completed" : "Pending",
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                    color: isDone
+                                        ? const Color(0xFF16A34A)
+                                        : const Color(0xFFD97706),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                 ],
               ),
       ),
       actions: [
+        ElevatedButton.icon(
+          onPressed: _showAssignTaskDialog,
+          icon: const Icon(Icons.add_task_rounded, size: 16),
+          label: const Text("Assign New Task"),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF6366F1),
+            foregroundColor: Colors.white,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+        ),
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: const Text("Close"),

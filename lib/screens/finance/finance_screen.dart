@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 enum FinanceTransactionType { income, expense }
 
@@ -336,10 +337,10 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
             ),
           ),
         ),
-        title: const Text(
+        title: Text(
           'Finance Management',
-          style: TextStyle(
-            color: Color(0xFF0F172A),
+          style: GoogleFonts.poppins(
+            color: const Color(0xFF0F172A),
             fontSize: 18,
             fontWeight: FontWeight.w800,
             letterSpacing: -0.3,
@@ -464,7 +465,7 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
       children: [
         Text(
           'Financial Overview',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             color: Colors.white,
             fontSize: compact ? 24 : 32,
             fontWeight: FontWeight.w900,

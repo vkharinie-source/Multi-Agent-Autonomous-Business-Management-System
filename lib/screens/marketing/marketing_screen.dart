@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 enum CampaignStatus { active, scheduled, paused, completed }
 
@@ -373,9 +374,9 @@ class _MarketingDashboardState extends State<MarketingDashboard> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Marketing Management',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
         ),
         elevation: 0,
         actions: [
@@ -478,7 +479,7 @@ class _MarketingDashboardState extends State<MarketingDashboard> {
       children: [
         Text(
           'Marketing Overview',
-          style: TextStyle(
+          style: GoogleFonts.poppins(
             color: Colors.white,
             fontSize: mobile ? 25 : 32,
             fontWeight: FontWeight.w900,
