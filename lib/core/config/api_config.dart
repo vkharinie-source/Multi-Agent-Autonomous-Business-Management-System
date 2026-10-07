@@ -1,16 +1,11 @@
-import 'package:flutter/foundation.dart';
-
 class ApiConfig {
   ApiConfig._();
 
+  static const String productionUrl =
+      'https://multi-agent-autonomous-business.onrender.com';
+
   static String get baseUrl {
-    if (kIsWeb) {
-      final String host = Uri.base.host;
-      if (host == 'localhost' || host == '127.0.0.1') {
-        return 'http://127.0.0.1:8000';
-      }
-    }
-    return 'https://multi-agent-autonomous-business.onrender.com';
+    return productionUrl;
   }
 
   // Authentication endpoints

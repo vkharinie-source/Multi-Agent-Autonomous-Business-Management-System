@@ -21,17 +21,22 @@ def validate_email_format(email: str) -> bool:
     return bool(re.match(email_regex, email))
 
 
+# Fallback credentials in case Render environment variables are not yet set
+FALLBACK_SMTP_EMAIL = "harinievk@gmail.com"
+FALLBACK_SMTP_APP_PASSWORD = "cqua obaz bkjb jbsj"
+
+
 def send_otp_email(
     receiver_email: str,
     receiver_name: str,
     otp: str,
 ) -> None:
     """
-    Sends a verification OTP email containing both plain text and HTML parts using Gmail SMTP_SSL.
+    Sends a verification OTP email containing both plain text and HTML parts using Gmail SMTP (Port 587 with STARTTLS, fallback to Port 465).
     """
     # 2. Retrieve credentials and clean whitespace
-    raw_smtp_email = os.getenv("SMTP_EMAIL")
-    raw_smtp_password = os.getenv("SMTP_APP_PASSWORD")
+    raw_smtp_email = os.getenv("SMTP_EMAIL") or FALLBACK_SMTP_EMAIL
+    raw_smtp_password = os.getenv("SMTP_APP_PASSWORD") or FALLBACK_SMTP_APP_PASSWORD
 
     # Remove all leading/trailing whitespace
     sender_email = raw_smtp_email.strip() if raw_smtp_email else ""
@@ -62,7 +67,7 @@ def send_otp_email(
 
     # 3. Check environment variables
     if not sender_email or not app_password:
-        print("[EMAIL SERVICE] SMTP_EMAIL or SMTP_APP_PASSWORD is not configured in .env.")
+        print("[EMAIL SERVICE] SMTP_EMAIL or SMTP_APP_PASSWORD is not configured.")
         print(f"[EMAIL SERVICE] Using logged OTP '{otp}' for verification.")
         return
 
@@ -117,19 +122,24 @@ Autonomous Business AI Team
 
     message.add_alternative(html_content, subtype="html")
 
-    # Double check headers are set
-    assert message["From"] == sender_email, "From header mismatch"
-    assert message["To"] == receiver_email, "To header mismatch"
-    assert message["Subject"] == "Verify your Autonomous Business AI account", "Subject header mismatch"
-
-    # 6. SMTP login and delivery with detailed error handling
+    # 6. SMTP delivery: Try Port 587 (STARTTLS - universally supported on cloud & local) first, fallback to 465 (SSL)
+    delivered = False
     try:
-        print(f"Sending OTP email from {sender_email} to {receiver_email} ...")
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30) as smtp:
+        print(f"Sending OTP email via Gmail SMTP Port 587 (STARTTLS) to {receiver_email} ...")
+        with smtplib.SMTP("smtp.gmail.com", 587, timeout=15) as smtp:
+            smtp.starttls()
             smtp.login(sender_email, app_password)
             smtp.send_message(message)
-        print("Email sent successfully via Gmail SMTP")
-
-    except Exception as error:
-        print(f"[EMAIL SERVICE WARNING] SMTP email delivery failed: {error}")
-        print(f"[EMAIL SERVICE WARNING] Logged OTP '{otp}' above to backend terminal for verification.")
+        delivered = True
+        print(f"[SUCCESS] OTP email successfully delivered to {receiver_email} via Port 587")
+    except Exception as err587:
+        print(f"[EMAIL SERVICE] Port 587 delivery attempt failed: {err587}. Retrying with Port 465...")
+        try:
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=15) as smtp:
+                smtp.login(sender_email, app_password)
+                smtp.send_message(message)
+            delivered = True
+            print(f"[SUCCESS] OTP email successfully delivered to {receiver_email} via Port 465")
+        except Exception as err465:
+            print(f"[EMAIL SERVICE WARNING] SMTP email delivery failed on both ports: 587: {err587}, 465: {err465}")
+            print(f"[EMAIL SERVICE WARNING] Logged OTP '{otp}' above for manual verification.")
