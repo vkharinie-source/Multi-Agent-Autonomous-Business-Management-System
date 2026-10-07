@@ -7,6 +7,7 @@ import '../../core/services/admin_attendance_service.dart';
 import 'attendance_analytics.dart';
 import 'attendance_history.dart';
 import 'late_arrival.dart';
+import 'monthly_report.dart';
 import 'qr_attendance.dart';
 
 class AttendanceDashboard extends StatefulWidget {
@@ -725,10 +726,7 @@ class _AttendanceDashboardState extends State<AttendanceDashboard> {
           maxWidth: maxWidth,
           isMobile: isMobile,
           onTap: () {
-            _showMessage(
-              message: 'Monthly report will be connected next.',
-              isError: false,
-            );
+            _openPage(context, const MonthlyReportScreen());
           },
         ),
         _buildModuleCard(
