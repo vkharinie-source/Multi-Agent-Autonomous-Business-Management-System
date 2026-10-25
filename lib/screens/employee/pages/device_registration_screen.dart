@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/exceptions/api_exception.dart';
 import '../../../core/services/device_service.dart';
@@ -263,7 +264,7 @@ class _DeviceRegistrationScreenState extends State<DeviceRegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FC),
+      backgroundColor: const Color(0xFFF8F6FA),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -276,26 +277,26 @@ class _DeviceRegistrationScreenState extends State<DeviceRegistrationScreen> {
               width: 38,
               height: 38,
               decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
+                color: const Color(0xFFFAF8FB),
                 shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFFE2E8F0)),
+                border: Border.all(color: const Color(0xFFEBE6F0)),
               ),
               child: IconButton(
                 padding: EdgeInsets.zero,
                 icon: const Icon(
                   Icons.arrow_back_ios_new_rounded,
                   size: 16,
-                  color: Color(0xFF0F172A),
+                  color: Color(0xFF9988A1),
                 ),
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
             ),
           ),
         ),
-        title: const Text(
+        title: Text(
           'Attendance Device',
-          style: TextStyle(
-            color: Color(0xFF0F172A),
+          style: GoogleFonts.inter(
+            color: const Color(0xFF281E30),
             fontSize: 18,
             fontWeight: FontWeight.w800,
             letterSpacing: -0.3,
@@ -304,7 +305,7 @@ class _DeviceRegistrationScreenState extends State<DeviceRegistrationScreen> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Container(
-            color: const Color(0xFFE2E8F0).withValues(alpha: 0.7),
+            color: const Color(0xFFEBE6F0),
             height: 1,
           ),
         ),
@@ -316,9 +317,9 @@ class _DeviceRegistrationScreenState extends State<DeviceRegistrationScreen> {
                 width: 38,
                 height: 38,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF1F5F9),
+                  color: const Color(0xFFFAF8FB),
                   shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFFE2E8F0)),
+                  border: Border.all(color: const Color(0xFFEBE6F0)),
                 ),
                 child: IconButton(
                   padding: EdgeInsets.zero,
@@ -327,7 +328,7 @@ class _DeviceRegistrationScreenState extends State<DeviceRegistrationScreen> {
                   icon: const Icon(
                     Icons.refresh_rounded,
                     size: 18,
-                    color: Color(0xFF0F172A),
+                    color: Color(0xFF9988A1),
                   ),
                 ),
               ),
@@ -381,14 +382,14 @@ class _DeviceRegistrationScreenState extends State<DeviceRegistrationScreen> {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF130D36), Color(0xFF1E1452), Color(0xFF2E1C74)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1E1452).withValues(alpha: 0.35),
+            color: const Color(0xFF9988A1).withValues(alpha: 0.28),
             blurRadius: 22,
             offset: const Offset(0, 8),
           ),
@@ -509,7 +510,7 @@ class _DeviceRegistrationScreenState extends State<DeviceRegistrationScreen> {
               child: ElevatedButton.icon(
                 onPressed: _isRegistering ? null : _registerCurrentDevice,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF1749E5),
+                  backgroundColor: const Color(0xFF9988A1),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -578,12 +579,12 @@ class _DeviceRegistrationScreenState extends State<DeviceRegistrationScreen> {
         children: [
           CircleAvatar(
             radius: 27,
-            backgroundColor: const Color(0xFFE8EEFF),
+            backgroundColor: const Color(0xFFFAF8FB),
             child: Icon(
               _platform(device) == 'iOS'
                   ? Icons.phone_iphone_rounded
                   : Icons.phone_android_rounded,
-              color: const Color(0xFF1749E5),
+              color: const Color(0xFF9988A1),
               size: 29,
             ),
           ),

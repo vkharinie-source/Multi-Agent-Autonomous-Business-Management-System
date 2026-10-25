@@ -93,9 +93,9 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
-              primary: Color(0xFF6C5CE7),
+              primary: Color(0xFF9988A1),
               onPrimary: Colors.white,
-              onSurface: Color(0xFF201A3D),
+              onSurface: Color(0xFF1E2B37),
             ),
           ),
           child: child ?? const SizedBox.shrink(),
@@ -199,7 +199,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F5FC),
+      backgroundColor: const Color(0xFFF8F6FA),
       body: SafeArea(
         child: Stack(
           children: [
@@ -209,7 +209,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
               right: -60,
               child: _buildGlowCircle(
                 size: 260,
-                color: const Color(0xFF7B61FF).withValues(alpha: 0.10),
+                color: const Color(0xFFC7BED0).withValues(alpha: 0.15),
               ),
             ),
             Positioned(
@@ -217,7 +217,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
               left: -80,
               child: _buildGlowCircle(
                 size: 280,
-                color: const Color(0xFFB66DFF).withValues(alpha: 0.10),
+                color: const Color(0xFFDED8E4).withValues(alpha: 0.12),
               ),
             ),
 
@@ -277,7 +277,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.85),
         border: const Border(
-          bottom: BorderSide(color: Color(0xFFEBE6F8), width: 1),
+          bottom: BorderSide(color: Color(0xFFEBE6F0), width: 1),
         ),
       ),
       child: Row(
@@ -285,8 +285,8 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
           IconButton(
             onPressed: () => Navigator.of(context).maybePop(),
             style: IconButton.styleFrom(
-              backgroundColor: const Color(0xFFF3EEFF),
-              foregroundColor: const Color(0xFF4C3F91),
+              backgroundColor: const Color(0xFFFAF8FB),
+              foregroundColor: const Color(0xFF9988A1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -301,14 +301,14 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
               Text(
                 'Apply Leave',
                 style: GoogleFonts.inter(
-                  color: const Color(0xFF201A3D),
+                  color: const Color(0xFF1E2B37),
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               Text(
                 'Time-off & Leave Request Form',
-                style: GoogleFonts.inter(color: const Color(0xFF756E8A), fontSize: 12),
+                style: GoogleFonts.inter(color: const Color(0xFF5A6E82), fontSize: 12),
               ),
             ],
           ),
@@ -316,10 +316,10 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: const Color(0xFF6C5CE7).withValues(alpha: 0.12),
+              color: const Color(0xFF9988A1).withValues(alpha: 0.10),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: const Color(0xFF6C5CE7).withValues(alpha: 0.3),
+                color: const Color(0xFF9988A1).withValues(alpha: 0.25),
               ),
             ),
             child: const Row(
@@ -327,14 +327,14 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
               children: [
                 Icon(
                   Icons.event_available_rounded,
-                  color: Color(0xFF6C5CE7),
+                  color: Color(0xFF9988A1),
                   size: 14,
                 ),
                 SizedBox(width: 5),
                 Text(
                   'Active Year',
                   style: TextStyle(
-                    color: Color(0xFF6C5CE7),
+                    color: Color(0xFF9988A1),
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                   ),
@@ -355,12 +355,12 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF35168A), Color(0xFF6C5CE7), Color(0xFF8E5BEF)],
+          colors: [Color(0xFF1E2B37), Color(0xFF4C3C56), Color(0xFF9988A1)],
         ),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF5D4BB7).withValues(alpha: 0.35),
+            color: const Color(0xFF9988A1).withValues(alpha: 0.28),
             blurRadius: 22,
             offset: const Offset(0, 10),
           ),
@@ -434,12 +434,12 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
   }) {
     return Row(
       children: [
-        Icon(icon, color: const Color(0xFF6C5CE7), size: 20),
+        Icon(icon, color: const Color(0xFF9988A1), size: 20),
         const SizedBox(width: 8),
         Text(
           title,
           style: const TextStyle(
-            color: Color(0xFF201A3D),
+            color: Color(0xFF1E2B37),
             fontSize: 17,
             fontWeight: FontWeight.w800,
           ),
@@ -475,15 +475,15 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                   borderRadius: BorderRadius.circular(18),
                   border: Border.all(
                     color: isSelected
-                        ? const Color(0xFF6C5CE7)
-                        : const Color(0xFFEBE6F8),
+                        ? const Color(0xFF9988A1)
+                        : const Color(0xFFEBE6F0),
                     width: isSelected ? 2 : 1,
                   ),
                   boxShadow: [
                     BoxShadow(
                       color: isSelected
-                          ? const Color(0xFF6C5CE7).withValues(alpha: 0.14)
-                          : const Color(0xFF5D4BB7).withValues(alpha: 0.04),
+                          ? const Color(0xFF9988A1).withValues(alpha: 0.14)
+                          : const Color(0xFF9988A1).withValues(alpha: 0.04),
                       blurRadius: isSelected ? 14 : 8,
                       offset: const Offset(0, 4),
                     ),
@@ -519,7 +519,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                           Text(
                             item['balance'] as String,
                             style: TextStyle(
-                              color: isSelected ? const Color(0xFF6C5CE7) : const Color(0xFF8B849E),
+                              color: isSelected ? const Color(0xFF9988A1) : const Color(0xFF8B849E),
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
                             ),
@@ -530,7 +530,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                     if (isSelected)
                       const Icon(
                         Icons.check_circle_rounded,
-                        color: Color(0xFF6C5CE7),
+                        color: Color(0xFF9988A1),
                         size: 18,
                       ),
                   ],
@@ -555,7 +555,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: hasSelection ? const Color(0xFF6C5CE7) : const Color(0xFFEBE6F8),
+            color: hasSelection ? const Color(0xFF9988A1) : const Color(0xFFEBE6F0),
             width: hasSelection ? 1.5 : 1,
           ),
           boxShadow: [
@@ -583,7 +583,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                       children: [
                         const Row(
                           children: [
-                            Icon(Icons.flight_takeoff_rounded, color: Color(0xFF6C5CE7), size: 14),
+                            Icon(Icons.flight_takeoff_rounded, color: Color(0xFF9988A1), size: 14),
                             SizedBox(width: 5),
                             Text(
                               'Start Date',
@@ -606,7 +606,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                 ),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Icon(Icons.arrow_forward_rounded, color: Color(0xFF6C5CE7), size: 18),
+                  child: Icon(Icons.arrow_forward_rounded, color: Color(0xFF9988A1), size: 18),
                 ),
                 Expanded(
                   child: Container(
@@ -661,7 +661,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                     children: [
                       Icon(
                         hasSelection ? Icons.timer_outlined : Icons.calendar_today_rounded,
-                        color: hasSelection ? const Color(0xFF047857) : const Color(0xFF6C5CE7),
+                        color: hasSelection ? const Color(0xFF047857) : const Color(0xFF9988A1),
                         size: 14,
                       ),
                       const SizedBox(width: 5),
@@ -670,7 +670,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                             ? '$_selectedDaysCount ${_selectedDaysCount == 1 ? "Day" : "Days"} Total'
                             : 'No dates chosen',
                         style: TextStyle(
-                          color: hasSelection ? const Color(0xFF047857) : const Color(0xFF6C5CE7),
+                          color: hasSelection ? const Color(0xFF047857) : const Color(0xFF9988A1),
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                         ),
@@ -683,7 +683,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                   icon: const Icon(Icons.edit_calendar_rounded, size: 16),
                   label: Text(hasSelection ? 'Change Dates' : 'Select Dates'),
                   style: TextButton.styleFrom(
-                    foregroundColor: const Color(0xFF6C5CE7),
+                    foregroundColor: const Color(0xFF9988A1),
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                   ),
                 ),
@@ -749,12 +749,12 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [Color(0xFF6C5CE7), Color(0xFF8E5BEF)],
+            colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
           ),
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF6C5CE7).withValues(alpha: 0.32),
+              color: const Color(0xFF9988A1).withValues(alpha: 0.32),
               blurRadius: 18,
               offset: const Offset(0, 10),
             ),

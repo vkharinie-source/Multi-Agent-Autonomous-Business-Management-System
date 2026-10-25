@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../core/config/api_config.dart';
@@ -174,7 +175,7 @@ class _EmployeeAiChatScreenState extends State<EmployeeAiChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F5FC),
+      backgroundColor: const Color(0xFFF8F6FA),
       body: SafeArea(
         child: Stack(
           children: [
@@ -183,7 +184,7 @@ class _EmployeeAiChatScreenState extends State<EmployeeAiChatScreen> {
               right: -60,
               child: _glowCircle(
                 size: 260,
-                color: const Color(0xFF7B61FF).withValues(alpha: 0.10),
+                color: const Color(0xFFC7BED0).withValues(alpha: 0.18),
               ),
             ),
             Positioned(
@@ -191,7 +192,7 @@ class _EmployeeAiChatScreenState extends State<EmployeeAiChatScreen> {
               left: -80,
               child: _glowCircle(
                 size: 280,
-                color: const Color(0xFFB66DFF).withValues(alpha: 0.10),
+                color: const Color(0xFFDED8E4).withValues(alpha: 0.18),
               ),
             ),
             Column(
@@ -247,22 +248,22 @@ class _EmployeeAiChatScreenState extends State<EmployeeAiChatScreen> {
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFF6C5CE7), Color(0xFF8E5BEF)],
+                colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
               ),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(Icons.smart_toy_rounded, color: Colors.white, size: 20),
           ),
           const SizedBox(width: 10),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'AI Workplace Assistant',
-                  style: TextStyle(
-                    color: Color(0xFF201A3D),
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF281E30),
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
                   ),
@@ -304,15 +305,15 @@ class _EmployeeAiChatScreenState extends State<EmployeeAiChatScreen> {
             label: Text(
               prompt,
               style: const TextStyle(
-                color: Color(0xFF6C5CE7),
+                color: Color(0xFF9988A1),
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            backgroundColor: const Color(0xFFF3EEFF),
+            backgroundColor: const Color(0xFFE8F1FA),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
-              side: const BorderSide(color: Color(0xFFE0D7F8)),
+              side: const BorderSide(color: Color(0xFFC7D7E6)),
             ),
             onPressed: () => _sendMessage(prompt),
           );
@@ -333,7 +334,7 @@ class _EmployeeAiChatScreenState extends State<EmployeeAiChatScreen> {
         decoration: BoxDecoration(
           gradient: isUser
               ? const LinearGradient(
-                  colors: [Color(0xFF6C5CE7), Color(0xFF8E5BEF)],
+                  colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
                 )
               : null,
           color: isUser ? null : Colors.white,
@@ -345,7 +346,7 @@ class _EmployeeAiChatScreenState extends State<EmployeeAiChatScreen> {
           ),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF5D4BB7).withValues(alpha: 0.05),
+              color: const Color(0xFF9988A1).withValues(alpha: 0.08),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -358,12 +359,12 @@ class _EmployeeAiChatScreenState extends State<EmployeeAiChatScreen> {
               const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.auto_awesome, color: Color(0xFF6C5CE7), size: 12),
+                  Icon(Icons.auto_awesome, color: Color(0xFF9988A1), size: 12),
                   SizedBox(width: 4),
                   Text(
                     'AI Assistant',
                     style: TextStyle(
-                      color: Color(0xFF6C5CE7),
+                      color: Color(0xFF9988A1),
                       fontSize: 11,
                       fontWeight: FontWeight.w800,
                     ),
@@ -423,7 +424,7 @@ class _EmployeeAiChatScreenState extends State<EmployeeAiChatScreen> {
               height: 14,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: Color(0xFF6C5CE7),
+                color: Color(0xFF9988A1),
               ),
             ),
             SizedBox(width: 10),
@@ -478,11 +479,11 @@ class _EmployeeAiChatScreenState extends State<EmployeeAiChatScreen> {
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide: const BorderSide(color: Color(0xFFECE7F6)),
+                  borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
-                  borderSide: const BorderSide(color: Color(0xFF6C5CE7), width: 1.5),
+                  borderSide: const BorderSide(color: Color(0xFF9988A1), width: 1.5),
                 ),
               ),
             ),
@@ -493,12 +494,12 @@ class _EmployeeAiChatScreenState extends State<EmployeeAiChatScreen> {
             width: 48,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFF6C5CE7), Color(0xFF8E5BEF)],
+                colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
               ),
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF6C5CE7).withValues(alpha: 0.35),
+                  color: const Color(0xFF9988A1).withValues(alpha: 0.35),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),

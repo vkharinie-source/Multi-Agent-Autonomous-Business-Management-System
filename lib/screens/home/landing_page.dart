@@ -25,9 +25,9 @@ class LandingPage extends StatelessWidget {
         final stackedWide = isMobile || isTablet;
 
         return Scaffold(
-          backgroundColor: const Color(0xffF3F6FF),
+          backgroundColor: const Color(0xFFF8F6FA),
           floatingActionButton: FloatingActionButton.extended(
-            backgroundColor: const Color(0xff2563EB),
+            backgroundColor: const Color(0xFF9988A1),
             foregroundColor: Colors.white,
             elevation: 4,
             icon: const Icon(Icons.smart_toy_rounded),
@@ -47,7 +47,7 @@ class LandingPage extends StatelessWidget {
           appBar: isMobile
               ? AppBar(
                   elevation: 0,
-                  backgroundColor: const Color(0xff081A63),
+                  backgroundColor: const Color(0xFF9988A1),
                   surfaceTintColor: Colors.transparent,
                   centerTitle: true,
                   title: Text(
@@ -119,7 +119,7 @@ class LandingPage extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xff020A3D), Color(0xff123BD8)],
+          colors: [Color(0xFF131D26), Color(0xFF4C3C56), Color(0xFF6B5875)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -866,8 +866,8 @@ class PremiumChartPainter extends CustomPainter {
       Paint()
         ..shader = LinearGradient(
           colors: [
-            const Color(0xff2563EB).withValues(alpha: 0.25),
-            const Color(0xff9333EA).withValues(alpha: 0.04),
+            const Color(0xFF9988A1).withValues(alpha: 0.28),
+            const Color(0xFFC7BED0).withValues(alpha: 0.04),
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -878,7 +878,7 @@ class PremiumChartPainter extends CustomPainter {
       path,
       Paint()
         ..shader = const LinearGradient(
-          colors: [Color(0xff2563EB), Color(0xff9333EA)],
+          colors: [Color(0xFF9988A1), Color(0xFFC7BED0)],
         ).createShader(Rect.fromLTWH(0, 0, size.width, chartHeight))
         ..strokeWidth = 5
         ..style = PaintingStyle.stroke
@@ -890,7 +890,7 @@ class PremiumChartPainter extends CustomPainter {
     final pointFill = Paint()..color = Colors.white;
 
     final pointBorder = Paint()
-      ..color = const Color(0xff2563EB)
+      ..color = const Color(0xFF9988A1)
       ..strokeWidth = 4
       ..style = PaintingStyle.stroke;
 

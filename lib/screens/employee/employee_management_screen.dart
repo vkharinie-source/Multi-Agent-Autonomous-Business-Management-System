@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 import '../../core/config/api_config.dart';
@@ -413,7 +414,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xff020A3D), Color(0xff2563EB), Color(0xff9333EA)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -452,10 +453,10 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
                   children: [
                     Text(
                       "Employee Management",
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         color: Colors.white,
                         fontSize: isMobile ? 20 : 28,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -623,7 +624,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
 
     final leaveButton = ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xff8B5CF6),
+        backgroundColor: const Color(0xFF7A6883),
         foregroundColor: Colors.white,
         padding: EdgeInsets.symmetric(
           horizontal: 18,
@@ -643,7 +644,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
 
     final salaryButton = ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xff10B981),
+        backgroundColor: const Color(0xFF5E4E68),
         foregroundColor: Colors.white,
         padding: EdgeInsets.symmetric(
           horizontal: 18,
@@ -665,7 +666,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
 
     final addButton = ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xff2563EB),
+        backgroundColor: const Color(0xFF9988A1),
         foregroundColor: Colors.white,
         padding: EdgeInsets.symmetric(
           horizontal: 20,
@@ -719,7 +720,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
             style: TextStyle(
               fontSize: isMobile ? 19 : 24,
               fontWeight: FontWeight.bold,
-              color: const Color(0xff081A63),
+              color: const Color(0xFF281E30),
             ),
           ),
           const SizedBox(height: 18),
@@ -738,23 +739,23 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
                     onPressed: () => _openEmployeeTasksDialog(emp),
                     tooltip: "Manage Tasks & Live Status",
                     icon: const Icon(Icons.assignment_turned_in_outlined,
-                        color: Color(0xFF6366F1)),
+                        color: Color(0xFF9988A1)),
                   ),
                   IconButton(
                     onPressed: () => openProfile(emp),
                     tooltip: "View Profile",
-                    icon: const Icon(Icons.visibility, color: Colors.purple),
+                    icon: const Icon(Icons.visibility, color: Color(0xFF7A6883)),
                   ),
                   IconButton(
                     onPressed: () =>
                         openEmployeeForm(employee: emp, index: originalIndex),
                     tooltip: "Edit Employee",
-                    icon: const Icon(Icons.edit, color: Colors.blue),
+                    icon: const Icon(Icons.edit, color: Color(0xFF5E4E68)),
                   ),
                   IconButton(
                     onPressed: () => deleteEmployee(originalIndex),
                     tooltip: "Delete Employee",
-                    icon: const Icon(Icons.delete, color: Colors.red),
+                    icon: const Icon(Icons.delete, color: Color(0xFFD32F2F)),
                   ),
                 ],
               );
@@ -775,7 +776,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
                             children: [
                               const CircleAvatar(
                                 radius: 26,
-                                backgroundColor: Color(0xff2563EB),
+                                backgroundColor: Color(0xFF9988A1),
                                 child: Icon(Icons.person, color: Colors.white),
                               ),
                               const SizedBox(width: 14),
@@ -788,7 +789,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
                                       style: const TextStyle(
                                         fontSize: 17,
                                         fontWeight: FontWeight.bold,
-                                        color: Color(0xff081A63),
+                                        color: Color(0xFF281E30),
                                       ),
                                     ),
                                     const SizedBox(height: 4),
@@ -818,7 +819,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
                               Text(
                                 "₹${emp["salary"]}",
                                 style: const TextStyle(
-                                  color: Color(0xff10B981),
+                                  color: Color(0xFF5E4E68),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),
@@ -833,7 +834,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
                         children: [
                           const CircleAvatar(
                             radius: 30,
-                            backgroundColor: Color(0xff2563EB),
+                            backgroundColor: Color(0xFF9988A1),
                             child: Icon(Icons.person, color: Colors.white),
                           ),
                           const SizedBox(width: 18),
@@ -846,7 +847,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
                                   style: const TextStyle(
                                     fontSize: 19,
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xff081A63),
+                                    color: Color(0xFF281E30),
                                   ),
                                 ),
                                 const SizedBox(height: 6),
@@ -865,7 +866,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
                           Text(
                             "₹${emp["salary"]}",
                             style: const TextStyle(
-                              color: Color(0xff10B981),
+                              color: Color(0xFF5E4E68),
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),

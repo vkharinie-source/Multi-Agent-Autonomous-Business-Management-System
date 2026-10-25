@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -427,10 +428,12 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: <Color>[
-            Color(0xff020A3D),
-            Color(0xff2563EB),
-            Color(0xff9333EA),
+            Color(0xFF281E30),
+            Color(0xFF4C3C56),
+            Color(0xFF9988A1),
           ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(32),
@@ -468,10 +471,10 @@ class _QRAttendanceScreenState extends State<QRAttendanceScreen> {
                   children: <Widget>[
                     Text(
                       'QR Attendance',
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         color: Colors.white,
                         fontSize: isMobile ? 22 : 30,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(height: 6),

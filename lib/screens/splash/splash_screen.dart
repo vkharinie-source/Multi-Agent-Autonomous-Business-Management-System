@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen>
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: Color(0xFF292B63),
+        systemNavigationBarColor: Color(0xFF1E2B37),
         systemNavigationBarIconBrightness: Brightness.light,
       ),
     );
@@ -96,11 +96,11 @@ class _SplashScreenState extends State<SplashScreen>
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: Color(0xFF292B63),
+        systemNavigationBarColor: Color(0xFF1E2B37),
         systemNavigationBarIconBrightness: Brightness.light,
       ),
       child: Scaffold(
-        backgroundColor: const Color(0xFF5B5FEF),
+        backgroundColor: const Color(0xFF9988A1),
         body: Container(
           width: double.infinity,
           height: double.infinity,
@@ -109,9 +109,9 @@ class _SplashScreenState extends State<SplashScreen>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: <Color>[
-                Color(0xFF5B5FEF),
-                Color(0xFF7848D6),
-                Color(0xFF292B63),
+                Color(0xFF4C3C56),
+                Color(0xFF6B5875),
+                Color(0xFF9988A1),
               ],
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class EmployeeNotificationsScreen extends StatelessWidget {
   const EmployeeNotificationsScreen({super.key});
@@ -32,12 +33,12 @@ class EmployeeNotificationsScreen extends StatelessWidget {
         message: 'Your July salary has been processed.',
         time: '2 days ago',
         icon: Icons.payments_outlined,
-        color: Colors.deepPurple,
+        color: Color(0xFF9988A1),
       ),
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F7FB),
+      backgroundColor: const Color(0xFFF8F6FA),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -50,26 +51,26 @@ class EmployeeNotificationsScreen extends StatelessWidget {
               width: 38,
               height: 38,
               decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
+                color: const Color(0xFFFAF8FB),
                 shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFFE2E8F0)),
+                border: Border.all(color: const Color(0xFFEBE6F0)),
               ),
               child: IconButton(
                 padding: EdgeInsets.zero,
                 icon: const Icon(
                   Icons.arrow_back_ios_new_rounded,
                   size: 16,
-                  color: Color(0xFF0F172A),
+                  color: Color(0xFF9988A1),
                 ),
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
             ),
           ),
         ),
-        title: const Text(
+        title: Text(
           'Notifications',
-          style: TextStyle(
-            color: Color(0xFF0F172A),
+          style: GoogleFonts.inter(
+            color: const Color(0xFF281E30),
             fontSize: 18,
             fontWeight: FontWeight.w800,
             letterSpacing: -0.3,
@@ -78,7 +79,7 @@ class EmployeeNotificationsScreen extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Container(
-            color: const Color(0xFFE2E8F0).withValues(alpha: 0.7),
+            color: const Color(0xFFEBE6F0),
             height: 1,
           ),
         ),

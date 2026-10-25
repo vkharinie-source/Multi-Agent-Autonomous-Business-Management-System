@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AttendanceHistoryScreen extends StatefulWidget {
   const AttendanceHistoryScreen({super.key});
@@ -136,7 +137,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
       ),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xff020A3D), Color(0xff2563EB), Color(0xff9333EA)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -160,10 +161,10 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                 children: [
                   Text(
                     "Attendance History",
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       color: Colors.white,
                       fontSize: isMobile ? 22 : 30,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   const SizedBox(height: 5),

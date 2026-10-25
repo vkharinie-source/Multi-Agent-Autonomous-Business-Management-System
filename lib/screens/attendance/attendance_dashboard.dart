@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../core/exceptions/api_exception.dart';
 import '../../core/services/admin_attendance_service.dart';
@@ -473,7 +474,7 @@ class _AttendanceDashboardState extends State<AttendanceDashboard> {
       ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF020A3D), Color(0xFF2563EB), Color(0xFF9333EA)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -500,15 +501,15 @@ class _AttendanceDashboardState extends State<AttendanceDashboard> {
           SizedBox(width: isMobile ? 12 : 16),
           Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'Smart Attendance',
-                  style: TextStyle(
+                  style: GoogleFonts.inter(
                     color: Colors.white,
                     fontSize: isMobile ? 20 : 28,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: 4),

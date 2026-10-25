@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../core/services/export_service.dart';
 
 class MonthlyReportScreen extends StatelessWidget {
@@ -161,7 +162,9 @@ class MonthlyReportScreen extends StatelessWidget {
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xff020A3D), Color(0xff2563EB), Color(0xff9333EA)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(32),
@@ -187,17 +190,17 @@ class MonthlyReportScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 14),
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       "Monthly Attendance Report",
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         color: Colors.white,
                         fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     SizedBox(height: 4),

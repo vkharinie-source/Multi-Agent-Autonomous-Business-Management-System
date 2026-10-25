@@ -149,17 +149,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return InputDecoration(
       labelText: 'Registered email address',
       hintText: 'Enter your registered email',
-      prefixIcon: const Icon(Icons.email_outlined, color: Color(0xFF6C5CE7)),
+      prefixIcon: const Icon(Icons.email_outlined, color: Color(0xFF9988A1)),
       filled: true,
-      fillColor: const Color(0xFFF8F6FC),
+      fillColor: const Color(0xFFFAF8FB),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: Color(0xFFE5E0EE)),
+        borderSide: const BorderSide(color: Color(0xFFEBE6F0)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: Color(0xFF6C5CE7), width: 1.8),
+        borderSide: const BorderSide(color: Color(0xFF9988A1), width: 1.8),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
@@ -188,7 +188,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFFF3EEFF), Color(0xFFEDE8FF), Color(0xFFF8F6FF)],
+            colors: [Color(0xFFF4F7FA), Color(0xFFEBF1F7), Color(0xFFF8FAFC)],
           ),
         ),
         child: SafeArea(
@@ -200,11 +200,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 child: Container(
                   padding: const EdgeInsets.all(26),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: Colors.white.withValues(alpha: 0.95),
                     borderRadius: BorderRadius.circular(28),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF6C5CE7).withValues(alpha: 0.12),
+                        color: const Color(0xFF9988A1).withValues(alpha: 0.12),
                         blurRadius: 30,
                         offset: const Offset(0, 18),
                       ),
@@ -219,7 +219,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           height: 90,
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              colors: [Color(0xFF6C5CE7), Color(0xFF9B6CFF)],
+                              colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
                             ),
                             borderRadius: BorderRadius.circular(28),
                           ),
@@ -234,7 +234,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           'Forgot your password?',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color(0xFF201A3D),
+                            color: Color(0xFF1E2B37),
                             fontSize: 26,
                             fontWeight: FontWeight.w800,
                           ),
@@ -244,7 +244,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           'Enter your registered email address. We will send a password reset OTP.',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color(0xFF6F6981),
+                            color: Color(0xFF5A6E82),
                             fontSize: 15,
                             height: 1.5,
                           ),
@@ -269,7 +269,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _sendOtp,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF6C5CE7),
+                              backgroundColor: const Color(0xFF9988A1),
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),

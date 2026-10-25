@@ -103,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F5FC),
+      backgroundColor: const Color(0xFFF8F6FA),
       body: SafeArea(
         child: Stack(
           children: [
@@ -113,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               right: -60,
               child: _buildGlowCircle(
                 size: 260,
-                color: const Color(0xFF7B61FF).withValues(alpha: 0.10),
+                color: const Color(0xFFC7BED0).withValues(alpha: 0.15),
               ),
             ),
             Positioned(
@@ -121,7 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               left: -80,
               child: _buildGlowCircle(
                 size: 280,
-                color: const Color(0xFFB66DFF).withValues(alpha: 0.10),
+                color: const Color(0xFFDED8E4).withValues(alpha: 0.12),
               ),
             ),
 
@@ -132,7 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: _isLoading
                       ? const Center(
                           child: CircularProgressIndicator(
-                            color: Color(0xFF6C5CE7),
+                            color: Color(0xFF9988A1),
                           ),
                         )
                       : _error != null
@@ -156,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             const Icon(
               Icons.error_outline_rounded,
-              color: Color(0xFF6C5CE7),
+              color: Color(0xFF9988A1),
               size: 56,
             ),
             const SizedBox(height: 16),
@@ -164,7 +164,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _error!,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Color(0xFF756E8A),
+                color: Color(0xFF5A6E82),
                 fontSize: 14,
               ),
             ),
@@ -180,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               icon: const Icon(Icons.refresh_rounded),
               label: const Text('Retry'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF6C5CE7),
+                backgroundColor: const Color(0xFF9988A1),
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
@@ -236,8 +236,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 title: 'Account Role',
                 subtitle: role,
                 icon: Icons.admin_panel_settings_outlined,
-                iconColor: const Color(0xFF6C5CE7),
-                bgColor: const Color(0xFFF0EBFF),
+                iconColor: const Color(0xFF9988A1),
+                bgColor: const Color(0xFFFAF8FB),
                 isLast: department.isEmpty && designation.isEmpty,
               ),
             ],
@@ -373,12 +373,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF35168A), Color(0xFF6C5CE7), Color(0xFF8E5BEF)],
+          colors: [Color(0xFF131D26), Color(0xFF4C3C56), Color(0xFF9988A1)],
         ),
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6C5CE7).withValues(alpha: 0.35),
+            color: const Color(0xFF9988A1).withValues(alpha: 0.35),
             blurRadius: 28,
             offset: const Offset(0, 14),
           ),
@@ -411,12 +411,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: const Color(0xFF55E6C1),
+                        color: const Color(0xFFDED8E4),
                         width: 3,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF55E6C1).withValues(alpha: 0.4),
+                          color: const Color(0xFFDED8E4).withValues(alpha: 0.4),
                           blurRadius: 16,
                           spreadRadius: 2,
                         ),
@@ -427,13 +427,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       backgroundColor: Colors.white,
                       child: CircleAvatar(
                         radius: 43,
-                        backgroundColor: const Color(0xFFF3EEFF),
+                        backgroundColor: const Color(0xFFE8F1FA),
                         child: Text(
                           _initials,
                           style: const TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.w900,
-                            color: Color(0xFF6C5CE7),
+                            color: Color(0xFF9988A1),
                           ),
                         ),
                       ),
@@ -551,12 +551,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }) {
     return Row(
       children: [
-        Icon(icon, color: const Color(0xFF6C5CE7), size: 22),
+        Icon(icon, color: const Color(0xFF9988A1), size: 22),
         const SizedBox(width: 8),
         Text(
           title,
           style: const TextStyle(
-            color: Color(0xFF201A3D),
+            color: Color(0xFF1E2B37),
             fontSize: 18,
             fontWeight: FontWeight.w800,
           ),
@@ -644,12 +644,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [Color(0xFF6C5CE7), Color(0xFF8E5BEF)],
+            colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
           ),
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF6C5CE7).withValues(alpha: 0.32),
+              color: const Color(0xFF9988A1).withValues(alpha: 0.32),
               blurRadius: 18,
               offset: const Offset(0, 10),
             ),

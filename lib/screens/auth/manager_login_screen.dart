@@ -220,7 +220,7 @@ class _ManagerLoginScreenState extends State<ManagerLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F1FF),
+      backgroundColor: const Color(0xFFF8F6FA),
       body: Stack(
         children: [
           const Positioned.fill(
@@ -230,9 +230,9 @@ class _ManagerLoginScreenState extends State<ManagerLoginScreen> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFFF8F6FF),
-                    Color(0xFFEAE5FF),
-                    Color(0xFFF7F4FF),
+                    Color(0xFFFCFAFD),
+                    Color(0xFFF3EEF6),
+                    Color(0xFFF8F6FA),
                   ],
                 ),
               ),
@@ -278,12 +278,12 @@ class _ManagerLoginScreenState extends State<ManagerLoginScreen> {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF07134F), Color(0xFF1749E5), Color(0xFF8B3DFF)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
         ),
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1749E5).withValues(alpha: 0.22),
+            color: const Color(0xFF9988A1).withValues(alpha: 0.22),
             blurRadius: 40,
             offset: const Offset(0, 20),
           ),
@@ -299,7 +299,7 @@ class _ManagerLoginScreenState extends State<ManagerLoginScreen> {
                 backgroundColor: Colors.white,
                 child: Icon(
                   Icons.admin_panel_settings_rounded,
-                  color: Color(0xFF1749E5),
+                  color: Color(0xFF9988A1),
                   size: 29,
                 ),
               ),
@@ -355,7 +355,7 @@ class _ManagerLoginScreenState extends State<ManagerLoginScreen> {
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF5D4BB7).withValues(alpha: 0.14),
+            color: const Color(0xFF9988A1).withValues(alpha: 0.12),
             blurRadius: 38,
             offset: const Offset(0, 20),
           ),
@@ -375,7 +375,7 @@ class _ManagerLoginScreenState extends State<ManagerLoginScreen> {
                       Navigator.of(context).pop();
                     },
               style: IconButton.styleFrom(
-                backgroundColor: const Color(0xFFF0EBFF),
+                backgroundColor: const Color(0xFFE8F1FA),
               ),
               icon: const Icon(Icons.arrow_back_rounded),
             ),
@@ -492,7 +492,7 @@ class _ManagerLoginScreenState extends State<ManagerLoginScreen> {
               child: FilledButton.icon(
                 onPressed: _isLoading ? null : _login,
                 style: FilledButton.styleFrom(
-                  backgroundColor: const Color(0xFF8B3DFF),
+                  backgroundColor: const Color(0xFF9988A1),
                   foregroundColor: Colors.white,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(17),
@@ -557,22 +557,22 @@ class _ManagerLoginScreenState extends State<ManagerLoginScreen> {
   }) {
     return InputDecoration(
       hintText: hintText,
-      prefixIcon: Icon(icon, color: const Color(0xFF7B61FF)),
+      prefixIcon: Icon(icon, color: const Color(0xFF9988A1)),
       suffixIcon: suffixIcon,
       filled: true,
-      fillColor: const Color(0xFFF8F6FC),
+      fillColor: const Color(0xFFFAF8FB),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: Color(0xFFE2DDEE)),
+        borderSide: const BorderSide(color: Color(0xFFEBE6F0)),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: Color(0xFFE2DDEE)),
+        borderSide: const BorderSide(color: Color(0xFFEBE6F0)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: Color(0xFF8B3DFF), width: 1.7),
+        borderSide: const BorderSide(color: Color(0xFF9988A1), width: 1.7),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),

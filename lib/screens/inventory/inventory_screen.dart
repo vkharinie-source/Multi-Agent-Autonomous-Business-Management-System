@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class InventoryScreen extends StatefulWidget {
   const InventoryScreen({super.key});
@@ -210,11 +211,11 @@ class _InventoryScreenState extends State<InventoryScreen> {
                                       child: ChoiceChip(
                                         label: Text(f),
                                         selected: active,
-                                        selectedColor: const Color(0xff2563EB),
+                                        selectedColor: const Color(0xFF9988A1),
                                         labelStyle: TextStyle(
                                           color: active
                                               ? Colors.white
-                                              : const Color(0xff081A63),
+                                              : const Color(0xFF281E30),
                                           fontWeight: FontWeight.bold,
                                         ),
                                         onSelected: (_) =>
@@ -514,7 +515,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
   Widget addProductButton(bool isMobile) {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xff2563EB),
+        backgroundColor: const Color(0xFF9988A1),
         foregroundColor: Colors.white,
         padding: EdgeInsets.symmetric(
           horizontal: 24,
@@ -533,7 +534,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
       width: double.infinity,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xff020A3D), Color(0xff2563EB), Color(0xff9333EA)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -573,10 +574,10 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   children: [
                     Text(
                       "Inventory Management",
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         color: Colors.white,
                         fontSize: isMobile ? 20 : 30,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(height: 6),
@@ -719,16 +720,16 @@ class _InventoryScreenState extends State<InventoryScreen> {
       padding: EdgeInsets.all(isMobile ? 18 : 24),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xffEEF4FF), Color(0xffF5F3FF)],
+          colors: [Color(0xFFFAF7FC), Color(0xFFF3EEF6)],
         ),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xffC7D2FE)),
+        border: Border.all(color: const Color(0xFF9988A1).withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
           CircleAvatar(
             radius: isMobile ? 26 : 32,
-            backgroundColor: const Color(0xff2563EB),
+            backgroundColor: const Color(0xFF9988A1),
             child: Icon(
               Icons.smart_toy,
               color: Colors.white,

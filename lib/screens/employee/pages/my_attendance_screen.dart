@@ -142,7 +142,7 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
         _records.isNotEmpty ? _records : _defaultRecords;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F5FC),
+      backgroundColor: const Color(0xFFF8F6FA),
       body: SafeArea(
         child: Stack(
           children: [
@@ -152,7 +152,7 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
               right: -60,
               child: _buildGlowCircle(
                 size: 260,
-                color: const Color(0xFF7B61FF).withValues(alpha: 0.10),
+                color: const Color(0xFFC7BED0).withValues(alpha: 0.15),
               ),
             ),
             Positioned(
@@ -160,7 +160,7 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
               left: -80,
               child: _buildGlowCircle(
                 size: 280,
-                color: const Color(0xFFB66DFF).withValues(alpha: 0.10),
+                color: const Color(0xFFDED8E4).withValues(alpha: 0.12),
               ),
             ),
 
@@ -170,7 +170,7 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
                 Expanded(
                   child: RefreshIndicator(
                     onRefresh: _loadMyAttendance,
-                    color: const Color(0xFF6C5CE7),
+                    color: const Color(0xFF9988A1),
                     child: ListView(
                       physics: const AlwaysScrollableScrollPhysics(
                         parent: BouncingScrollPhysics(),
@@ -198,14 +198,14 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
                               children: [
                                 Icon(
                                   Icons.history_toggle_off_rounded,
-                                  color: Color(0xFF6C5CE7),
+                                  color: Color(0xFF9988A1),
                                   size: 22,
                                 ),
                                 SizedBox(width: 8),
                                 Text(
                                   'Attendance History',
                                   style: TextStyle(
-                                    color: Color(0xFF201A3D),
+                                    color: Color(0xFF1E2B37),
                                     fontSize: 18,
                                     fontWeight: FontWeight.w800,
                                   ),
@@ -218,13 +218,13 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: const Color(0xFFEFEAFF),
+                                color: const Color(0xFFFAF8FB),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Text(
                                 '${displayRecords.length} Records',
                                 style: const TextStyle(
-                                  color: Color(0xFF6C5CE7),
+                                  color: Color(0xFF9988A1),
                                   fontSize: 12,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -240,7 +240,7 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
                             child: Padding(
                               padding: EdgeInsets.all(32.0),
                               child: CircularProgressIndicator(
-                                color: Color(0xFF6C5CE7),
+                                color: Color(0xFF9988A1),
                               ),
                             ),
                           )
@@ -268,7 +268,7 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.85),
         border: const Border(
-          bottom: BorderSide(color: Color(0xFFEBE6F8), width: 1),
+          bottom: BorderSide(color: Color(0xFFEBE6F0), width: 1),
         ),
       ),
       child: Row(
@@ -276,8 +276,8 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
           IconButton(
             onPressed: () => Navigator.of(context).maybePop(),
             style: IconButton.styleFrom(
-              backgroundColor: const Color(0xFFF3EEFF),
-              foregroundColor: const Color(0xFF4C3F91),
+              backgroundColor: const Color(0xFFFAF8FB),
+              foregroundColor: const Color(0xFF9988A1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -292,14 +292,14 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
               Text(
                 'My Attendance',
                 style: GoogleFonts.inter(
-                  color: const Color(0xFF201A3D),
+                  color: const Color(0xFF1E2B37),
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               Text(
                 'Clock-in Logs & Working Hours',
-                style: GoogleFonts.inter(color: const Color(0xFF756E8A), fontSize: 12),
+                style: GoogleFonts.inter(color: const Color(0xFF5A6E82), fontSize: 12),
               ),
             ],
           ),
@@ -308,8 +308,8 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
             tooltip: 'Refresh Logs',
             onPressed: _isLoading ? null : _loadMyAttendance,
             style: IconButton.styleFrom(
-              backgroundColor: const Color(0xFFF3EEFF),
-              foregroundColor: const Color(0xFF6C5CE7),
+              backgroundColor: const Color(0xFFFAF8FB),
+              foregroundColor: const Color(0xFF9988A1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -329,12 +329,12 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF35168A), Color(0xFF6C5CE7), Color(0xFF8E5BEF)],
+          colors: [Color(0xFF1E2B37), Color(0xFF4C3C56), Color(0xFF9988A1)],
         ),
         borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF5D4BB7).withValues(alpha: 0.35),
+            color: const Color(0xFF9988A1).withValues(alpha: 0.28),
             blurRadius: 24,
             offset: const Offset(0, 12),
           ),
@@ -482,8 +482,8 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
                   title: 'Score',
                   value: _percentage,
                   icon: Icons.pie_chart_rounded,
-                  color: const Color(0xFF6C5CE7),
-                  bgColor: const Color(0xFFF3EEFF),
+                  color: const Color(0xFF9988A1),
+                  bgColor: const Color(0xFFFAF8FB),
                 ),
               ),
             ],
@@ -527,8 +527,8 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
                 title: 'Overall',
                 value: _percentage,
                 icon: Icons.pie_chart_rounded,
-                color: const Color(0xFF6C5CE7),
-                bgColor: const Color(0xFFF3EEFF),
+                color: const Color(0xFF9988A1),
+                bgColor: const Color(0xFFFAF8FB),
               ),
             ),
           ],
@@ -603,7 +603,7 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
         : status.toLowerCase() == 'late'
         ? const Color(0xFFF59E0B)
         : status.toLowerCase() == 'leave'
-        ? const Color(0xFF6C5CE7)
+        ? const Color(0xFF9988A1)
         : const Color(0xFFEF4444);
 
     final Color statusBg = status.toLowerCase() == 'present'
@@ -611,7 +611,7 @@ class _MyAttendanceScreenState extends State<MyAttendanceScreen> {
         : status.toLowerCase() == 'late'
         ? const Color(0xFFFFFBEB)
         : status.toLowerCase() == 'leave'
-        ? const Color(0xFFF3EEFF)
+        ? const Color(0xFFFAF8FB)
         : const Color(0xFFFEF2F2);
 
     final IconData statusIcon = status.toLowerCase() == 'present'

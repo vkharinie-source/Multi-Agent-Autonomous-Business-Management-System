@@ -47,7 +47,7 @@ class MyPerformanceScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F5FC),
+      backgroundColor: const Color(0xFFF8F6FA),
       body: SafeArea(
         child: Stack(
           children: [
@@ -57,7 +57,7 @@ class MyPerformanceScreen extends StatelessWidget {
               right: -70,
               child: _buildGlowCircle(
                 size: 260,
-                color: const Color(0xFF7B61FF).withValues(alpha: 0.08),
+                color: const Color(0xFFC7BED0).withValues(alpha: 0.20),
               ),
             ),
             Positioned(
@@ -65,7 +65,7 @@ class MyPerformanceScreen extends StatelessWidget {
               left: -80,
               child: _buildGlowCircle(
                 size: 280,
-                color: const Color(0xFFB66DFF).withValues(alpha: 0.08),
+                color: const Color(0xFFDED8E4).withValues(alpha: 0.18),
               ),
             ),
 
@@ -92,14 +92,14 @@ class MyPerformanceScreen extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.donut_large_rounded,
-                            color: Color(0xFF6C5CE7),
+                            color: Color(0xFF9988A1),
                             size: 22,
                           ),
                           SizedBox(width: 8),
                           Text(
                             'Performance Breakdown',
                             style: TextStyle(
-                              color: Color(0xFF201A3D),
+                              color: Color(0xFF281E30),
                               fontSize: 19,
                               fontWeight: FontWeight.w800,
                             ),
@@ -149,7 +149,7 @@ class MyPerformanceScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.85),
         border: const Border(
-          bottom: BorderSide(color: Color(0xFFEBE6F8), width: 1),
+          bottom: BorderSide(color: Color(0xFFEBE6F0), width: 1),
         ),
       ),
       child: Row(
@@ -159,8 +159,8 @@ class MyPerformanceScreen extends StatelessWidget {
               Navigator.of(context).maybePop();
             },
             style: IconButton.styleFrom(
-              backgroundColor: const Color(0xFFF3EEFF),
-              foregroundColor: const Color(0xFF4C3F91),
+              backgroundColor: const Color(0xFFFAF8FB),
+              foregroundColor: const Color(0xFF9988A1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -175,14 +175,14 @@ class MyPerformanceScreen extends StatelessWidget {
               Text(
                 'My Performance',
                 style: GoogleFonts.inter(
-                  color: const Color(0xFF201A3D),
+                  color: const Color(0xFF281E30),
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               Text(
                 'Q3 Analytics & Evaluation',
-                style: GoogleFonts.inter(color: const Color(0xFF756E8A), fontSize: 12),
+                style: GoogleFonts.inter(color: const Color(0xFF5A6E82), fontSize: 12),
               ),
             ],
           ),
@@ -190,10 +190,10 @@ class MyPerformanceScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: const Color(0xFF6C5CE7).withValues(alpha: 0.12),
+              color: const Color(0xFF9988A1).withValues(alpha: 0.10),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: const Color(0xFF6C5CE7).withValues(alpha: 0.3),
+                color: const Color(0xFF9988A1).withValues(alpha: 0.25),
               ),
             ),
             child: const Row(
@@ -201,14 +201,14 @@ class MyPerformanceScreen extends StatelessWidget {
               children: [
                 Icon(
                   Icons.verified_rounded,
-                  color: Color(0xFF6C5CE7),
+                  color: Color(0xFF9988A1),
                   size: 14,
                 ),
                 SizedBox(width: 5),
                 Text(
                   'Top Performer',
                   style: TextStyle(
-                    color: Color(0xFF6C5CE7),
+                    color: Color(0xFF9988A1),
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                   ),
@@ -229,12 +229,12 @@ class MyPerformanceScreen extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF35168A), Color(0xFF6C5CE7), Color(0xFF8E5BEF)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
         ),
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6C5CE7).withValues(alpha: 0.35),
+            color: const Color(0xFF9988A1).withValues(alpha: 0.28),
             blurRadius: 26,
             offset: const Offset(0, 12),
           ),
@@ -256,7 +256,7 @@ class MyPerformanceScreen extends StatelessWidget {
                     value: 0.90,
                     strokeWidth: 10,
                     backgroundColor: Colors.white.withValues(alpha: 0.2),
-                    color: const Color(0xFF55E6C1),
+                    color: const Color(0xFFDED8E4),
                     strokeCap: StrokeCap.round,
                   ),
                 ),
@@ -331,7 +331,7 @@ class MyPerformanceScreen extends StatelessWidget {
                   children: [
                     const Icon(
                       Icons.trending_up_rounded,
-                      color: Color(0xFF55E6C1),
+                      color: Color(0xFFDED8E4),
                       size: 16,
                     ),
                     const SizedBox(width: 4),
@@ -359,10 +359,10 @@ class MyPerformanceScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: const Color(0xFFEBE6F8)),
+        border: Border.all(color: const Color(0xFFEBE6F0)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF5D4BB7).withValues(alpha: 0.06),
+            color: const Color(0xFF9988A1).withValues(alpha: 0.08),
             blurRadius: 18,
             offset: const Offset(0, 8),
           ),
@@ -465,7 +465,7 @@ class MyPerformanceScreen extends StatelessWidget {
                 height: 44,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFF6C5CE7), Color(0xFF9B6CFF)],
+                    colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
                   ),
                   borderRadius: BorderRadius.circular(14),
                 ),
@@ -513,9 +513,9 @@ class MyPerformanceScreen extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFFF9F7FE),
+              color: const Color(0xFFFAF8FB),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFFECE6F8)),
+              border: Border.all(color: const Color(0xFFEBE6F0)),
             ),
             child: const Text(
               '"Consistently completes assigned tasks with high accuracy and collaborates exceptionally well with the team."',

@@ -344,7 +344,7 @@ class _LoginScreenState extends State<LoginScreen>
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF0A051B), Color(0xFF0F0A2A), Color(0xFF1E154A)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF6B5875)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -363,14 +363,14 @@ class _LoginScreenState extends State<LoginScreen>
                 width: 48,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFF2563EB), Color(0xFFA855F7)],
+                    colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF7C3AED).withValues(alpha: 0.35),
+                      color: const Color(0xFF9988A1).withValues(alpha: 0.35),
                       blurRadius: 16,
                       offset: const Offset(0, 6),
                     ),
@@ -435,7 +435,7 @@ class _LoginScreenState extends State<LoginScreen>
       child: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF0A051B), Color(0xFF0F0A2A), Color(0xFF1E154A)],
+            colors: [Color(0xFF1E1724), Color(0xFF281E30), Color(0xFF3D3046)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -449,33 +449,33 @@ class _LoginScreenState extends State<LoginScreen>
             // Background dot-grid design.
             Positioned.fill(child: CustomPaint(painter: DotGridPainter())),
 
-            // Purple glow.
+            // Mauve glow.
             Positioned(
               top: -60,
               left: -60,
               child: glowBlob(
                 260,
-                const Color(0xFF8B5CF6).withValues(alpha: 0.25),
+                const Color(0xFF9988A1).withValues(alpha: 0.18),
               ),
             ),
 
-            // Blue glow.
+            // Deep mauve glow.
             Positioned(
               bottom: -80,
               right: -80,
               child: glowBlob(
                 300,
-                const Color(0xFF3B82F6).withValues(alpha: 0.30),
+                const Color(0xFF7A6883).withValues(alpha: 0.22),
               ),
             ),
 
-            // Pink glow.
+            // Soft plum glow.
             Positioned(
               top: 200,
               right: -50,
               child: glowBlob(
                 200,
-                const Color(0xFFD946EF).withValues(alpha: 0.15),
+                const Color(0xFF5E4E68).withValues(alpha: 0.15),
               ),
             ),
 
@@ -492,7 +492,7 @@ class _LoginScreenState extends State<LoginScreen>
                         width: 52,
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
-                            colors: [Color(0xFF2563EB), Color(0xFFA855F7)],
+                            colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
@@ -500,7 +500,7 @@ class _LoginScreenState extends State<LoginScreen>
                           boxShadow: [
                             BoxShadow(
                               color: const Color(
-                                0xFF7C3AED,
+                                0xFF9988A1,
                               ).withValues(alpha: 0.35),
                               blurRadius: 16,
                               offset: const Offset(0, 6),
@@ -530,9 +530,9 @@ class _LoginScreenState extends State<LoginScreen>
                             shaderCallback: (bounds) {
                               return const LinearGradient(
                                 colors: [
-                                  Color(0xFFE0E7FF),
-                                  Color(0xFFC084FC),
-                                  Color(0xFF6366F1),
+                                  Colors.white,
+                                  Color(0xFFDED8E4),
+                                  Color(0xFF9988A1),
                                 ],
                               ).createShader(bounds);
                             },
@@ -574,16 +574,16 @@ class _LoginScreenState extends State<LoginScreen>
                         children: [
                           // Glow behind the robot.
                           Container(
-                            width: 180,
-                            height: 180,
+                            width: 220,
+                            height: 220,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               gradient: RadialGradient(
                                 colors: [
                                   const Color(
-                                    0xFF6366F1,
-                                  ).withValues(alpha: 0.30),
-                                  const Color(0xFF6366F1).withValues(alpha: 0),
+                                    0xFF9988A1,
+                                  ).withValues(alpha: 0.35),
+                                  const Color(0xFF9988A1).withValues(alpha: 0),
                                 ],
                               ),
                             ),
@@ -607,8 +607,8 @@ class _LoginScreenState extends State<LoginScreen>
                                       decoration: BoxDecoration(
                                         gradient: const LinearGradient(
                                           colors: [
-                                            Color(0xFF2563EB),
-                                            Color(0xFF9333EA),
+                                            Color(0xFF4C3C56),
+                                            Color(0xFF9988A1),
                                           ],
                                           begin: Alignment.topLeft,
                                           end: Alignment.bottomRight,
@@ -617,7 +617,7 @@ class _LoginScreenState extends State<LoginScreen>
                                         boxShadow: [
                                           BoxShadow(
                                             color: const Color(
-                                              0xFF6366F1,
+                                              0xFF9988A1,
                                             ).withValues(alpha: 0.35),
                                             blurRadius: 35,
                                           ),
@@ -815,12 +815,12 @@ class _LoginScreenState extends State<LoginScreen>
             width: 40,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFF2563EB), Color(0xFF9333EA)],
+                colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
               ),
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF2563EB).withValues(alpha: 0.30),
+                  color: const Color(0xFF9988A1).withValues(alpha: 0.30),
                   blurRadius: 12,
                 ),
               ],
@@ -890,13 +890,13 @@ class _LoginScreenState extends State<LoginScreen>
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    const Color(0xFF2563EB).withValues(alpha: 0.08),
-                    const Color(0xFF9333EA).withValues(alpha: 0.08),
+                    const Color(0xFF9988A1).withValues(alpha: 0.12),
+                    const Color(0xFF7A6883).withValues(alpha: 0.08),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(30),
                 border: Border.all(
-                  color: const Color(0xFF2563EB).withValues(alpha: 0.15),
+                  color: const Color(0xFF9988A1).withValues(alpha: 0.25),
                   width: 1,
                 ),
               ),
@@ -906,13 +906,11 @@ class _LoginScreenState extends State<LoginScreen>
                   Text(
                     'Welcome Back',
                     style: GoogleFonts.inter(
-                      color: const Color(0xFF2563EB),
+                      color: const Color(0xFF7A6883),
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const SizedBox(width: 4),
-                  const Text('ðŸ‘‹', style: TextStyle(fontSize: 13)),
                 ],
               ),
             ),
@@ -920,26 +918,13 @@ class _LoginScreenState extends State<LoginScreen>
             const SizedBox(height: 20),
 
             // Main login heading.
-            ShaderMask(
-              shaderCallback: (bounds) {
-                return const LinearGradient(
-                  colors: [
-                    Color(0xFF2563EB),
-                    Color(0xFF6366F1),
-                    Color(0xFF9333EA),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ).createShader(bounds);
-              },
-              child: Text(
-                'Login to your account',
-                style: GoogleFonts.inter(
-                  color: Colors.white,
-                  fontSize: isMobile ? 26 : 34,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: -0.8,
-                ),
+            Text(
+              'Login to your account',
+              style: GoogleFonts.inter(
+                color: const Color(0xFF9988A1),
+                fontSize: isMobile ? 26 : 34,
+                fontWeight: FontWeight.w800,
+                letterSpacing: -0.8,
               ),
             ),
 
@@ -993,7 +978,7 @@ class _LoginScreenState extends State<LoginScreen>
                   width: 24,
                   child: Checkbox(
                     value: rememberMe,
-                    activeColor: const Color(0xFF2563EB),
+                    activeColor: const Color(0xFF9988A1),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6),
                     ),
@@ -1041,7 +1026,7 @@ class _LoginScreenState extends State<LoginScreen>
                   child: Text(
                     'Forgot Password?',
                     style: GoogleFonts.inter(
-                      color: const Color(0xFF7C3AED),
+                      color: const Color(0xFF7A6883),
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
                     ),
@@ -1145,7 +1130,7 @@ class _LoginScreenState extends State<LoginScreen>
                       TextSpan(
                         text: 'Create account',
                         style: GoogleFonts.inter(
-                          color: const Color(0xFF2563EB),
+                          color: const Color(0xFF9988A1),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -1322,14 +1307,14 @@ class _LoginScreenState extends State<LoginScreen>
           width: double.infinity,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [Color(0xFF2563EB), Color(0xFF9333EA)],
+              colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF6366F1).withValues(alpha: 0.30),
+                color: const Color(0xFF9988A1).withValues(alpha: 0.30),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -1377,19 +1362,19 @@ class _LoginScreenState extends State<LoginScreen>
   }) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 6),
         child: _AnimatedPressable(
           onTap: onTap,
           child: Container(
             height: 52,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(color: const Color(0xFFE2E8F0), width: 1.2),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF0F172A).withValues(alpha: 0.04),
-                  blurRadius: 8,
+                  color: const Color(0xFF281E30).withValues(alpha: 0.04),
+                  blurRadius: 10,
                   offset: const Offset(0, 3),
                 ),
               ],
@@ -1447,125 +1432,161 @@ class _AnimatedPressableState extends State<_AnimatedPressable> {
   }
 }
 
-// Google logo.
+// Professional Google logo with precise vector geometry.
 class GoogleLogo extends StatelessWidget {
-  const GoogleLogo({super.key});
+  final double size;
+  const GoogleLogo({super.key, this.size = 20});
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(size: const Size(20, 20), painter: _GoogleLogoPainter());
+    return CustomPaint(
+      size: Size(size, size),
+      painter: _GoogleLogoPainter(),
+    );
   }
 }
 
 class _GoogleLogoPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final double width = size.width;
-    final double height = size.height;
+    final double s = size.width / 24.0;
+    canvas.save();
+    canvas.scale(s, s);
 
-    final double centerX = width / 2;
-
-    final double centerY = height / 2;
-
-    final double radius = width / 2;
-
-    final Paint paint = Paint()
+    // 1. Blue (Right bar and arc)
+    final Paint bluePaint = Paint()
+      ..color = const Color(0xFF4285F4)
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
+    final Path bluePath = Path()
+      ..moveTo(23.74, 12.27)
+      ..cubicTo(23.74, 11.48, 23.67, 10.73, 23.55, 10.0)
+      ..lineTo(12.0, 10.0)
+      ..lineTo(12.0, 14.51)
+      ..lineTo(18.59, 14.51)
+      ..cubicTo(18.31, 16.03, 17.45, 17.31, 16.16, 18.17)
+      ..lineTo(16.16, 21.26)
+      ..lineTo(20.08, 21.26)
+      ..cubicTo(22.38, 19.14, 23.74, 16.0, 23.74, 12.27)
+      ..close();
+    canvas.drawPath(bluePath, bluePaint);
 
-    final Rect circleRect = Rect.fromCircle(
-      center: Offset(centerX, centerY),
-      radius: radius,
-    );
+    // 2. Green (Bottom)
+    final Paint greenPaint = Paint()
+      ..color = const Color(0xFF34A853)
+      ..style = PaintingStyle.fill
+      ..isAntiAlias = true;
+    final Path greenPath = Path()
+      ..moveTo(12.0, 24.0)
+      ..cubicTo(15.24, 24.0, 17.96, 22.92, 19.98, 21.06)
+      ..lineTo(16.06, 17.97)
+      ..cubicTo(14.98, 18.7, 13.6, 19.13, 12.0, 19.13)
+      ..cubicTo(8.87, 19.13, 6.22, 17.02, 5.27, 14.19)
+      ..lineTo(1.23, 14.19)
+      ..lineTo(1.23, 17.32)
+      ..cubicTo(3.25, 21.34, 7.33, 24.0, 12.0, 24.0)
+      ..close();
+    canvas.drawPath(greenPath, greenPaint);
 
-    // Red section.
-    paint.color = const Color(0xFFEA4335);
+    // 3. Yellow (Bottom-Left)
+    final Paint yellowPaint = Paint()
+      ..color = const Color(0xFFFBBC05)
+      ..style = PaintingStyle.fill
+      ..isAntiAlias = true;
+    final Path yellowPath = Path()
+      ..moveTo(5.27, 14.19)
+      ..cubicTo(5.03, 13.47, 4.9, 12.7, 4.9, 11.9)
+      ..cubicTo(4.9, 11.1, 5.03, 10.33, 5.27, 9.61)
+      ..lineTo(5.27, 6.48)
+      ..lineTo(1.23, 6.48)
+      ..cubicTo(0.44, 8.04, 0.0, 9.8, 0.0, 11.9)
+      ..cubicTo(0.0, 14.0, 0.44, 15.76, 1.23, 17.32)
+      ..lineTo(5.27, 14.19)
+      ..close();
+    canvas.drawPath(yellowPath, yellowPaint);
 
-    canvas.drawPath(
-      Path()
-        ..arcTo(circleRect, -2.4, 1.4, false)
-        ..lineTo(centerX, centerY)
-        ..close(),
-      paint,
-    );
+    // 4. Red (Top)
+    final Paint redPaint = Paint()
+      ..color = const Color(0xFFEA4335)
+      ..style = PaintingStyle.fill
+      ..isAntiAlias = true;
+    final Path redPath = Path()
+      ..moveTo(12.0, 4.67)
+      ..cubicTo(13.76, 4.67, 15.34, 5.28, 16.59, 6.47)
+      ..lineTo(20.08, 2.98)
+      ..cubicTo(17.96, 1.0, 15.24, 0.0, 12.0, 0.0)
+      ..cubicTo(7.33, 0.0, 3.25, 2.66, 1.23, 6.68)
+      ..lineTo(5.27, 9.81)
+      ..cubicTo(6.22, 6.98, 8.87, 4.67, 12.0, 4.67)
+      ..close();
+    canvas.drawPath(redPath, redPaint);
 
-    // Yellow section.
-    paint.color = const Color(0xFFFBBC05);
-
-    canvas.drawPath(
-      Path()
-        ..arcTo(circleRect, -3.8, 1.4, false)
-        ..lineTo(centerX, centerY)
-        ..close(),
-      paint,
-    );
-
-    // Green section.
-    paint.color = const Color(0xFF34A853);
-
-    canvas.drawPath(
-      Path()
-        ..arcTo(circleRect, 0.2, 2.2, false)
-        ..lineTo(centerX, centerY)
-        ..close(),
-      paint,
-    );
-
-    // Blue section.
-    paint.color = const Color(0xFF4285F4);
-
-    canvas.drawPath(
-      Path()
-        ..arcTo(circleRect, -1, 1.2, false)
-        ..lineTo(centerX, centerY)
-        ..close(),
-      paint,
-    );
-
-    // White center.
-    final Paint centerPaint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
-
-    canvas.drawCircle(Offset(centerX, centerY), radius * 0.55, centerPaint);
-
-    // Google blue horizontal bar.
-    final Paint barPaint = Paint()
-      ..color = const Color(0xFF4285F4)
-      ..style = PaintingStyle.fill;
-
-    canvas.drawRect(
-      Rect.fromLTWH(centerX, centerY - radius * 0.22, radius, radius * 0.44),
-      barPaint,
-    );
+    canvas.restore();
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
-  }
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
 
-// Microsoft logo.
+// Professional Microsoft logo with rounded corners.
 class MicrosoftLogo extends StatelessWidget {
-  const MicrosoftLogo({super.key});
+  final double size;
+  const MicrosoftLogo({super.key, this.size = 20});
 
   @override
   Widget build(BuildContext context) {
+    final double boxSize = (size - 2.5) / 2;
     return SizedBox(
-      width: 18,
-      height: 18,
-      child: GridView.count(
-        crossAxisCount: 2,
-        physics: const NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.zero,
-        mainAxisSpacing: 2,
-        crossAxisSpacing: 2,
-        children: const [
-          ColoredBox(color: Color(0xFFF25022)),
-          ColoredBox(color: Color(0xFF7FBA00)),
-          ColoredBox(color: Color(0xFF00A4EF)),
-          ColoredBox(color: Color(0xFFFFB900)),
+      width: size,
+      height: size,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: boxSize,
+                height: boxSize,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF25022),
+                  borderRadius: BorderRadius.circular(1.5),
+                ),
+              ),
+              const SizedBox(width: 2.5),
+              Container(
+                width: boxSize,
+                height: boxSize,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF7FBA00),
+                  borderRadius: BorderRadius.circular(1.5),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 2.5),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: boxSize,
+                height: boxSize,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF00A4EF),
+                  borderRadius: BorderRadius.circular(1.5),
+                ),
+              ),
+              const SizedBox(width: 2.5),
+              Container(
+                width: boxSize,
+                height: boxSize,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFB900),
+                  borderRadius: BorderRadius.circular(1.5),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );

@@ -322,20 +322,20 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
         final bool desktop = constraints.maxWidth >= 960;
 
         return Scaffold(
-          backgroundColor: const Color(0xffF4F7FE),
+          backgroundColor: const Color(0xFFF8F6FA),
           floatingActionButton: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF6C5CE7).withValues(alpha: 0.35),
+                  color: const Color(0xFF9988A1).withValues(alpha: 0.35),
                   blurRadius: 18,
                   offset: const Offset(0, 8),
                 ),
               ],
             ),
             child: FloatingActionButton.extended(
-              backgroundColor: const Color(0xFF6C5CE7),
+              backgroundColor: const Color(0xFF9988A1),
               foregroundColor: Colors.white,
               elevation: 0,
               icon: const Icon(Icons.smart_toy_rounded, size: 22),
@@ -352,7 +352,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
               ? null
               : AppBar(
                   elevation: 0,
-                  backgroundColor: const Color(0xff081A63),
+                  backgroundColor: const Color(0xFF9988A1),
                   surfaceTintColor: Colors.transparent,
                   title: Text(
                     'Employee Dashboard',
@@ -402,7 +402,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xFF130D36), Color(0xFF1E1452), Color(0xFF2E1C74)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF6B5875)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
@@ -419,7 +419,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
                       shape: BoxShape.circle,
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF7C69FF).withValues(alpha: 0.45),
+                          color: const Color(0xFF9988A1).withValues(alpha: 0.45),
                           blurRadius: 16,
                           spreadRadius: 2,
                         ),
@@ -427,7 +427,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
                     ),
                     child: CircleAvatar(
                       radius: 26,
-                      backgroundColor: const Color(0xFF7C69FF),
+                      backgroundColor: const Color(0xFF9988A1),
                       child: Text(
                         _employeeName.isEmpty
                             ? 'E'
@@ -727,14 +727,14 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
       padding: EdgeInsets.all(mobile ? 20 : 28),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF130D36), Color(0xFF1E1452), Color(0xFF2E1C74)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF6B5875)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1E1452).withValues(alpha: 0.35),
+            color: const Color(0xFF4C3C56).withValues(alpha: 0.35),
             blurRadius: 24,
             offset: const Offset(0, 10),
           ),
@@ -747,7 +747,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF7C69FF).withValues(alpha: 0.45),
+                  color: const Color(0xFF9988A1).withValues(alpha: 0.45),
                   blurRadius: 18,
                   spreadRadius: 2,
                 ),
@@ -755,7 +755,7 @@ class _EmployeeDashboardState extends State<EmployeeDashboard> {
             ),
             child: CircleAvatar(
               radius: mobile ? 26 : 34,
-              backgroundColor: const Color(0xFF7C69FF),
+              backgroundColor: const Color(0xFF9988A1),
               child: Text(
                 _employeeName.isEmpty
                     ? 'E'

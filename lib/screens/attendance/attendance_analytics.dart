@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AttendanceAnalyticsScreen extends StatelessWidget {
   const AttendanceAnalyticsScreen({super.key});
@@ -74,9 +75,9 @@ class AttendanceAnalyticsScreen extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xff071442), Color(0xff1D4ED8), Color(0xff7C3AED)],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(isMobile ? 22 : 28),
@@ -126,7 +127,7 @@ class AttendanceAnalyticsScreen extends StatelessWidget {
                         "Attendance Analytics",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           color: Colors.white,
                           fontSize: isMobile ? 20 : 27,
                           fontWeight: FontWeight.w800,

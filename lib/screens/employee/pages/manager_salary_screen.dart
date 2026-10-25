@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../core/config/api_config.dart';
@@ -191,10 +192,12 @@ class _ManagerSalaryScreenState extends State<ManagerSalaryScreen> {
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: <Color>[
-            Color(0xff020A3D),
-            Color(0xff2563EB),
-            Color(0xff9333EA),
+            Color(0xFF281E30),
+            Color(0xFF4C3C56),
+            Color(0xFF9988A1),
           ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(32),
@@ -230,10 +233,10 @@ class _ManagerSalaryScreenState extends State<ManagerSalaryScreen> {
                   children: <Widget>[
                     Text(
                       'Monthly Salary Details',
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         color: Colors.white,
                         fontSize: isMobile ? 20 : 28,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     const SizedBox(height: 4),

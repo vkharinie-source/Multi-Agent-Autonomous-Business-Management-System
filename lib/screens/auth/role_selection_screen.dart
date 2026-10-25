@@ -7,10 +7,10 @@ import 'manager_login_screen.dart';
 class RoleSelectionScreen extends StatelessWidget {
   const RoleSelectionScreen({super.key});
 
-  static const Color _primaryPurple = Color(0xFF6C4CF1);
-  static const Color _darkPurple = Color(0xFF241B45);
-  static const Color _employeeBlue = Color(0xFF2563EB);
-  static const Color _managerPurple = Color(0xFF8B3DFF);
+  static const Color _primaryPurple = Color(0xFF9988A1);
+  static const Color _darkPurple = Color(0xFF281E30);
+  static const Color _employeeBlue = Color(0xFF9988A1);
+  static const Color _managerPurple = Color(0xFF5E4E68);
 
   void _openEmployeeLogin(BuildContext context) {
     Navigator.of(context).push(
@@ -38,11 +38,11 @@ class RoleSelectionScreen extends StatelessWidget {
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Color(0xFFF7F4FF),
+        systemNavigationBarColor: Color(0xFFF8F6FA),
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
-        backgroundColor: const Color(0xFFF7F4FF),
+        backgroundColor: const Color(0xFFF8F6FA),
         body: Stack(
           children: [
             const Positioned.fill(
@@ -52,9 +52,9 @@ class RoleSelectionScreen extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: <Color>[
-                      Color(0xFFF9F7FF),
-                      Color(0xFFEDE8FF),
-                      Color(0xFFF8F6FF),
+                      Color(0xFFFCFAFD),
+                      Color(0xFFF3EEF6),
+                      Color(0xFFF8F6FA),
                     ],
                   ),
                 ),
@@ -65,7 +65,7 @@ class RoleSelectionScreen extends StatelessWidget {
               right: -100,
               child: _buildGlowCircle(
                 size: 330,
-                color: const Color(0xFF7C5CFC),
+                color: const Color(0xFFC7BED0),
               ),
             ),
             Positioned(
@@ -73,7 +73,7 @@ class RoleSelectionScreen extends StatelessWidget {
               left: -120,
               child: _buildGlowCircle(
                 size: 380,
-                color: const Color(0xFFB35CFF),
+                color: const Color(0xFFDED8E4),
               ),
             ),
             SafeArea(
@@ -196,7 +196,7 @@ class RoleSelectionScreen extends StatelessWidget {
             gradient: const LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: <Color>[Color(0xFF6C4CF1), Color(0xFF9A4DFF)],
+              colors: <Color>[Color(0xFF9988A1), Color(0xFF7A6883)],
             ),
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
@@ -245,15 +245,15 @@ class RoleSelectionScreen extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: <Color>[
-            Color(0xFF100934),
-            Color(0xFF4730B8),
-            Color(0xFF7A42E8),
+            Color(0xFF281E30),
+            Color(0xFF4C3C56),
+            Color(0xFF9988A1),
           ],
         ),
         borderRadius: BorderRadius.circular(34),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6040D0).withValues(alpha: 0.28),
+            color: const Color(0xFF9988A1).withValues(alpha: 0.28),
             blurRadius: 48,
             offset: const Offset(0, 24),
           ),
@@ -449,7 +449,7 @@ class RoleSelectionScreen extends StatelessWidget {
           _AccountTypeCard(
             icon: Icons.badge_outlined,
             iconColor: _employeeBlue,
-            iconBackground: const Color(0xFFEAF0FF),
+            iconBackground: const Color(0xFFEAF2FA),
             title: 'Employee',
             description:
                 'Access your attendance, tasks, leave, salary and employee profile.',
@@ -468,7 +468,7 @@ class RoleSelectionScreen extends StatelessWidget {
           _AccountTypeCard(
             icon: Icons.admin_panel_settings_outlined,
             iconColor: _managerPurple,
-            iconBackground: const Color(0xFFF1E9FF),
+            iconBackground: const Color(0xFFFFF0E0),
             title: 'Manager / Admin',
             description:
                 'Manage employees, attendance, inventory, reports and business operations.',

@@ -1023,7 +1023,7 @@ class _OtpScreenState extends State<OtpScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFFF3EEFF), Color(0xFFEDE8FF), Color(0xFFF8F6FF)],
+            colors: [Color(0xFFF4F7FA), Color(0xFFEBF1F7), Color(0xFFF8FAFC)],
           ),
         ),
         child: SafeArea(
@@ -1034,7 +1034,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 right: -60,
                 child: _buildGlowCircle(
                   size: 230,
-                  color: const Color(0xFF7B61FF),
+                  color: const Color(0xFFC7BED0).withValues(alpha: 0.20),
                 ),
               ),
               Positioned(
@@ -1042,7 +1042,7 @@ class _OtpScreenState extends State<OtpScreen> {
                 left: -80,
                 child: _buildGlowCircle(
                   size: 280,
-                  color: const Color(0xFFB66DFF),
+                  color: const Color(0xFFDED8E4).withValues(alpha: 0.18),
                 ),
               ),
               Center(
@@ -1083,8 +1083,8 @@ class _OtpScreenState extends State<OtpScreen> {
                                         Navigator.pop(context);
                                       },
                                 style: IconButton.styleFrom(
-                                  backgroundColor: const Color(0xFFF3F0FF),
-                                  foregroundColor: const Color(0xFF6C5CE7),
+                                  backgroundColor: const Color(0xFFFAF8FB),
+                                  foregroundColor: const Color(0xFF9988A1),
                                 ),
                                 icon: const Icon(Icons.arrow_back_rounded),
                               ),
@@ -1096,15 +1096,15 @@ class _OtpScreenState extends State<OtpScreen> {
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
                                   colors: [
-                                    Color(0xFF6C5CE7),
-                                    Color(0xFF9B6CFF),
+                                    Color(0xFF9988A1),
+                                    Color(0xFF7A6883),
                                   ],
                                 ),
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
                                     color: const Color(
-                                      0xFF6C5CE7,
+                                      0xFF9988A1,
                                     ).withValues(alpha: 0.28),
                                     blurRadius: 20,
                                     offset: const Offset(0, 10),
@@ -1122,7 +1122,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               'Verify your email',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Color(0xFF201A3D),
+                                color: Color(0xFF1E2B37),
                                 fontSize: 28,
                                 fontWeight: FontWeight.w800,
                               ),
@@ -1132,7 +1132,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               'We sent a 6-digit verification code to',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: const Color(0xFF6F6981),
+                                color: const Color(0xFF5A6E82),
                                 fontSize: 14,
                                 height: 1.5,
                               ),
@@ -1142,7 +1142,7 @@ class _OtpScreenState extends State<OtpScreen> {
                               _maskedEmail(),
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                color: Color(0xFF6C5CE7),
+                                color: Color(0xFF9988A1),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -1170,10 +1170,10 @@ class _OtpScreenState extends State<OtpScreen> {
                                 ),
                                 prefixIcon: const Icon(
                                   Icons.password_rounded,
-                                  color: Color(0xFF7566B4),
+                                  color: Color(0xFF9988A1),
                                 ),
                                 filled: true,
-                                fillColor: const Color(0xFFF8F6FC),
+                                fillColor: const Color(0xFFFAF8FB),
                                 contentPadding: const EdgeInsets.symmetric(
                                   vertical: 20,
                                   horizontal: 18,
@@ -1181,13 +1181,13 @@ class _OtpScreenState extends State<OtpScreen> {
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
-                                    color: Color(0xFFE5E0EE),
+                                    color: Color(0xFFEBE6F0),
                                   ),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16),
                                   borderSide: const BorderSide(
-                                    color: Color(0xFF6C5CE7),
+                                    color: Color(0xFF9988A1),
                                     width: 1.8,
                                   ),
                                 ),
@@ -1218,15 +1218,15 @@ class _OtpScreenState extends State<OtpScreen> {
                                 decoration: BoxDecoration(
                                   gradient: const LinearGradient(
                                     colors: [
-                                      Color(0xFF6C5CE7),
-                                      Color(0xFF8E5BEF),
+                                      Color(0xFF9988A1),
+                                      Color(0xFF7A6883),
                                     ],
                                   ),
                                   borderRadius: BorderRadius.circular(18),
                                   boxShadow: [
                                     BoxShadow(
                                       color: const Color(
-                                        0xFF6C5CE7,
+                                        0xFF9988A1,
                                       ).withValues(alpha: 0.30),
                                       blurRadius: 18,
                                       offset: const Offset(0, 10),
@@ -1295,13 +1295,13 @@ class _OtpScreenState extends State<OtpScreen> {
                                       height: 18,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2,
-                                        color: Color(0xFF6C5CE7),
+                                        color: Color(0xFF9988A1),
                                       ),
                                     )
                                   : const Text(
                                       'Resend OTP',
                                       style: TextStyle(
-                                        color: Color(0xFF6C5CE7),
+                                        color: Color(0xFF9988A1),
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),

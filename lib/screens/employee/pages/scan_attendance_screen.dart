@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -335,7 +336,7 @@ class _ScanAttendanceScreenState extends State<ScanAttendanceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F7FB),
+      backgroundColor: const Color(0xFFF8F6FA),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -348,26 +349,26 @@ class _ScanAttendanceScreenState extends State<ScanAttendanceScreen> {
               width: 38,
               height: 38,
               decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
+                color: const Color(0xFFFAF8FB),
                 shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFFE2E8F0)),
+                border: Border.all(color: const Color(0xFFEBE6F0)),
               ),
               child: IconButton(
                 padding: EdgeInsets.zero,
                 icon: const Icon(
                   Icons.arrow_back_ios_new_rounded,
                   size: 16,
-                  color: Color(0xFF0F172A),
+                  color: Color(0xFF9988A1),
                 ),
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
             ),
           ),
         ),
-        title: const Text(
+        title: Text(
           'Scan Attendance QR',
-          style: TextStyle(
-            color: Color(0xFF0F172A),
+          style: GoogleFonts.inter(
+            color: const Color(0xFF281E30),
             fontSize: 18,
             fontWeight: FontWeight.w800,
             letterSpacing: -0.3,
@@ -376,7 +377,7 @@ class _ScanAttendanceScreenState extends State<ScanAttendanceScreen> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Container(
-            color: const Color(0xFFE2E8F0).withValues(alpha: 0.7),
+            color: const Color(0xFFEBE6F0),
             height: 1,
           ),
         ),

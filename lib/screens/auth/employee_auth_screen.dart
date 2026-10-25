@@ -382,7 +382,7 @@ class _EmployeeAuthScreenState extends State<EmployeeAuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F1FF),
+      backgroundColor: const Color(0xFFF8F6FA),
       body: Stack(
         children: [
           const Positioned.fill(
@@ -392,9 +392,9 @@ class _EmployeeAuthScreenState extends State<EmployeeAuthScreen> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: <Color>[
-                    Color(0xFFF8F6FF),
-                    Color(0xFFEDE8FF),
-                    Color(0xFFF9F7FF),
+                    Color(0xFFFCFAFD),
+                    Color(0xFFF3EEF6),
+                    Color(0xFFF8F6FA),
                   ],
                 ),
               ),
@@ -403,12 +403,12 @@ class _EmployeeAuthScreenState extends State<EmployeeAuthScreen> {
           Positioned(
             top: -100,
             right: -80,
-            child: _buildGlowCircle(size: 280, color: const Color(0xFF7557F5)),
+            child: _buildGlowCircle(size: 280, color: const Color(0xFFC7BED0)),
           ),
           Positioned(
             bottom: -130,
             left: -100,
-            child: _buildGlowCircle(size: 330, color: const Color(0xFFB65CFF)),
+            child: _buildGlowCircle(size: 330, color: const Color(0xFFDED8E4)),
           ),
           SafeArea(
             child: SingleChildScrollView(
@@ -519,7 +519,7 @@ class _EmployeeAuthScreenState extends State<EmployeeAuthScreen> {
         duration: const Duration(milliseconds: 220),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 14),
         decoration: BoxDecoration(
-          color: selected ? const Color(0xFF6C4CF1) : Colors.transparent,
+          color: selected ? const Color(0xFF9988A1) : Colors.transparent,
           borderRadius: BorderRadius.circular(14),
         ),
         child: Row(
@@ -729,7 +729,7 @@ class _EmployeeAuthScreenState extends State<EmployeeAuthScreen> {
           height: 54,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: <Color>[Color(0xFF6C4CF1), Color(0xFF984DF5)],
+              colors: <Color>[Color(0xFF9988A1), Color(0xFF7A6883)],
             ),
             borderRadius: BorderRadius.circular(17),
           ),
@@ -850,7 +850,7 @@ class _EmployeeAuthScreenState extends State<EmployeeAuthScreen> {
       children: [
         Checkbox(
           value: _acceptTerms,
-          activeColor: const Color(0xFF6C4CF1),
+          activeColor: const Color(0xFF9988A1),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           onChanged: _isLoading
               ? null
@@ -892,9 +892,9 @@ class _EmployeeAuthScreenState extends State<EmployeeAuthScreen> {
                 onPressed();
               },
         style: FilledButton.styleFrom(
-          backgroundColor: const Color(0xFF6C4CF1),
+          backgroundColor: const Color(0xFF9988A1),
           foregroundColor: Colors.white,
-          disabledBackgroundColor: const Color(0xFFB8AFE1),
+          disabledBackgroundColor: const Color(0xFFC7BED0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(17),
           ),
@@ -930,7 +930,7 @@ class _EmployeeAuthScreenState extends State<EmployeeAuthScreen> {
     return Text(
       text,
       style: const TextStyle(
-        color: Color(0xFF3D345E),
+        color: Color(0xFF243242),
         fontSize: 14,
         fontWeight: FontWeight.w700,
       ),
@@ -945,22 +945,22 @@ class _EmployeeAuthScreenState extends State<EmployeeAuthScreen> {
     return InputDecoration(
       hintText: hintText,
       hintStyle: const TextStyle(color: Color(0xFFA09AAA), fontSize: 14),
-      prefixIcon: Icon(icon, color: const Color(0xFF7364B4)),
+      prefixIcon: Icon(icon, color: const Color(0xFF9988A1)),
       suffixIcon: suffixIcon,
       filled: true,
-      fillColor: const Color(0xFFF8F6FC),
+      fillColor: const Color(0xFFFAF8FB),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: Color(0xFFE5E0EE)),
+        borderSide: const BorderSide(color: Color(0xFFEBE6F0)),
       ),
       disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: Color(0xFFE5E0EE)),
+        borderSide: const BorderSide(color: Color(0xFFEBE6F0)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: Color(0xFF6C4CF1), width: 1.7),
+        borderSide: const BorderSide(color: Color(0xFF9988A1), width: 1.7),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),

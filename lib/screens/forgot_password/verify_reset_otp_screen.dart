@@ -223,7 +223,7 @@ class _VerifyResetOtpScreenState extends State<VerifyResetOtpScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFFF3EEFF), Color(0xFFEDE8FF), Color(0xFFF8F6FF)],
+            colors: [Color(0xFFF4F7FA), Color(0xFFEBF1F7), Color(0xFFF8FAFC)],
           ),
         ),
         child: SafeArea(
@@ -235,11 +235,11 @@ class _VerifyResetOtpScreenState extends State<VerifyResetOtpScreen> {
                 child: Container(
                   padding: const EdgeInsets.all(26),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: Colors.white.withValues(alpha: 0.95),
                     borderRadius: BorderRadius.circular(28),
                     boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFF6C5CE7).withValues(alpha: 0.12),
+                       BoxShadow(
+                        color: const Color(0xFF9988A1).withValues(alpha: 0.12),
                         blurRadius: 30,
                         offset: const Offset(0, 18),
                       ),
@@ -253,15 +253,13 @@ class _VerifyResetOtpScreenState extends State<VerifyResetOtpScreen> {
                           width: 110,
                           height: 110,
                           decoration: BoxDecoration(
-                            color: const Color(
-                              0xFF6C5CE7,
-                            ).withValues(alpha: 0.1),
+                            color: const Color(0xFF9988A1).withValues(alpha: 0.1),
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(
                             Icons.mark_email_read_outlined,
                             size: 58,
-                            color: Color(0xFF6C5CE7),
+                            color: Color(0xFF9988A1),
                           ),
                         ),
                         const SizedBox(height: 26),
@@ -269,7 +267,7 @@ class _VerifyResetOtpScreenState extends State<VerifyResetOtpScreen> {
                           'Check your email',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color(0xFF201A3D),
+                            color: Color(0xFF1E2B37),
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
                           ),
@@ -280,7 +278,7 @@ class _VerifyResetOtpScreenState extends State<VerifyResetOtpScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 15,
-                            color: Color(0xFF6F6981),
+                            color: Color(0xFF5A6E82),
                           ),
                         ),
                         const SizedBox(height: 6),
@@ -290,7 +288,7 @@ class _VerifyResetOtpScreenState extends State<VerifyResetOtpScreen> {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: Color(0xFF6C5CE7),
+                            color: Color(0xFF9988A1),
                           ),
                         ),
                         const SizedBox(height: 34),
@@ -314,7 +312,7 @@ class _VerifyResetOtpScreenState extends State<VerifyResetOtpScreen> {
                             counterText: '',
                             prefixIcon: const Icon(
                               Icons.password_rounded,
-                              color: Color(0xFF6C5CE7),
+                              color: Color(0xFF9988A1),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(14),
@@ -322,7 +320,7 @@ class _VerifyResetOtpScreenState extends State<VerifyResetOtpScreen> {
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(14),
                               borderSide: const BorderSide(
-                                color: Color(0xFF6C5CE7),
+                                color: Color(0xFF9988A1),
                                 width: 1.8,
                               ),
                             ),
@@ -339,7 +337,7 @@ class _VerifyResetOtpScreenState extends State<VerifyResetOtpScreen> {
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _verifyOtp,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF6C5CE7),
+                              backgroundColor: const Color(0xFF9988A1),
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16),

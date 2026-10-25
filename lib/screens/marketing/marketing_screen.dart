@@ -479,10 +479,10 @@ class _MarketingDashboardState extends State<MarketingDashboard> {
       children: [
         Text(
           'Marketing Overview',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.white,
             fontSize: mobile ? 25 : 32,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w800,
           ),
         ),
         const SizedBox(height: 8),
@@ -497,7 +497,7 @@ class _MarketingDashboardState extends State<MarketingDashboard> {
       onPressed: _showAddCampaignDialog,
       style: FilledButton.styleFrom(
         backgroundColor: Colors.white,
-        foregroundColor: const Color(0xff1D4ED8),
+        foregroundColor: const Color(0xFF4C3C56),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       ),
       icon: const Icon(Icons.add),
@@ -512,7 +512,7 @@ class _MarketingDashboardState extends State<MarketingDashboard> {
       padding: EdgeInsets.all(mobile ? 22 : 30),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xff020A3D), Color(0xff1544E5), Color(0xff6D4AFF)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),

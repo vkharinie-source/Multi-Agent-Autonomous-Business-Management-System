@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../core/services/export_service.dart';
 
 class ReportsDashboard extends StatefulWidget {
@@ -124,7 +125,7 @@ class _ReportsDashboardState extends State<ReportsDashboard> {
       ),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xff020A3D), Color(0xff2563EB), Color(0xff9333EA)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -163,10 +164,10 @@ class _ReportsDashboardState extends State<ReportsDashboard> {
                     "Reports Dashboard",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       color: Colors.white,
                       fontSize: isMobile ? 20 : 28,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   const SizedBox(height: 4),

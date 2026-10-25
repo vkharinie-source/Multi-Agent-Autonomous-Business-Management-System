@@ -138,7 +138,7 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F5FC),
+      backgroundColor: const Color(0xFFF8F6FA),
       body: SafeArea(
         child: Stack(
           children: [
@@ -148,7 +148,7 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
               right: -60,
               child: _buildGlowCircle(
                 size: 260,
-                color: const Color(0xFF7B61FF).withValues(alpha: 0.10),
+                color: const Color(0xFFC7BED0).withValues(alpha: 0.20),
               ),
             ),
             Positioned(
@@ -156,7 +156,7 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
               left: -80,
               child: _buildGlowCircle(
                 size: 280,
-                color: const Color(0xFFB66DFF).withValues(alpha: 0.10),
+                color: const Color(0xFFDED8E4).withValues(alpha: 0.18),
               ),
             ),
 
@@ -176,7 +176,7 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               CircularProgressIndicator(
-                                color: Color(0xFF6C5CE7),
+                                color: Color(0xFF9988A1),
                               ),
                               SizedBox(height: 16),
                               Text(
@@ -216,7 +216,7 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
                                     ElevatedButton.icon(
                                       onPressed: _fetchSalary,
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color(0xFF6C5CE7),
+                                        backgroundColor: const Color(0xFF9988A1),
                                         foregroundColor: Colors.white,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -260,14 +260,14 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
                                       children: [
                                         Icon(
                                           Icons.history_edu_rounded,
-                                          color: Color(0xFF6C5CE7),
+                                          color: Color(0xFF9988A1),
                                           size: 22,
                                         ),
                                         SizedBox(width: 8),
                                         Text(
                                           'Payslip Statement',
                                           style: TextStyle(
-                                            color: Color(0xFF201A3D),
+                                            color: Color(0xFF1E2B37),
                                             fontSize: 19,
                                             fontWeight: FontWeight.w800,
                                           ),
@@ -280,13 +280,13 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
                                         vertical: 4,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFFEFEAFF),
+                                        color: const Color(0xFFFAF8FB),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: Text(
                                         _monthDisplayName,
                                         style: const TextStyle(
-                                          color: Color(0xFF6C5CE7),
+                                          color: Color(0xFF9988A1),
                                           fontSize: 12,
                                           fontWeight: FontWeight.w700,
                                         ),
@@ -338,7 +338,7 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
             onPressed: () => _changeMonth(-1),
             icon: const Icon(
               Icons.chevron_left_rounded,
-              color: Color(0xFF6C5CE7),
+              color: Color(0xFF9988A1),
             ),
             tooltip: 'Previous Month',
           ),
@@ -346,14 +346,14 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
             children: [
               const Icon(
                 Icons.calendar_month_rounded,
-                color: Color(0xFF6C5CE7),
+                color: Color(0xFF9988A1),
                 size: 18,
               ),
               const SizedBox(width: 8),
               Text(
                 _monthDisplayName,
                 style: const TextStyle(
-                  color: Color(0xFF201A3D),
+                  color: Color(0xFF281E30),
                   fontSize: 15,
                   fontWeight: FontWeight.w800,
                 ),
@@ -364,7 +364,7 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
             onPressed: () => _changeMonth(1),
             icon: const Icon(
               Icons.chevron_right_rounded,
-              color: Color(0xFF6C5CE7),
+              color: Color(0xFF9988A1),
             ),
             tooltip: 'Next Month',
           ),
@@ -379,7 +379,7 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.85),
         border: const Border(
-          bottom: BorderSide(color: Color(0xFFEBE6F8), width: 1),
+          bottom: BorderSide(color: Color(0xFFEBE6F0), width: 1),
         ),
       ),
       child: Row(
@@ -389,8 +389,8 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
               Navigator.of(context).maybePop();
             },
             style: IconButton.styleFrom(
-              backgroundColor: const Color(0xFFF3EEFF),
-              foregroundColor: const Color(0xFF4C3F91),
+              backgroundColor: const Color(0xFFFAF8FB),
+              foregroundColor: const Color(0xFF9988A1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -405,14 +405,14 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
               Text(
                 'My Salary',
                 style: GoogleFonts.inter(
-                  color: const Color(0xFF201A3D),
+                  color: const Color(0xFF1E2B37),
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               Text(
                 'Automatic Monthly Calculation',
-                style: GoogleFonts.inter(color: const Color(0xFF756E8A), fontSize: 12),
+                style: GoogleFonts.inter(color: const Color(0xFF5A6E82), fontSize: 12),
               ),
             ],
           ),
@@ -467,12 +467,12 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF4A00E0), Color(0xFF8E2DE2)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
         ),
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6C5CE7).withValues(alpha: 0.35),
+            color: const Color(0xFF9988A1).withValues(alpha: 0.28),
             blurRadius: 28,
             offset: const Offset(0, 14),
           ),
@@ -628,7 +628,7 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
             children: [
               Icon(
                 Icons.calendar_today_rounded,
-                color: Color(0xFF6C5CE7),
+                color: Color(0xFF9988A1),
                 size: 18,
               ),
               SizedBox(width: 8),
@@ -723,7 +723,7 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
             children: [
               Icon(
                 Icons.pie_chart_outline_rounded,
-                color: Color(0xFF6C5CE7),
+                color: Color(0xFF9988A1),
                 size: 20,
               ),
               SizedBox(width: 8),
@@ -779,10 +779,10 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFFF3EEFF), Color(0xFFECE5FF)],
+                colors: [Color(0xFFFAF8FB), Color(0xFFF8F6FA)],
               ),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFFDCD2FA)),
+              border: Border.all(color: const Color(0xFFEBE6F0)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -790,7 +790,7 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
                 const Text(
                   'Net Payable Salary',
                   style: TextStyle(
-                    color: Color(0xFF201A3D),
+                    color: Color(0xFF1E2B37),
                     fontSize: 15,
                     fontWeight: FontWeight.w800,
                   ),
@@ -798,7 +798,7 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
                 Text(
                   _formatCurrency(netPay),
                   style: const TextStyle(
-                    color: Color(0xFF6C5CE7),
+                    color: Color(0xFF9988A1),
                     fontSize: 19,
                     fontWeight: FontWeight.w900,
                   ),
@@ -890,7 +890,7 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
             height: 48,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFF6C5CE7), Color(0xFF8E5BEF)],
+                colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
               ),
               borderRadius: BorderRadius.circular(16),
             ),
@@ -975,14 +975,14 @@ class _MySalaryScreenState extends State<MySalaryScreen> {
                   children: [
                     Icon(
                       Icons.download_rounded,
-                      color: Color(0xFF6C5CE7),
+                      color: Color(0xFF9988A1),
                       size: 14,
                     ),
                     SizedBox(width: 4),
                     Text(
                       'Payslip',
                       style: TextStyle(
-                        color: Color(0xFF6C5CE7),
+                        color: Color(0xFF9988A1),
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
                       ),

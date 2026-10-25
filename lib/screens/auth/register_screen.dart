@@ -358,7 +358,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFFF3EEFF), Color(0xFFEDE8FF), Color(0xFFF8F6FF)],
+            colors: [Color(0xFFF4F7FA), Color(0xFFEBF1F7), Color(0xFFF8FAFC)],
           ),
         ),
         child: SafeArea(
@@ -369,7 +369,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 right: -70,
                 child: _buildGlowCircle(
                   size: 250,
-                  color: const Color(0xFF7B61FF),
+                  color: const Color(0xFFC7BED0).withValues(alpha: 0.20),
                 ),
               ),
               Positioned(
@@ -377,7 +377,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 left: -80,
                 child: _buildGlowCircle(
                   size: 280,
-                  color: const Color(0xFFB66DFF),
+                  color: const Color(0xFFDED8E4).withValues(alpha: 0.18),
                 ),
               ),
               SingleChildScrollView(
@@ -403,7 +403,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             backgroundColor: Colors.white.withValues(
                               alpha: 0.75,
                             ),
-                            foregroundColor: const Color(0xFF4C3F91),
+                            foregroundColor: const Color(0xFF9988A1),
                           ),
                           icon: const Icon(Icons.arrow_back_rounded),
                         ),
@@ -411,7 +411,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         const Text(
                           'Create your profile',
                           style: TextStyle(
-                            color: Color(0xFF201A3D),
+                            color: Color(0xFF281E30),
                             fontSize: 34,
                             fontWeight: FontWeight.w800,
                             height: 1.15,
@@ -421,7 +421,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         const Text(
                           'Enter the same information available in your employee record.',
                           style: TextStyle(
-                            color: Color(0xFF6F6981),
+                            color: Color(0xFF5A6E82),
                             fontSize: 16,
                             height: 1.5,
                           ),
@@ -439,7 +439,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             boxShadow: [
                               BoxShadow(
                                 color: const Color(
-                                  0xFF5D4BB7,
+                                  0xFF9988A1,
                                 ).withValues(alpha: 0.12),
                                 blurRadius: 35,
                                 offset: const Offset(0, 20),
@@ -535,7 +535,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               child: const Text(
                                 'Sign In',
                                 style: TextStyle(
-                                  color: Color(0xFF6C5CE7),
+                                  color: Color(0xFF9988A1),
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -677,7 +677,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           offset: const Offset(-4, -3),
           child: Checkbox(
             value: _acceptTerms,
-            activeColor: const Color(0xFF6C5CE7),
+            activeColor: const Color(0xFF9988A1),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
@@ -697,7 +697,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextSpan(
                 text: 'I agree to the ',
                 style: TextStyle(
-                  color: Color(0xFF6F6981),
+                  color: Color(0xFF5A6E82),
                   fontSize: 13,
                   height: 1.5,
                 ),
@@ -705,7 +705,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextSpan(
                     text: 'Terms of Service',
                     style: TextStyle(
-                      color: Color(0xFF6C5CE7),
+                      color: Color(0xFF9988A1),
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -713,7 +713,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextSpan(
                     text: 'Privacy Policy',
                     style: TextStyle(
-                      color: Color(0xFF6C5CE7),
+                      color: Color(0xFF9988A1),
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -733,12 +733,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: const LinearGradient(
-            colors: [Color(0xFF6C5CE7), Color(0xFF8E5BEF)],
+            colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
           ),
           borderRadius: BorderRadius.circular(18),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF6C5CE7).withValues(alpha: 0.32),
+              color: const Color(0xFF9988A1).withValues(alpha: 0.32),
               blurRadius: 18,
               offset: const Offset(0, 10),
             ),
@@ -791,7 +791,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           height: 52,
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [Color(0xFF6C5CE7), Color(0xFF9B6CFF)],
+              colors: [Color(0xFF9988A1), Color(0xFF7A6883)],
             ),
             borderRadius: BorderRadius.circular(16),
           ),
@@ -845,22 +845,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return InputDecoration(
       hintText: hintText,
       hintStyle: const TextStyle(color: Color(0xFFA6A0B3), fontSize: 14),
-      prefixIcon: Icon(icon, color: const Color(0xFF7566B4)),
+      prefixIcon: Icon(icon, color: const Color(0xFF9988A1)),
       suffixIcon: suffixIcon,
       filled: true,
-      fillColor: const Color(0xFFF8F6FC),
+      fillColor: const Color(0xFFFAF8FB),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: Color(0xFFE5E0EE)),
+        borderSide: const BorderSide(color: Color(0xFFEBE6F0)),
       ),
       disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: Color(0xFFE5E0EE)),
+        borderSide: const BorderSide(color: Color(0xFFEBE6F0)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: const BorderSide(color: Color(0xFF6C5CE7), width: 1.8),
+        borderSide: const BorderSide(color: Color(0xFF9988A1), width: 1.8),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),

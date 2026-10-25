@@ -181,7 +181,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFFF3EEFF), Color(0xFFEDE8FF), Color(0xFFF8F6FF)],
+            colors: [Color(0xFFF4F7FA), Color(0xFFEBF1F7), Color(0xFFF8FAFC)],
           ),
         ),
         child: SafeArea(
@@ -193,7 +193,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 child: Container(
                   padding: const EdgeInsets.all(26),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: Colors.white.withValues(alpha: 0.95),
                     borderRadius: BorderRadius.circular(28),
                   ),
                   child: Form(
@@ -203,7 +203,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         const Icon(
                           Icons.lock_reset_rounded,
                           size: 80,
-                          color: Color(0xFF6C5CE7),
+                          color: Color(0xFF9988A1),
                         ),
                         const SizedBox(height: 24),
                         const Text(
@@ -211,7 +211,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           style: TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF201A3D),
+                            color: Color(0xFF1E2B37),
                           ),
                         ),
                         const SizedBox(height: 30),
@@ -275,7 +275,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           child: ElevatedButton(
                             onPressed: _isLoading ? null : _resetPassword,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF6C5CE7),
+                              backgroundColor: const Color(0xFF9988A1),
                               foregroundColor: Colors.white,
                             ),
                             child: _isLoading

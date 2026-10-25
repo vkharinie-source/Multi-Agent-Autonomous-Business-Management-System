@@ -13,8 +13,8 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  static const Color _primaryPurple = Color(0xFF6C4CF1);
-  static const Color _darkPurple = Color(0xFF241B45);
+  static const Color _primaryPurple = Color(0xFF9988A1);
+  static const Color _darkPurple = Color(0xFF382A41);
 
   final PageController _pageController = PageController();
 
@@ -26,8 +26,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       title: 'Manage your business\nin one place',
       description:
           'Employees, attendance, inventory, sales and reports are connected through one intelligent business platform.',
-      primaryColor: Color(0xFF6C4CF1),
-      secondaryColor: Color(0xFF9A4DFF),
+      primaryColor: Color(0xFF9988A1),
+      secondaryColor: Color(0xFFB4A5BD),
       badge: 'SMART BUSINESS MANAGEMENT',
       points: <String>[
         'Centralized business operations',
@@ -40,8 +40,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       title: 'Make smarter decisions\nwith Business AI',
       description:
           'Use intelligent insights and AI-powered recommendations to improve sales, inventory, finance and employee management.',
-      primaryColor: Color(0xFF2563EB),
-      secondaryColor: Color(0xFF7C3AED),
+      primaryColor: Color(0xFF86758E),
+      secondaryColor: Color(0xFFC7BED0),
       badge: 'AI-POWERED INSIGHTS',
       points: <String>[
         'Smart recommendations',
@@ -54,8 +54,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       title: 'Secure attendance\nfor every employee',
       description:
           'Protect employee attendance using approved devices, secure QR sessions and company location verification.',
-      primaryColor: Color(0xFF0E7490),
-      secondaryColor: Color(0xFF2563EB),
+      primaryColor: Color(0xFF9988A1),
+      secondaryColor: Color(0xFFDED8E4),
       badge: 'SECURE ATTENDANCE',
       points: <String>[
         'Approved employee devices',
@@ -133,11 +133,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Color(0xFFF7F4FF),
+        systemNavigationBarColor: Color(0xFFF4F7FA),
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
-        backgroundColor: const Color(0xFFF7F4FF),
+        backgroundColor: const Color(0xFFF4F7FA),
         body: Stack(
           children: [
             const Positioned.fill(
@@ -147,9 +147,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: <Color>[
-                      Color(0xFFFBFAFF),
-                      Color(0xFFF0ECFF),
-                      Color(0xFFF8F6FF),
+                      Color(0xFFF8FAFD),
+                      Color(0xFFEBF2F8),
+                      Color(0xFFF4F7FA),
                     ],
                   ),
                 ),
@@ -160,7 +160,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               right: -100,
               child: _buildGlowCircle(
                 size: 330,
-                color: const Color(0xFF8B5CF6),
+                color: const Color(0xFFBADDFF),
               ),
             ),
             Positioned(
@@ -168,7 +168,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               left: -110,
               child: _buildGlowCircle(
                 size: 360,
-                color: const Color(0xFF6366F1),
+                color: const Color(0xFFBAFFF5),
               ),
             ),
             SafeArea(
@@ -214,7 +214,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   gradient: const LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: <Color>[Color(0xFF6C4CF1), Color(0xFF9A4DFF)],
+                    colors: <Color>[Color(0xFF9988A1), Color(0xFF7A6883)],
                   ),
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
@@ -336,7 +336,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: <Color>[
-            const Color(0xFF110A34),
+            const Color(0xFF162330),
             data.primaryColor,
             data.secondaryColor,
           ],
@@ -598,7 +598,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     tooltip: 'Previous',
                     onPressed: _previousPage,
                     style: IconButton.styleFrom(
-                      backgroundColor: const Color(0xFFF1EDFF),
+                      backgroundColor: const Color(0xFFE8F1FA),
                       foregroundColor: _primaryPurple,
                     ),
                     icon: const Icon(Icons.arrow_back_rounded),
@@ -618,7 +618,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   decoration: BoxDecoration(
                     color: isSelected
                         ? _primaryPurple
-                        : const Color(0xFFD6D0E3),
+                        : const Color(0xFFCAD7E4),
                     borderRadius: BorderRadius.circular(20),
                   ),
                 );

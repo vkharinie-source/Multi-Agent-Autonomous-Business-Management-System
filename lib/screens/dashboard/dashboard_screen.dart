@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -76,7 +77,9 @@ class DashboardScreen extends StatelessWidget {
       padding: EdgeInsets.all(isMobile ? 20 : 28),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xff020A3D), Color(0xff2563EB), Color(0xff9333EA)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(28),
       ),
@@ -87,7 +90,7 @@ class DashboardScreen extends StatelessWidget {
             backgroundColor: Colors.white,
             child: Icon(
               Icons.person,
-              color: const Color(0xff2563EB),
+              color: const Color(0xFF4C3C56),
               size: isMobile ? 26 : 36,
             ),
           ),
@@ -97,11 +100,11 @@ class DashboardScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Welcome back, Harinie ðŸ‘‹",
-                  style: TextStyle(
+                  "Welcome back, Harinie 👋",
+                  style: GoogleFonts.inter(
                     color: Colors.white,
                     fontSize: isMobile ? 20 : 30,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 const SizedBox(height: 6),

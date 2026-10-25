@@ -164,7 +164,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
     final int percentInt = (progressValue * 100).round();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
+      backgroundColor: const Color(0xFFF8F6FA),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -177,16 +177,16 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
               width: 38,
               height: 38,
               decoration: BoxDecoration(
-                color: const Color(0xFFF1F5F9),
+                color: const Color(0xFFFAF8FB),
                 shape: BoxShape.circle,
-                border: Border.all(color: const Color(0xFFE2E8F0)),
+                border: Border.all(color: const Color(0xFFEBE6F0)),
               ),
               child: IconButton(
                 padding: EdgeInsets.zero,
                 icon: const Icon(
                   Icons.arrow_back_ios_new_rounded,
                   size: 16,
-                  color: Color(0xFF0F172A),
+                  color: Color(0xFF9988A1),
                 ),
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
@@ -196,7 +196,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
         title: Text(
           'My Tasks',
           style: GoogleFonts.inter(
-            color: const Color(0xFF0F172A),
+            color: const Color(0xFF281E30),
             fontSize: 18,
             fontWeight: FontWeight.w800,
             letterSpacing: -0.3,
@@ -205,7 +205,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Container(
-            color: const Color(0xFFE2E8F0).withValues(alpha: 0.7),
+            color: const Color(0xFFEBE6F0),
             height: 1,
           ),
         ),
@@ -329,7 +329,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                         fontWeight:
                             isSelected ? FontWeight.w700 : FontWeight.w500,
                         color: isSelected
-                            ? const Color(0xFF4338CA)
+                            ? const Color(0xFF9988A1)
                             : const Color(0xFF64748B),
                       ),
                     ),
@@ -339,7 +339,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                           horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? const Color(0xFFEEF2FF)
+                            ? const Color(0xFFFAF8FB)
                             : const Color(0xFFE2E8F0),
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -349,7 +349,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
                           color: isSelected
-                              ? const Color(0xFF4338CA)
+                              ? const Color(0xFF9988A1)
                               : const Color(0xFF64748B),
                         ),
                       ),
@@ -395,7 +395,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                 height: 50,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFFEDE9FE), Color(0xFFDDD6FE)],
+                    colors: [Color(0xFFFAF8FB), Color(0xFFEBE6F0)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -403,7 +403,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                 ),
                 child: const Icon(
                   Icons.check_circle_rounded,
-                  color: Color(0xFF6D28D9),
+                  color: Color(0xFF9988A1),
                   size: 26,
                 ),
               ),
@@ -439,7 +439,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                 decoration: BoxDecoration(
                   color: percentInt == 100
                       ? const Color(0xFFDCFCE7)
-                      : const Color(0xFFEDE9FE),
+                      : const Color(0xFFFAF8FB),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -447,7 +447,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
                   style: GoogleFonts.inter(
                     color: percentInt == 100
                         ? const Color(0xFF15803D)
-                        : const Color(0xFF6D28D9),
+                        : const Color(0xFF9988A1),
                     fontSize: 13,
                     fontWeight: FontWeight.w800,
                   ),
@@ -465,7 +465,7 @@ class _MyTasksScreenState extends State<MyTasksScreen> {
               valueColor: AlwaysStoppedAnimation<Color>(
                 percentInt == 100
                     ? const Color(0xFF10B981)
-                    : const Color(0xFF6366F1),
+                    : const Color(0xFF9988A1),
               ),
             ),
           ),

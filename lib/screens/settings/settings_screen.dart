@@ -203,12 +203,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Color(0xFF4169E1), Color(0xFF6C63FF)],
+                  colors: [Color(0xFF5E4E68), Color(0xFF9988A1)],
                 ),
                 borderRadius: BorderRadius.circular(22),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF4169E1).withValues(alpha: 0.22),
+                    color: const Color(0xFF9988A1).withValues(alpha: 0.22),
                     blurRadius: 22,
                     offset: const Offset(0, 10),
                   ),

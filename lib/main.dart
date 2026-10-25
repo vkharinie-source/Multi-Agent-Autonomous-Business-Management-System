@@ -13,18 +13,24 @@ void main() {
 class AutonomousBusinessAiApp extends StatelessWidget {
   const AutonomousBusinessAiApp({super.key});
 
-  static const Color _lightPrimary = Color(0xFF6C4CF1);
-  static const Color _lightSecondary = Color(0xFF8B3DFF);
-  static const Color _lightBackground = Color(0xFFF7F4FF);
-  static const Color _lightSurface = Color(0xFFFFFFFF);
-  static const Color _lightText = Color(0xFF241B45);
+  // User's Theme Palette: #9988A1 (Soft Mauve)
+  static const Color _paletteSlate = Color(0xFF9988A1);
+  static const Color _paletteSkyBlue = Color(0xFFC7BED0);
 
-  static const Color _darkPrimary = Color(0xFF9D87FF);
-  static const Color _darkSecondary = Color(0xFFC084FC);
-  static const Color _darkBackground = Color(0xFF0D0E1C);
-  static const Color _darkSurface = Color(0xFF17182A);
-  static const Color _darkSurfaceContainer = Color(0xFF202238);
-  static const Color _darkText = Color(0xFFF5F2FF);
+  static const Color _lightPrimary = Color(0xFF9988A1);
+  static const Color _lightSecondary = Color(0xFFC7BED0);
+  static const Color _lightTertiary = Color(0xFFDED8E4);
+  static const Color _lightBackground = Color(0xFFF8F6FA);
+  static const Color _lightSurface = Color(0xFFFFFFFF);
+  static const Color _lightText = Color(0xFF281E30);
+
+  static const Color _darkPrimary = Color(0xFFC7BED0);
+  static const Color _darkSecondary = Color(0xFF9988A1);
+  static const Color _darkTertiary = Color(0xFFDED8E4);
+  static const Color _darkBackground = Color(0xFF1B1621);
+  static const Color _darkSurface = Color(0xFF26202D);
+  static const Color _darkSurfaceContainer = Color(0xFF332B3D);
+  static const Color _darkText = Color(0xFFF3EEF7);
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +64,7 @@ class AutonomousBusinessAiApp extends StatelessWidget {
       brightness: Brightness.light,
       primary: _lightPrimary,
       secondary: _lightSecondary,
+      tertiary: _lightTertiary,
       surface: _lightSurface,
       error: const Color(0xFFE5484D),
     );
@@ -73,7 +80,7 @@ class AutonomousBusinessAiApp extends StatelessWidget {
 
       cardColor: _lightSurface,
 
-      dividerColor: const Color(0xFFE9E5EF),
+      dividerColor: const Color(0xFFE2E8F0),
 
       appBarTheme: const AppBarTheme(
         elevation: 0,
@@ -121,65 +128,65 @@ class AutonomousBusinessAiApp extends StatelessWidget {
           fontWeight: FontWeight.w800,
         ),
         titleMedium: TextStyle(
-          color: Color(0xFF3D345E),
+          color: Color(0xFF2E3E4E),
           fontSize: 16,
           fontWeight: FontWeight.w700,
         ),
         bodyLarge: TextStyle(
-          color: Color(0xFF686174),
+          color: Color(0xFF53677A),
           fontSize: 16,
           height: 1.5,
         ),
         bodyMedium: TextStyle(
-          color: Color(0xFF777084),
+          color: Color(0xFF6B7E90),
           fontSize: 14,
           height: 1.5,
         ),
         bodySmall: TextStyle(
-          color: Color(0xFF8F8999),
+          color: Color(0xFF8899A9),
           fontSize: 12,
           height: 1.4,
         ),
       ),
 
-      iconTheme: const IconThemeData(color: Color(0xFF5F5872)),
+      iconTheme: const IconThemeData(color: _paletteSlate),
 
       cardTheme: CardThemeData(
         color: _lightSurface,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
-        shadowColor: Colors.black.withValues(alpha: 0.08),
+        shadowColor: _paletteSlate.withValues(alpha: 0.08),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
       ),
 
       listTileTheme: const ListTileThemeData(
-        iconColor: Color(0xFF625B70),
+        iconColor: _paletteSlate,
         textColor: _lightText,
-        subtitleTextStyle: TextStyle(color: Color(0xFF777084), fontSize: 13),
+        subtitleTextStyle: TextStyle(color: Color(0xFF6B7E90), fontSize: 13),
       ),
 
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: const Color(0xFFF8F6FC),
-        hintStyle: const TextStyle(color: Color(0xFFA09AAA), fontSize: 14),
-        labelStyle: const TextStyle(color: Color(0xFF625B70)),
-        prefixIconColor: const Color(0xFF7364B4),
-        suffixIconColor: const Color(0xFF7364B4),
+        fillColor: const Color(0xFFF7FAFD),
+        hintStyle: const TextStyle(color: Color(0xFF90A1B2), fontSize: 14),
+        labelStyle: const TextStyle(color: _paletteSlate),
+        prefixIconColor: _paletteSlate,
+        suffixIconColor: _paletteSlate,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 18,
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFFE5E0EE)),
+          borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFFE5E0EE)),
+          borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFFEAE6EF)),
+          borderSide: const BorderSide(color: Color(0xFFEBF0F5)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
@@ -201,7 +208,7 @@ class AutonomousBusinessAiApp extends StatelessWidget {
           foregroundColor: Colors.white,
           backgroundColor: _lightPrimary,
           disabledForegroundColor: Colors.white70,
-          disabledBackgroundColor: const Color(0xFFB8AFE1),
+          disabledBackgroundColor: const Color(0xFF9CB1C4),
           elevation: 0,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
@@ -217,7 +224,7 @@ class AutonomousBusinessAiApp extends StatelessWidget {
           foregroundColor: Colors.white,
           backgroundColor: _lightPrimary,
           disabledForegroundColor: Colors.white70,
-          disabledBackgroundColor: const Color(0xFFB8AFE1),
+          disabledBackgroundColor: const Color(0xFF9CB1C4),
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -230,7 +237,7 @@ class AutonomousBusinessAiApp extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           minimumSize: const Size(0, 54),
           foregroundColor: _lightPrimary,
-          side: const BorderSide(color: Color(0xFFDCD5FF), width: 1.4),
+          side: const BorderSide(color: _paletteSkyBlue, width: 1.5),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -266,7 +273,7 @@ class AutonomousBusinessAiApp extends StatelessWidget {
             return Colors.white;
           }
 
-          return const Color(0xFFF4F1FF);
+          return const Color(0xFFF4F7FA);
         }),
         trackColor: WidgetStateProperty.resolveWith<Color?>((
           Set<WidgetState> states,
@@ -275,12 +282,12 @@ class AutonomousBusinessAiApp extends StatelessWidget {
             return _lightPrimary;
           }
 
-          return const Color(0xFFCDC8D8);
+          return const Color(0xFFCBD8E3);
         }),
       ),
 
       dividerTheme: const DividerThemeData(
-        color: Color(0xFFE9E5EF),
+        color: Color(0xFFE2E8F0),
         thickness: 1,
         space: 1,
       ),
@@ -308,10 +315,11 @@ class AutonomousBusinessAiApp extends StatelessWidget {
           brightness: Brightness.dark,
           primary: _darkPrimary,
           secondary: _darkSecondary,
+          tertiary: _darkTertiary,
           surface: _darkSurface,
           error: const Color(0xFFFF6B6B),
         ).copyWith(
-          onPrimary: Colors.white,
+          onPrimary: const Color(0xFF131B24),
           onSecondary: Colors.white,
           onSurface: _darkText,
           surfaceContainerHighest: _darkSurfaceContainer,
@@ -328,7 +336,7 @@ class AutonomousBusinessAiApp extends StatelessWidget {
 
       cardColor: _darkSurface,
 
-      dividerColor: const Color(0xFF303247),
+      dividerColor: const Color(0xFF27384A),
 
       appBarTheme: const AppBarTheme(
         elevation: 0,
@@ -373,28 +381,28 @@ class AutonomousBusinessAiApp extends StatelessWidget {
           fontWeight: FontWeight.w800,
         ),
         titleMedium: TextStyle(
-          color: Color(0xFFE6E1F2),
+          color: Color(0xFFD6E2EC),
           fontSize: 16,
           fontWeight: FontWeight.w700,
         ),
         bodyLarge: TextStyle(
-          color: Color(0xFFD2CDDC),
+          color: Color(0xFFBACBD8),
           fontSize: 16,
           height: 1.5,
         ),
         bodyMedium: TextStyle(
-          color: Color(0xFFB7B2C4),
+          color: Color(0xFFA1B4C3),
           fontSize: 14,
           height: 1.5,
         ),
         bodySmall: TextStyle(
-          color: Color(0xFF9894A5),
+          color: Color(0xFF8296A6),
           fontSize: 12,
           height: 1.4,
         ),
       ),
 
-      iconTheme: const IconThemeData(color: Color(0xFFD8D3E4)),
+      iconTheme: const IconThemeData(color: _paletteSkyBlue),
 
       cardTheme: CardThemeData(
         color: _darkSurface,
@@ -406,16 +414,16 @@ class AutonomousBusinessAiApp extends StatelessWidget {
 
       listTileTheme: const ListTileThemeData(
         tileColor: _darkSurface,
-        iconColor: Color(0xFFD8D3E4),
+        iconColor: _paletteSkyBlue,
         textColor: _darkText,
-        subtitleTextStyle: TextStyle(color: Color(0xFFA9A5B6), fontSize: 13),
+        subtitleTextStyle: TextStyle(color: Color(0xFFA1B4C3), fontSize: 13),
       ),
 
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: _darkSurfaceContainer,
-        hintStyle: const TextStyle(color: Color(0xFF9596AA), fontSize: 14),
-        labelStyle: const TextStyle(color: Color(0xFFC2BDCF)),
+        hintStyle: const TextStyle(color: Color(0xFF7A8E9F), fontSize: 14),
+        labelStyle: const TextStyle(color: Color(0xFFBADDFF)),
         prefixIconColor: _darkPrimary,
         suffixIconColor: _darkPrimary,
         contentPadding: const EdgeInsets.symmetric(
@@ -424,15 +432,15 @@ class AutonomousBusinessAiApp extends StatelessWidget {
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFF353750)),
+          borderSide: const BorderSide(color: Color(0xFF2E3F52)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFF353750)),
+          borderSide: const BorderSide(color: Color(0xFF2E3F52)),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: const BorderSide(color: Color(0xFF2B2D43)),
+          borderSide: const BorderSide(color: Color(0xFF243242)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
@@ -451,10 +459,10 @@ class AutonomousBusinessAiApp extends StatelessWidget {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           minimumSize: const Size(0, 54),
-          foregroundColor: Colors.white,
+          foregroundColor: const Color(0xFF131B24),
           backgroundColor: _darkPrimary,
           disabledForegroundColor: Colors.white54,
-          disabledBackgroundColor: const Color(0xFF4B4664),
+          disabledBackgroundColor: const Color(0xFF384E62),
           elevation: 0,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
@@ -467,10 +475,10 @@ class AutonomousBusinessAiApp extends StatelessWidget {
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           minimumSize: const Size(0, 54),
-          foregroundColor: Colors.white,
+          foregroundColor: const Color(0xFF131B24),
           backgroundColor: _darkPrimary,
           disabledForegroundColor: Colors.white54,
-          disabledBackgroundColor: const Color(0xFF4B4664),
+          disabledBackgroundColor: const Color(0xFF384E62),
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -483,7 +491,7 @@ class AutonomousBusinessAiApp extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           minimumSize: const Size(0, 54),
           foregroundColor: _darkPrimary,
-          side: const BorderSide(color: Color(0xFF4D4767), width: 1.4),
+          side: const BorderSide(color: _paletteSlate, width: 1.4),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -516,10 +524,10 @@ class AutonomousBusinessAiApp extends StatelessWidget {
           Set<WidgetState> states,
         ) {
           if (states.contains(WidgetState.selected)) {
-            return Colors.white;
+            return const Color(0xFF131B24);
           }
 
-          return const Color(0xFFB9BAC8);
+          return const Color(0xFF90A1B2);
         }),
         trackColor: WidgetStateProperty.resolveWith<Color?>((
           Set<WidgetState> states,
@@ -528,19 +536,19 @@ class AutonomousBusinessAiApp extends StatelessWidget {
             return _darkPrimary;
           }
 
-          return const Color(0xFF3A3C52);
+          return const Color(0xFF2E3F52);
         }),
       ),
 
       dividerTheme: const DividerThemeData(
-        color: Color(0xFF303247),
+        color: Color(0xFF27384A),
         thickness: 1,
         space: 1,
       ),
 
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: const Color(0xFF292B3F),
+        backgroundColor: const Color(0xFF243242),
         contentTextStyle: const TextStyle(
           color: _darkText,
           fontWeight: FontWeight.w600,

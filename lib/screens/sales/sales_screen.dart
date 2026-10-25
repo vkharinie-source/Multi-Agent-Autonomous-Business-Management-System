@@ -135,7 +135,7 @@ class _SalesDashboardState extends State<SalesDashboard> {
       ),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xff020A3D), Color(0xff2563EB), Color(0xff9333EA)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -174,10 +174,10 @@ class _SalesDashboardState extends State<SalesDashboard> {
                     "Sales Management",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       color: Colors.white,
                       fontSize: isMobile ? 21 : 30,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   const SizedBox(height: 5),

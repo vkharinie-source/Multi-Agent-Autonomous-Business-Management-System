@@ -85,7 +85,7 @@ class _MyLeaveScreenState extends State<MyLeaveScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F5FC),
+      backgroundColor: const Color(0xFFF8F6FA),
       body: SafeArea(
         child: Stack(
           children: [
@@ -95,7 +95,7 @@ class _MyLeaveScreenState extends State<MyLeaveScreen> {
               right: -60,
               child: _buildGlowCircle(
                 size: 260,
-                color: const Color(0xFF7B61FF).withValues(alpha: 0.10),
+                color: const Color(0xFFC7BED0).withValues(alpha: 0.15),
               ),
             ),
             Positioned(
@@ -103,7 +103,7 @@ class _MyLeaveScreenState extends State<MyLeaveScreen> {
               left: -80,
               child: _buildGlowCircle(
                 size: 280,
-                color: const Color(0xFFB66DFF).withValues(alpha: 0.10),
+                color: const Color(0xFFDED8E4).withValues(alpha: 0.12),
               ),
             ),
 
@@ -133,14 +133,14 @@ class _MyLeaveScreenState extends State<MyLeaveScreen> {
                             children: [
                               Icon(
                                 Icons.event_note_rounded,
-                                color: Color(0xFF6C5CE7),
+                                color: Color(0xFF9988A1),
                                 size: 22,
                               ),
                               SizedBox(width: 8),
                               Text(
                                 'Leave Requests',
                                 style: TextStyle(
-                                  color: Color(0xFF201A3D),
+                                  color: Color(0xFF1E2B37),
                                   fontSize: 19,
                                   fontWeight: FontWeight.w800,
                                 ),
@@ -153,13 +153,13 @@ class _MyLeaveScreenState extends State<MyLeaveScreen> {
                               vertical: 4,
                             ),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFEFEAFF),
+                              color: const Color(0xFFFAF8FB),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Text(
                               '${leaves.length} Submissions',
                               style: const TextStyle(
-                                color: Color(0xFF6C5CE7),
+                                color: Color(0xFF9988A1),
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -193,7 +193,7 @@ class _MyLeaveScreenState extends State<MyLeaveScreen> {
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.85),
         border: const Border(
-          bottom: BorderSide(color: Color(0xFFEBE6F8), width: 1),
+          bottom: BorderSide(color: Color(0xFFEBE6F0), width: 1),
         ),
       ),
       child: Row(
@@ -203,8 +203,8 @@ class _MyLeaveScreenState extends State<MyLeaveScreen> {
               Navigator.of(context).maybePop();
             },
             style: IconButton.styleFrom(
-              backgroundColor: const Color(0xFFF3EEFF),
-              foregroundColor: const Color(0xFF4C3F91),
+              backgroundColor: const Color(0xFFFAF8FB),
+              foregroundColor: const Color(0xFF9988A1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
@@ -219,14 +219,14 @@ class _MyLeaveScreenState extends State<MyLeaveScreen> {
               Text(
                 'My Leave',
                 style: GoogleFonts.inter(
-                  color: const Color(0xFF201A3D),
+                  color: const Color(0xFF1E2B37),
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
                 ),
               ),
               Text(
                 'Time Off & Balance Management',
-                style: GoogleFonts.inter(color: const Color(0xFF756E8A), fontSize: 12),
+                style: GoogleFonts.inter(color: const Color(0xFF5A6E82), fontSize: 12),
               ),
             ],
           ),
@@ -234,10 +234,10 @@ class _MyLeaveScreenState extends State<MyLeaveScreen> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
-              color: const Color(0xFF6C5CE7).withValues(alpha: 0.12),
+              color: const Color(0xFF9988A1).withValues(alpha: 0.10),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: const Color(0xFF6C5CE7).withValues(alpha: 0.3),
+                color: const Color(0xFF9988A1).withValues(alpha: 0.25),
               ),
             ),
             child: const Row(
@@ -245,14 +245,14 @@ class _MyLeaveScreenState extends State<MyLeaveScreen> {
               children: [
                 Icon(
                   Icons.event_available_rounded,
-                  color: Color(0xFF6C5CE7),
+                  color: Color(0xFF9988A1),
                   size: 14,
                 ),
                 SizedBox(width: 5),
                 Text(
                   '2026 Quota',
                   style: TextStyle(
-                    color: Color(0xFF6C5CE7),
+                    color: Color(0xFF9988A1),
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                   ),
@@ -273,12 +273,12 @@ class _MyLeaveScreenState extends State<MyLeaveScreen> {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF35168A), Color(0xFF6C5CE7), Color(0xFF8E5BEF)],
+          colors: [Color(0xFF1E2B37), Color(0xFF4C3C56), Color(0xFF9988A1)],
         ),
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6C5CE7).withValues(alpha: 0.35),
+            color: const Color(0xFF9988A1).withValues(alpha: 0.28),
             blurRadius: 28,
             offset: const Offset(0, 14),
           ),
@@ -412,7 +412,7 @@ class _MyLeaveScreenState extends State<MyLeaveScreen> {
   }) {
     return Row(
       children: [
-        Icon(icon, color: const Color(0xFF55E6C1), size: 16),
+        Icon(icon, color: const Color(0xFFDED8E4), size: 16),
         const SizedBox(width: 6),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -465,10 +465,10 @@ class _MyLeaveScreenState extends State<MyLeaveScreen> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFEBE6F8)),
+        border: Border.all(color: const Color(0xFFEBE6F0)),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF5D4BB7).withValues(alpha: 0.05),
+            color: const Color(0xFF9988A1).withValues(alpha: 0.05),
             blurRadius: 16,
             offset: const Offset(0, 6),
           ),

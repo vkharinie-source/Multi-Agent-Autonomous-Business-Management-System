@@ -383,7 +383,7 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: const Color(0xFF6C5CE7),
+        backgroundColor: const Color(0xFF9988A1),
         foregroundColor: Colors.white,
         onPressed: _showAddTransactionDialog,
         icon: const Icon(Icons.add_rounded),
@@ -465,10 +465,10 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
       children: [
         Text(
           'Financial Overview',
-          style: GoogleFonts.poppins(
+          style: GoogleFonts.inter(
             color: Colors.white,
             fontSize: compact ? 24 : 32,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w800,
           ),
         ),
         const SizedBox(height: 8),
@@ -483,7 +483,7 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
       onPressed: _showAddTransactionDialog,
       style: FilledButton.styleFrom(
         backgroundColor: Colors.white,
-        foregroundColor: const Color(0xff2563EB),
+        foregroundColor: const Color(0xFF4C3C56),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
@@ -501,14 +501,14 @@ class _FinanceDashboardState extends State<FinanceDashboard> {
       padding: EdgeInsets.all(compact ? 22 : 30),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xff020A3D), Color(0xff2563EB), Color(0xff9333EA)],
+          colors: [Color(0xFF281E30), Color(0xFF4C3C56), Color(0xFF9988A1)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(26),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xff2563EB).withValues(alpha: 0.35),
+            color: const Color(0xFF281E30).withValues(alpha: 0.25),
             blurRadius: 24,
             offset: const Offset(0, 10),
           ),
